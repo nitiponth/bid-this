@@ -1,0 +1,107 @@
+.search {
+  display: flex;
+  transform: translateX(-1rem);
+  overflow: hidden;
+  padding: 2rem;
+
+  &__input {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background-color: var(--color-grey-light-2);
+    padding: 0.7rem 2rem;
+    border-radius: 100px;
+    width: 90%;
+    margin-right: -3.5rem;
+    border: none;
+
+    transition: all 0.2s;
+
+    &:focus {
+      outline: none;
+      width: 100%;
+      background-color: var(--color-grey-light-3);
+    }
+  }
+
+  &__button {
+    border: none;
+    // height: 90%;
+    align-self: center;
+    background-color: var(--color-grey-light-2);
+    cursor: pointer;
+
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:focus {
+      transform: translateY(2px);
+    }
+  }
+}
+
+.user-nav {
+  //   align-self: stretch;
+  display: flex;
+  align-items: center;
+
+  & > * {
+    margin: 0 2.5rem;
+    cursor: pointer;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+  }
+
+  & > a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 700;
+    font-size: 1.5rem;
+
+    transition: transform 0.2s;
+
+    &:hover {
+      color: black;
+      border-bottom: 2px solid black;
+    }
+
+    &:focus {
+      transform: translateY(2px);
+    }
+  }
+
+  &__icon-box {
+    position: relative;
+    transition: transform 0.2s;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
+  &__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  &__notification {
+    font-size: 1rem;
+    line-height: 1.6;
+    height: 1.75rem;
+    width: 1.75rem;
+    border-radius: 100px;
+    background-color: rgb(245, 104, 104);
+    color: white;
+    position: absolute;
+    top: -0.2rem;
+    right: -0.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
