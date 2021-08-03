@@ -174,6 +174,99 @@ body {
           align-items: center;
 }
 
+.sidebar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  overflow: hidden;
+}
+
+.sidebar__logo-box {
+  text-align: center;
+  margin: 2rem 0 0 0;
+}
+
+.sidebar__logo-img {
+  width: 75%;
+}
+
+.sidebar-title {
+  font-size: 3rem;
+  font-weight: 300;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  text-align: center;
+  width: 80%;
+  margin-top: 2rem;
+  font-style: italic;
+  border-bottom: 1.5px solid var(--color-grey-dark-2);
+  cursor: default;
+}
+
+.sidebar-nav {
+  font-size: 1.4rem;
+  font-weight: 400;
+  list-style: none;
+  margin-top: 3.5rem;
+}
+
+.sidebar-nav__item {
+  -webkit-transition: background-color 0.5s;
+  transition: background-color 0.5s;
+}
+
+.sidebar-nav__item:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-nav__item--active, .sidebar-nav__item:hover {
+  background-color: var(--color-grey-light-3);
+}
+
+.sidebar-nav__link:link, .sidebar-nav__link:visited {
+  color: var(--color-grey-dark-2);
+  text-decoration: none;
+  text-transform: uppercase;
+  position: relative;
+  padding: 1.5rem 2.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.sidebar-nav__icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-right: 2rem;
+}
+
+.legal {
+  color: var(--color-grey-light-4);
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 2rem;
+  text-align: center;
+}
+
+.legal a {
+  text-decoration: none;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--color-grey-dark-3);
+}
+
 .container {
   background-color: white;
   border-radius: 20px;
@@ -181,18 +274,18 @@ body {
   -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
           box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
   max-width: 120rem;
-  min-height: 50rem;
+  min-height: 80rem;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: [side-start] 20rem [side-end content-start] auto [content-end];
-      grid-template-columns: [side-start] 20rem [side-end content-start] auto [content-end];
-  -ms-grid-rows: [head-start] 8rem [head-end content-start] 1fr [content-end foot-start] 6rem [foot-end];
-      grid-template-rows: [head-start] 8rem [head-end content-start] 1fr [content-end foot-start] 6rem [foot-end];
+  -ms-grid-columns: [side-start] 20rem [side-end con-start] auto [con-end];
+      grid-template-columns: [side-start] 20rem [side-end con-start] auto [con-end];
+  -ms-grid-rows: [head-start] 10rem [head-end content-start] 1fr [content-end];
+      grid-template-rows: [head-start] 10rem [head-end content-start] 1fr [content-end];
   overflow: hidden;
 }
 
 .container__header {
-  grid-column: content-start / content-end;
+  grid-column: con-start / con-end;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 50% min-content;
@@ -210,22 +303,21 @@ body {
 
 .container__sidebar {
   grid-row: head-start / foot-end;
-  padding: 5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .container__content {
-  grid-column: content-start / content-end;
-  background-color: var(--color-grey-light-1);
-}
-
-.container__footer {
-  grid-column: content-start / content-end;
-  display: -ms-grid;
-  display: grid;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -ms-flex-line-pack: center;
-      align-content: center;
+  grid-column: con-start / con-end;
+  grid-row: content-start / content-end;
+  background-color: var(--color-grey-light-2);
+  padding: 4rem;
+  border-radius: 2rem;
+  margin: 0 2rem 2rem 0rem;
 }
 /*# sourceMappingURL=main.css.map */

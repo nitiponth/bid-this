@@ -5,15 +5,15 @@
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 
   max-width: 120rem;
-  min-height: 50rem;
+  min-height: 80rem;
 
   display: grid;
-  grid-template-columns: [side-start] 20rem [side-end content-start] auto [content-end];
-  grid-template-rows: [head-start] 8rem [head-end content-start] 1fr [content-end foot-start] 6rem [foot-end];
+  grid-template-columns: [side-start] 20rem [side-end con-start] auto [con-end];
+  grid-template-rows: [head-start] 10rem [head-end content-start] 1fr [content-end];
 
   overflow: hidden;
   &__header {
-    grid-column: content-start / content-end;
+    grid-column: con-start / con-end;
     display: grid;
     grid-template-columns: 50% min-content;
     grid-template-rows: 100%;
@@ -23,19 +23,23 @@
 
   &__sidebar {
     grid-row: head-start / foot-end;
-    padding: 5rem;
+    // padding: 0.5rem 0.5rem 0 0.5rem;
+
+    display: flex;
+    flex-direction: column;
   }
 
   &__content {
-    grid-column: content-start / content-end;
-    background-color: var(--color-grey-light-1);
-  }
-
-  &__footer {
-    grid-column: content-start / content-end;
-
-    display: grid;
-    justify-content: space-between;
-    align-content: center;
+    grid-column: con-start / con-end;
+    grid-row: content-start / content-end;
+    background-color: var(--color-grey-light-2);
+    padding: 4rem;
+    // border-top-left-radius: 2rem;
+    // border-top-right-radius: 2rem;
+    border-radius: 2rem;
+    margin: 0 2rem 2rem 0rem;
+    // margin-left: 2rem;
+    // margin-right: 2rem;
+    // margin-bottom: 2rem;
   }
 }
