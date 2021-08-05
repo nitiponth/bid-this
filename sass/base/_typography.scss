@@ -1,7 +1,29 @@
 body {
   font-family: "Prompt", sans-serif;
-  font-weight: 700;
+  font-weight: 400;
   // font-size: 1rem;
   line-height: 1.6;
   color: var(--color-grey-dark-2);
+}
+
+.at-sign {
+  font-size: 1rem;
+  margin-right: 0.2rem;
+}
+
+.auction-text {
+  font-size: 2.5rem;
+  color: var(--color-grey-dark-1);
+
+  &--card {
+    font-size: 2rem;
+    color: var(--color-grey-dark-1);
+    &--red {
+      color: rgb(248, 81, 62);
+    }
+  }
+
+  &--red {
+    color: rgb(248, 81, 62);
+  }
 }

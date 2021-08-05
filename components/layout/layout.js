@@ -1,3 +1,4 @@
+import MainContent from "../main-content/main-content";
 import MainHeader from "./main-header";
 import Sidebar from "./sidebar";
 
@@ -10,7 +11,9 @@ function Layout() {
       <div className="container__sidebar">
         <Sidebar />
       </div>
-      <div className="container__content"></div>
+      <div className="container__content">
+        <MainContent />
+      </div>
     </div>
   );
 }

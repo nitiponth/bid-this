@@ -1,9 +1,11 @@
 .sidebar {
   display: flex;
+  // position: fixed;
   height: 100%;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  position: relative;
 
   &__logo-box {
     text-align: center;
@@ -69,6 +71,8 @@
   font-weight: 400;
   padding: 2rem;
   text-align: center;
+  position: sticky;
+  bottom: 0;
 
   a {
     text-decoration: none;

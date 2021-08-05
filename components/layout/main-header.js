@@ -30,7 +30,7 @@ function MainHeader() {
             alt="auction icon"
             className="user-nav__icon"
           />
-          <span class="user-nav__notification">2</span>
+          <span className="user-nav__notification">2</span>
         </div>
         <div className="user-nav__icon-box">
           <img

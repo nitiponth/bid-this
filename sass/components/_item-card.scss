@@ -1,0 +1,71 @@
+.item-card {
+  border-radius: 30px;
+  background-color: var(--color-grey-light-2);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+
+  height: 45rem;
+
+  display: grid;
+  grid-template-rows: 40% 60%;
+  overflow: hidden;
+
+  &__img-box {
+    height: 100%;
+    align-self: center;
+    text-align: center;
+    overflow: hidden;
+    background-color: var(--color-grey-light-4);
+  }
+  &__img {
+    width: 100%;
+    border-radius: 3px;
+    object-fit: fill;
+  }
+
+  &__detail {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 3rem;
+    line-height: 1;
+    &-title {
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 0.4rem;
+    }
+
+    &-seller {
+      &:link,
+      &:visited {
+        font-size: 1rem;
+        font-weight: 300;
+        text-decoration: none;
+        color: var(--color-grey-dark-3);
+        margin-bottom: 1.25rem;
+      }
+    }
+
+    &-desc {
+      height: 9rem;
+      margin-bottom: 1.25rem;
+    }
+
+    &-auction {
+      display: flex;
+      margin-bottom: auto;
+
+      &-res {
+        margin-right: 5rem;
+      }
+      &-res,
+      &-time {
+        display: flex;
+        flex-direction: column;
+      }
+      &-text {
+        text-transform: uppercase;
+        margin-bottom: 0.25rem;
+        color: var(--color-grey-dark-3);
+      }
+    }
+  }
+}

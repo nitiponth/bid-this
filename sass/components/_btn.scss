@@ -1,0 +1,47 @@
+.btn {
+  width: 50%;
+  border-radius: 100px;
+  background-color: #f8cb71;
+  padding: 1.25rem 2rem;
+
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  text-align: center;
+
+  transition: all 0.2s;
+
+  &--card {
+    width: 30%;
+    border-radius: 100px;
+    background-color: #f8cb71;
+    padding: 0.5rem 2rem;
+
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    text-align: center;
+    transition: all 0.2s;
+
+    &-img {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  &:link,
+  &:visited {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    font-size: 1.25rem;
+    color: var(--color-grey-dark-2);
+  }
+
+  &:hover,
+  &--card:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active,
+  &--card:active {
+    transform: translateY(1px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  }
+}

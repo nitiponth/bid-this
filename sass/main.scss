@@ -1,7 +1,11 @@
 @import "base/base";
 @import "base/typography";
 
+@import "components/btn";
 @import "components/header";
+@import "components/item-hero";
+@import "components/item-card";
 @import "components/sidebar";
 
 @import "layout/layout";
+@import "layout/main-content";
