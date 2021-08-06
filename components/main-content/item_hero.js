@@ -1,36 +1,37 @@
-function ItemHero() {
+function ItemHero(props) {
+  let watchlistsClass = "watchlists__icon";
+  if (props.item.watched) {
+    watchlistsClass = "watch__icon--red";
+  }
+
   return (
     <div className="item-hero">
       <div className="item-hero__img-box">
         <img
-          src="/images/items/keyboard.jpg"
-          alt="hero product"
+          src={props.item.img}
+          alt={props.item.title}
           className="item-hero__img"
         />
       </div>
 
       <div className="item-hero__detail">
-        <div className="item-hero__detail-title">Keychrone</div>
+        <div className="item-hero__detail-title">{props.item.title}</div>
         <a href="#" className="item-hero__detail-seller">
-          <span className="at-sign">@</span>seller
+          <span className="at-sign">@</span>
+          {props.item.seller}
         </a>
-        <div className="item-hero__detail-desc">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-          mollis lorem neque, et rhoncus ex ornare sit amet. Nam posuere rhoncus
-          purus, malesuada interdum orci molestie efficitur. Sed at dui elit.
-          Suspendisse ultrices justo et ante varius pretium. Maecenas non.
-        </div>
+        <div className="item-hero__detail-desc">{props.item.desc}</div>
         <div className="item-hero__detail-auction">
           <div className="item-hero__detail-auction-res">
             <span className="item-hero__detail-auction-text">Current bid</span>
-            <span className="auction-text">{`2000`}฿</span>
+            <span className="auction-text">{props.item.resPrice}฿</span>
           </div>
           <div className="item-hero__detail-auction-time">
             <span className="item-hero__detail-auction-text">
               Auction ending in
             </span>
             <span className="auction-text">
-              {`2`}h {`10`}m {`32`}s
+              {props.item.hour}h {props.item.min}m {props.item.sec}s
             </span>
           </div>
         </div>
@@ -38,6 +39,16 @@ function ItemHero() {
         <a href="#" className="btn">
           Place a bid
         </a>
+
+        <div className="watchlists--hero">
+          <div className="watch__icon-box">
+            <img
+              src="/images/SVG/heart-outlined.svg"
+              alt="bookmark img"
+              className={watchlistsClass}
+            ></img>
+          </div>
+        </div>
       </div>
     </div>
   );

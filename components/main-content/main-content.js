@@ -11,6 +11,7 @@ const DUMMY_ITEMS = [
     hour: 0,
     min: 52,
     sec: 12,
+    watched: true,
   },
   {
     img: "/images/items/item2.jpg",
@@ -21,6 +22,7 @@ const DUMMY_ITEMS = [
     hour: 1,
     min: 18,
     sec: 11,
+    watched: false,
   },
   {
     img: "/images/items/item3.jpg",
@@ -31,6 +33,7 @@ const DUMMY_ITEMS = [
     hour: 3,
     min: 12,
     sec: 16,
+    watched: false,
   },
   {
     img: "/images/items/model4.jpg",
@@ -41,6 +44,7 @@ const DUMMY_ITEMS = [
     hour: 6,
     min: 59,
     sec: 55,
+    watched: false,
   },
   {
     img: "/images/items/model5.jpg",
@@ -51,6 +55,18 @@ const DUMMY_ITEMS = [
     hour: 0,
     min: 12,
     sec: 9,
+    watched: true,
+  },
+  {
+    img: "/images/items/keyboard.jpg",
+    title: "Keychron",
+    seller: "gorgias",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis lorem neque, et rhoncus ex ornare sit amet. Nam posuere rhoncus purus, malesuada interdum orci molestie efficitur. Sed at dui elit. Suspendisse ultrices justo et ante varius pretium. Maecenas non.",
+    resPrice: 1990,
+    hour: 2,
+    min: 11,
+    sec: 32,
+    watched: true,
   },
 ];
 
@@ -58,7 +74,7 @@ function MainContent() {
   return (
     <div className="main-content">
       <div className="main-content__hero">
-        <ItemHero />
+        <ItemHero item={DUMMY_ITEMS[5]} />
       </div>
       <ItemCard item={DUMMY_ITEMS[0]} />
       <ItemCard item={DUMMY_ITEMS[1]} />

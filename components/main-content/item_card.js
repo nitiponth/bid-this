@@ -1,10 +1,25 @@
 function ItemCard(props) {
   let auctionTextClass = "auction-text--card";
+
   if (props.item.hour == 0 && props.item.min <= 14) {
     auctionTextClass = "auction-text--card auction-text--card--red";
   }
+
+  let watchlistsClass = "watchlists__icon";
+  if (props.item.watched) {
+    watchlistsClass = "watch__icon--red";
+  }
   return (
     <div className="item-card">
+      <div className="watchlists--card">
+        <div className="watch__icon-box">
+          <img
+            src="/images/SVG/heart-outlined.svg"
+            alt="bookmark img"
+            className={watchlistsClass}
+          ></img>
+        </div>
+      </div>
       <div className="item-card__img-box">
         <img
           src={props.item.img}

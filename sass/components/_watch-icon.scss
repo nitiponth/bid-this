@@ -1,0 +1,17 @@
+.watch__icon-box {
+  line-height: 1;
+  transform: translateY(2px);
+  cursor: pointer;
+
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.watch__icon--red {
+  // display: none;
+  background-color: rgb(250, 99, 99);
+  mask-image: url(/images/SVG/heart.svg);
+}
