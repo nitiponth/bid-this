@@ -1,7 +1,7 @@
 function Login() {
   return (
     <div className="login">
-      <div className="login__close-box">
+      <div className="close-btn">
         <img
           src="/images/SVG/cross.svg"
           alt="clost button"

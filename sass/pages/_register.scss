@@ -1,51 +1,28 @@
-.login {
-  position: fixed;
-  width: 60rem;
-  height: 100rem;
-  background: rgba($color: #fff, $alpha: 0.93);
-  border-radius: 30px;
-  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.3);
-
-  padding: 6rem;
-
-  z-index: 1000;
-
+.register {
+  height: 100%;
   display: flex;
   flex-direction: column;
-
-  &__close-box {
-    position: absolute;
-    top: 3rem;
-    right: 4rem;
-    width: 2.5rem;
-  }
 
   &__logo {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 6rem;
+    margin-bottom: 3rem;
 
     &-box {
       width: 15rem;
-      height: 15rem;
-      border-radius: 50%;
-      background-color: var(--color-grey-light-2);
-      box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.15);
-
       display: flex;
       justify-content: center;
       align-items: center;
-
-      margin-bottom: 3rem;
+      margin-bottom: 1.5rem;
     }
 
     &-img {
-      width: 70%;
+      width: 100%;
     }
 
     &-text {
-      width: 100%;
+      transform: translateX(5px);
       text-align: center;
       font-size: 2rem;
       font-weight: 300;
@@ -65,7 +42,7 @@
       font-weight: 400;
 
       margin-left: 0.5rem;
-      margin-top: 0.7rem;
+      //   margin-top: 0.7rem;
       display: block;
       transition: all 0.5s;
     }
@@ -74,7 +51,7 @@
       font-family: inherit;
       color: inherit;
       font-size: 2rem;
-      padding: 1rem 0.5rem;
+      padding: 0.5rem 0.5rem;
       border-radius: 2px;
       background-color: rgba(var(--color-grey-light-2), 0.3);
       border: none;
@@ -82,7 +59,7 @@
       width: 100%;
       display: block;
 
-      margin-bottom: 3rem;
+      margin-bottom: 1.7rem;
 
       transition: all 0.2s ease-in;
 
@@ -100,13 +77,25 @@
         color: var(--color-grey-dark-3);
       }
     }
+
+    &--twocol {
+      display: flex;
+      column-gap: 1.5rem;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   }
 
   &__btn {
-    margin-top: 8rem;
+    color: inherit;
+    margin-top: 4rem;
     align-self: center;
-    width: 50%;
-    padding: 1.5rem 2rem;
+    width: 60%;
+    padding: 2rem 1.5rem;
     border: none;
     border-radius: 30px;
     background-color: var(--primary-yellow);
@@ -147,8 +136,28 @@
         font-weight: 600;
         font-size: 1.5rem;
       }
-      margin-left: 1rem;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
     }
+  }
+
+  &__term {
+    display: flex;
+    align-items: center;
+    &-checkbox {
+      margin-left: 0.25rem;
+      color: inherit;
+      width: 1.75rem;
+      height: 1.75rem;
+      margin-right: 1rem;
+    }
+    &-text {
+      font-size: 1.3rem;
+      font-weight: 400;
+    }
+  }
+
+  &__content {
   }
 
   &__footer {

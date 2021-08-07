@@ -8,7 +8,10 @@
 @import "components/sidebar";
 @import "components/watch-icon";
 
+@import "layout/auth-layout";
 @import "layout/backdrop";
 @import "layout/layout";
-@import "layout/login";
-@import "layout/main-content";
+
+@import "pages/login";
+@import "pages/main-content";
+@import "pages/register";
