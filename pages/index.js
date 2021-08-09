@@ -3,6 +3,8 @@ import { Fragment, useState } from "react";
 import AuthLayout from "../components/auth/auth";
 import Backdrop from "../components/layout/backdrop";
 import Layout from "../components/layout/layout";
+import MainContent from "../components/pages/main-content/main-content";
+import SingleItem from "../components/pages/single_item/single_item";
 
 export default function Home() {
   const [show, setShow] = useState(false);
@@ -20,7 +22,10 @@ export default function Home() {
       <Backdrop show={show}>
         <AuthLayout layout={authLayout} />
       </Backdrop>
-      <Layout />
+      <Layout>
+        {/* <MainContent /> */}
+        <SingleItem />
+      </Layout>
     </Fragment>
   );
 }

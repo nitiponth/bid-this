@@ -7,15 +7,19 @@ function ItemHero(props) {
   return (
     <div className="item-hero">
       <div className="item-hero__img-box">
-        <img
-          src={props.item.img}
-          alt={props.item.title}
-          className="item-hero__img"
-        />
+        <a href="#">
+          <img
+            src={props.item.img}
+            alt={props.item.title}
+            className="item-hero__img"
+          />
+        </a>
       </div>
 
       <div className="item-hero__detail">
-        <div className="item-hero__detail-title">{props.item.title}</div>
+        <a href="#" className="item-hero__detail-title">
+          {props.item.title}
+        </a>
         <a href="#" className="item-hero__detail-seller">
           <span className="at-sign">@</span>
           {props.item.seller}

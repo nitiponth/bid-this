@@ -25,6 +25,11 @@
     }
   }
 
+  &--single-item {
+    display: inline-block;
+    width: 100%;
+  }
+
   &:link,
   &:visited {
     text-transform: uppercase;

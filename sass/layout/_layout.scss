@@ -33,12 +33,13 @@
   &__content {
     grid-column: con-start / con-end;
     grid-row: content-start / content-end;
-    // background-color: var(--color-grey-light-1);
+    // background-color: red;
     padding: 2rem;
 
     border-radius: 2rem;
     margin: 0 2rem 2rem 0rem;
 
+    overflow-x: hidden;
     overflow-y: auto;
     &::-webkit-scrollbar {
       display: none;

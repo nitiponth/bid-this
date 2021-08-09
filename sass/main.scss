@@ -1,7 +1,9 @@
 @import "base/base";
 @import "base/typography";
 
+@import "components/bidder";
 @import "components/btn";
+@import "components/glabel";
 @import "components/header";
 @import "components/item-hero";
 @import "components/item-card";
@@ -15,3 +17,4 @@
 @import "pages/login";
 @import "pages/main-content";
 @import "pages/register";
+@import "pages/single-item";

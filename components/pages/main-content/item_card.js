@@ -21,15 +21,19 @@ function ItemCard(props) {
         </div>
       </div>
       <div className="item-card__img-box">
-        <img
-          src={props.item.img}
-          alt={props.item.title}
-          className="item-card__img"
-        />
+        <a href="#">
+          <img
+            src={props.item.img}
+            alt={props.item.title}
+            className="item-card__img"
+          />
+        </a>
       </div>
 
       <div className="item-card__detail">
-        <div className="item-card__detail-title">{props.item.title}</div>
+        <a href="#" className="item-card__detail-title">
+          {props.item.title}
+        </a>
         <a href="#" className="item-card__detail-seller">
           <span className="at-sign">@</span>
           {props.item.seller}
