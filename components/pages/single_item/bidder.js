@@ -6,13 +6,15 @@ function Bidder(props) {
   return (
     <div className="bidder">
       <div className="bid__profile">
-        <div className="bid__profile-box">
-          <img
-            src={props.info.img}
-            alt={props.info.user}
-            className="bid__profile-img"
-          />
-        </div>
+        <a href="#">
+          <div className="bid__profile-box">
+            <img
+              src={props.info.img}
+              alt={props.info.user}
+              className="bid__profile-img"
+            />
+          </div>
+        </a>
       </div>
       <div className="bid__text">
         <div className="bid__text-info">

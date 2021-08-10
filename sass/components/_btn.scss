@@ -30,6 +30,15 @@
     width: 100%;
   }
 
+  &--w80 {
+    display: inline-block;
+    width: 80%;
+  }
+  &--full {
+    display: inline-block;
+    width: 100%;
+  }
+
   &:link,
   &:visited {
     text-transform: uppercase;
