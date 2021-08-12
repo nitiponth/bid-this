@@ -40,7 +40,7 @@ function BidItem() {
         <label className="glabel u-margin-bottom-extra-small">
           Once a bid is placed, it cannot be withdrawn
         </label>
-        <a href="#" className="btn btn--w80">
+        <a href="#" className="btn btn--w60">
           Place a bid
         </a>
       </div>

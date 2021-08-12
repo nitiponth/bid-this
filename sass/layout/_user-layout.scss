@@ -1,4 +1,4 @@
-.container {
+.user-container {
   background-color: white;
   border-radius: 20px;
   margin: 8rem auto;
@@ -9,11 +9,9 @@
   min-height: 100rem;
 
   display: grid;
-  grid-template-columns: [side-start] 20rem [side-end con-start] auto [con-end];
   grid-template-rows: [head-start] 10rem [head-end content-start] 1fr [content-end];
 
   &__header {
-    grid-column: side-start / con-end;
     grid-row: head-start / head-end;
     display: grid;
     grid-template-columns: min-content 50% min-content;
@@ -22,20 +20,11 @@
     align-items: center;
   }
 
-  &__sidebar {
-    grid-row: head-end / foot-end;
-
-    display: flex;
-    flex-direction: column;
-  }
-
   &__content {
-    grid-column: con-start / con-end;
     grid-row: content-start / content-end;
-    padding: 2rem;
+    padding: 1rem 4rem 4rem;
 
     border-radius: 2rem;
-    margin: 0 2rem 2rem 0rem;
 
     overflow-x: hidden;
     overflow-y: auto;

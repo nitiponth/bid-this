@@ -8,12 +8,16 @@
 @import "components/header";
 @import "components/item-hero";
 @import "components/item-card";
+@import "components/legal";
+@import "components/reddot";
 @import "components/sidebar";
+@import "components/user-info";
 @import "components/watch-icon";
 
 @import "layout/auth-layout";
 @import "layout/backdrop";
 @import "layout/layout";
+@import "layout/user-layout";
 
 @import "pages/bid-item";
 @import "pages/login";

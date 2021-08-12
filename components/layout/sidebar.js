@@ -4,14 +4,6 @@ function Sidebar() {
   return (
     <Fragment>
       <div className="sidebar">
-        <div className="sidebar__logo-box">
-          <img
-            src="/images/logo-land.png"
-            alt="logo"
-            className="sidebar__logo-img"
-          />
-        </div>
-
         <div className="sidebar-title">Explore</div>
 
         <nav className="sidebar-nav">

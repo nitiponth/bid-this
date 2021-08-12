@@ -1,3 +1,15 @@
+.header {
+  &__logo-box {
+    text-align: center;
+    padding: 2rem;
+    margin-left: 0.5rem;
+  }
+
+  &__logo-img {
+    width: 15rem;
+  }
+}
+
 .search {
   display: flex;
   transform: translateX(-1rem);

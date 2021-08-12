@@ -3,6 +3,13 @@ import { Fragment } from "react";
 function MainHeader() {
   return (
     <Fragment>
+      <div className="header__logo-box">
+        <img
+          src="/images/logo-land.png"
+          alt="logo"
+          className="header__logo-img"
+        />
+      </div>
       <form className="search">
         <input
           className="search__input"

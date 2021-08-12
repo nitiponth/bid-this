@@ -7,15 +7,6 @@
   overflow: hidden;
   position: relative;
 
-  &__logo-box {
-    text-align: center;
-    margin: 2rem 0 0 0;
-  }
-
-  &__logo-img {
-    width: 75%;
-  }
-
   &-title {
     font-size: 3rem;
     font-weight: 300;
@@ -62,22 +53,5 @@
       height: 2.75rem;
       margin-right: 2rem;
     }
-  }
-}
-
-.legal {
-  color: var(--color-grey-light-4);
-  font-size: 1rem;
-  font-weight: 400;
-  padding: 2rem;
-  text-align: center;
-  position: sticky;
-  bottom: 0;
-
-  a {
-    text-decoration: none;
-    font-style: italic;
-    font-weight: 600;
-    color: var(--color-grey-dark-3);
   }
 }
