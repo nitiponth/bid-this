@@ -49,6 +49,15 @@ function Register() {
             placeholder="Re-Password"
             className="register__form-input"
           />
+          <label htmlFor="username" className="register__form--text">
+            Username
+          </label>
+          <input
+            id="username"
+            type="text"
+            placeholder="Username"
+            className="register__form-input"
+          />
 
           <div className="register__form--twocol">
             <div className="register__form--twocol-col">

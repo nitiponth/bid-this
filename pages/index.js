@@ -3,11 +3,8 @@ import { Fragment, useState } from "react";
 import AuthLayout from "../components/auth/auth";
 import Backdrop from "../components/layout/backdrop";
 import Layout from "../components/layout/layout";
-import UserInfo from "../components/layout/user-layout/user-info";
-import UserLayout from "../components/layout/user-layout/user-layout";
 import BidItem from "../components/pages/bid/bid-item";
 import MainContent from "../components/pages/main-content/main-content";
-import SingleItem from "../components/pages/single_item/single_item";
 
 export default function Home() {
   const [showBackdrop, setShowBackdrop] = useState(false);

@@ -1,12 +1,12 @@
 import NoSideLayout from "../../components/layout/no-sidebar-layout/no-sidebar-layout";
-import UserInfo from "../../components/pages/profile/user-info";
+import EditProfile from "../../components/pages/profile/edit-profile";
 
-function UsersPage() {
+function EditPages() {
   return (
     <NoSideLayout>
-      <UserInfo />
+      <EditProfile />
     </NoSideLayout>
   );
 }
 
-export default UsersPage;
+export default EditPages;

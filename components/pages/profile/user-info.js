@@ -1,4 +1,6 @@
-import ItemCard from "../../pages/main-content/item_card";
+import { useState } from "react";
+
+import ItemCard from "../main-content/item_card";
 
 const DUMMY_ITEMS = [
   {
@@ -70,6 +72,7 @@ const DUMMY_ITEMS = [
 ];
 
 function UserInfo(props) {
+  const [userVerify, setUserVerify] = useState(true);
   return (
     <div className="user-info">
       <div
@@ -90,7 +93,16 @@ function UserInfo(props) {
       <div className="info">
         <div className="info__name">
           <div className="info__name-display">
-            {"Piter"} {"Pasma"}
+            {"Piter"} {"Pasma"}{" "}
+            {userVerify && (
+              <span className="info__name-verify">
+                <img
+                  src="images/ios-icon/check.png"
+                  alt="verify"
+                  className="info__name-verify-img"
+                />
+              </span>
+            )}
           </div>
           <div className="info__name-username">
             @ <span className="info__name-username--dec">{"piterpasma"}</span>

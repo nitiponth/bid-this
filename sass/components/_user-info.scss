@@ -79,6 +79,14 @@
         font-weight: 400;
         color: var(--color-grey-dark-1);
       }
+      &-verify {
+        margin-left: -0.5rem;
+        &-img {
+          line-height: 1;
+          width: 2.5rem;
+          height: 2.5rem;
+        }
+      }
       &-username {
         line-height: 1.2;
         width: min-content;
