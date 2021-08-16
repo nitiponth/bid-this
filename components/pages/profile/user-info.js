@@ -162,6 +162,9 @@ function UserInfo(props) {
         <div className="auction-info__list-items">
           <ItemCard item={DUMMY_ITEMS[0]} />
           <ItemCard item={DUMMY_ITEMS[1]} />
+          <ItemCard item={DUMMY_ITEMS[1]} />
+          <ItemCard item={DUMMY_ITEMS[1]} />
+          <ItemCard item={DUMMY_ITEMS[1]} />
           {/* <ItemCard item={DUMMY_ITEMS[2]} /> */}
         </div>
       </div>

@@ -134,6 +134,20 @@
           //   overflow: hidden;
         }
 
+        &--twocol {
+          display: flex;
+
+          column-gap: 1.5rem;
+
+          &-col {
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
+          }
+        }
+
         &-input {
           font-family: inherit;
           color: inherit;

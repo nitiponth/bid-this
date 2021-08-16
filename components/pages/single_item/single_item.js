@@ -1,3 +1,5 @@
+import useTimer from "../../../hooks/useTimer";
+
 import Bidder from "./bidder";
 
 const DUMMY_INFO = [
@@ -35,22 +37,23 @@ const DUMMY_INFO = [
   },
 ];
 
-function SingleItem() {
+function SingleItem(props) {
+  const time = useTimer(props.item.endTime);
   return (
     <div className="single-item">
       <div className="section__img">
         <img
-          src="/images/items/keyboard.jpg"
-          alt="keychron"
+          src={props.item.img}
+          alt={props.item.title}
           className="item__img"
         />
       </div>
       <div className="floatbox">
-        <div className="floatbox--title">Keychron K4 V2</div>
+        <div className="floatbox--title">{props.item.title}</div>
         <div className="floatbox--seller">
           <a href="#" className="floatbox--seller--link">
             <span className="at-sign">@</span>
-            gorgias
+            {props.item.seller}
           </a>
         </div>
         <div className="floatbox--popup">
@@ -64,13 +67,7 @@ function SingleItem() {
       <div className="section__content">
         <div className="item__desc">
           <label className="glabel">Description</label>
-          <div className="item__desc-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-            mollis lorem neque, et rhoncus ex ornare sit amet. Nam posuere
-            rhoncus purus, malesuada interdum orci molestie efficitur. Sed at
-            dui elit. Suspendisse ultrices justo et ante varius pretium.
-            Maecenas non.
-          </div>
+          <div className="item__desc-text">{props.item.desc}</div>
           <label className="glabel">Delivery</label>
           <div className="item__desc-delivery">
             <span className="item__desc-delivery--com">{"dhl"}</span>
@@ -91,14 +88,22 @@ function SingleItem() {
           <div className="item__bidding">
             <div className="item__bidding-bid">
               <label className="glabel">Current bid</label>
-              <div className="item__bidding-bid--price">{"1990"} ฿</div>
+              <div className="item__bidding-bid--price">
+                {props.item.resPrice} ฿
+              </div>
             </div>
             <div className="item__bidding-time">
               <label className="glabel">Auction ending in</label>
               <div className="item__bidding-time-box">
-                <div className="item__bidding-time--text">{"2"}h</div>
-                <div className="item__bidding-time--text">{"11"}m</div>
-                <div className="item__bidding-time--text">{"32"}s</div>
+                <div className="item__bidding-time--text">
+                  {time.timerHours}h
+                </div>
+                <div className="item__bidding-time--text">
+                  {time.timerMinutes}m
+                </div>
+                <div className="item__bidding-time--text">
+                  {time.timerSeconds}s
+                </div>
               </div>
             </div>
             <div className="item__bidding-btn">

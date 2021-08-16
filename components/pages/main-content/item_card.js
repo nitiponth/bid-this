@@ -1,7 +1,10 @@
+import useTimer from "../../../hooks/useTimer";
+
 function ItemCard(props) {
+  const time = useTimer(props.item.endTime);
   let auctionTextClass = "auction-text--card";
 
-  if (props.item.hour == 0 && props.item.min <= 14) {
+  if (time.timerHours == 0 && time.timerMinutes <= 14) {
     auctionTextClass = "auction-text--card auction-text--card--red";
   }
 
@@ -49,8 +52,9 @@ function ItemCard(props) {
               Auction ending in
             </span>
             <span className={auctionTextClass}>
-              {props.item.hour != 0 ? props.item.hour + `h` : ""}{" "}
-              {props.item.min}m {props.item.sec}s
+              {time.timerComplete ||
+                `${time.timerHours}h ${time.timerMinutes}m ${time.timerSeconds}s`}
+              {time.timerComplete && "END"}
             </span>
           </div>
         </div>

@@ -513,6 +513,10 @@ body {
   color: var(--color-grey-dark-3);
 }
 
+.item-hero__detail-auction-text--red {
+  color: #f8513e;
+}
+
 .item-hero .watchlists--hero {
   position: absolute;
   background-color: white;
@@ -1184,11 +1188,14 @@ body {
           box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
   max-width: 120rem;
   height: 85vh;
-  min-height: 100rem;
   display: -ms-grid;
   display: grid;
   -ms-grid-rows: [head-start] 10rem [head-end content-start] 1fr [content-end];
       grid-template-rows: [head-start] 10rem [head-end content-start] 1fr [content-end];
+}
+
+.ns-container--minheight {
+  height: auto;
 }
 
 .ns-container__header {
@@ -1563,6 +1570,20 @@ body {
   padding-left: 1.5rem;
   background-color: var(--color-grey-light-3);
   border: 1px solid var(--color-grey-light-3);
+}
+
+.ep-container .edit-container .edit__box .input__form--twocol {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-column-gap: 1.5rem;
+          column-gap: 1.5rem;
+}
+
+.ep-container .edit-container .edit__box .input__form--twocol-col input[type="number"]::-webkit-inner-spin-button,
+.ep-container .edit-container .edit__box .input__form--twocol-col input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .ep-container .edit-container .edit__box .input__form-input {

@@ -6,7 +6,11 @@
 
   max-width: 120rem;
   height: 85vh;
-  min-height: 100rem;
+
+  &--minheight {
+    height: auto;
+    // min-height: 85vh;
+  }
 
   display: grid;
   grid-template-rows: [head-start] 10rem [head-end content-start] 1fr [content-end];

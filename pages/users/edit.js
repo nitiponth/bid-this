@@ -3,7 +3,7 @@ import EditProfile from "../../components/pages/profile/edit-profile";
 
 function EditPages() {
   return (
-    <NoSideLayout>
+    <NoSideLayout height={"minheight"}>
       <EditProfile />
     </NoSideLayout>
   );

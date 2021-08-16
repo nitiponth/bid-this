@@ -1,4 +1,13 @@
+import useTimer from "../../../hooks/useTimer";
+
 function ItemHero(props) {
+  const time = useTimer(props.item.endTime);
+
+  let auctionTextClass = "auction-text";
+  if (time.timerHours == 0 && time.timerMinutes <= 14) {
+    auctionTextClass = "auction-text auction-text--red";
+  }
+
   let watchlistsClass = "watchlists__icon";
   if (props.item.watched) {
     watchlistsClass = "watch__icon--red";
@@ -34,8 +43,8 @@ function ItemHero(props) {
             <span className="item-hero__detail-auction-text">
               Auction ending in
             </span>
-            <span className="auction-text">
-              {props.item.hour}h {props.item.min}m {props.item.sec}s
+            <span className={auctionTextClass}>
+              {time.timerHours}h {time.timerMinutes}m {time.timerSeconds}s
             </span>
           </div>
         </div>

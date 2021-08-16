@@ -68,6 +68,10 @@
         text-transform: uppercase;
         margin-bottom: 0.5rem;
         color: var(--color-grey-dark-3);
+
+        &--red {
+          color: rgb(248, 81, 62);
+        }
       }
     }
   }

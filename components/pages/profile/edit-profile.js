@@ -80,13 +80,52 @@ function EditProfile() {
                 <label htmlFor="username" className="glabel glabel--edit">
                   Username
                 </label>
-                <div className="input__form-box">
+                <div className="input__form-box ">
                   @
                   <input
                     id="username"
                     type="text"
                     placeholder="Username"
                     className="input__form-input input__form-input--username"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="edit__box">
+            <div className="edit__box-title">Enter your delivery address.</div>
+            <div className="edit__box-input">
+              <label htmlFor="address" className="glabel glabel--edit">
+                Address
+              </label>
+              <input
+                id="address"
+                type="text"
+                placeholder="Address (line 1)"
+                className="input__form-input"
+              />
+              <input
+                id="address"
+                type="text"
+                placeholder="Address (line 2)"
+                className="input__form-input"
+              />
+              <div className="input__form--twocol">
+                <div className="input__form--twocol-col">
+                  <input
+                    id="province"
+                    type="text"
+                    placeholder="Province"
+                    className="input__form-input"
+                  />
+                </div>
+
+                <div className="input__form--twocol-col">
+                  <input
+                    id="postcode"
+                    type="number"
+                    placeholder="Postcode"
+                    className="input__form-input"
                   />
                 </div>
               </div>
