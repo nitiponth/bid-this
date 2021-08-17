@@ -1,7 +1,21 @@
+import { useContext } from "react";
+import LayoutContext from "../../store/layout-context";
+
 function Login() {
+  const layoutCtx = useContext(LayoutContext);
+
+  const onCloseHandler = () => {
+    layoutCtx.setAuth(false);
+    layoutCtx.setType(null);
+  };
+
+  const onSignupHandler = () => {
+    layoutCtx.setType("register");
+  };
+
   return (
     <div className="login">
-      <div className="close-btn">
+      <div className="close-btn" onClick={onCloseHandler}>
         <img
           src="/images/SVG/cross.svg"
           alt="clost button"
@@ -53,6 +67,7 @@ function Login() {
         <a
           href="#"
           className="login__link login__link--sign footer login__footer--link"
+          onClick={onSignupHandler}
         >
           Sign up
         </a>

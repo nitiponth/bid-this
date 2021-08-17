@@ -1,7 +1,20 @@
+import { useContext } from "react";
+import LayoutContext from "../../store/layout-context";
+
 function Register() {
+  const layoutCtx = useContext(LayoutContext);
+
+  const onCloseHandler = () => {
+    layoutCtx.setAuth(false);
+    layoutCtx.setType(null);
+  };
+
+  const onSigninHandler = () => {
+    layoutCtx.setType("login");
+  };
   return (
     <div className="register">
-      <div className="close-btn">
+      <div className="close-btn" onClick={onCloseHandler}>
         <img
           src="/images/SVG/cross.svg"
           alt="clost button"
@@ -133,7 +146,7 @@ function Register() {
               value="true"
               className="register__term-checkbox"
             />
-            <label for="accept" className="register__term-text">
+            <label htmlFor="accept" className="register__term-text">
               I agree to BidThis's
               <a href="#" className="register__link register__link--sign">
                 Terms of Use
@@ -152,7 +165,11 @@ function Register() {
       </div>
       <div className="register__footer">
         Already have an account?
-        <a href="#" className="register__link register__link--sign">
+        <a
+          href="#"
+          className="register__link register__link--sign"
+          onClick={onSigninHandler}
+        >
           Sign in
         </a>
       </div>

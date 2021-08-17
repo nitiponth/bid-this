@@ -1,5 +1,9 @@
 import { Fragment } from "react";
 
+import UserDropdown from "../dropdown/user-dropdown/user-dropdown";
+
+import NavItem from "../navbar/nav-item";
+
 function MainHeader() {
   return (
     <Fragment>
@@ -32,19 +36,12 @@ function MainHeader() {
           Shipping
         </a>
         <div className="user-nav__icon-box">
-          <img
-            src="/images/SVG/auction.svg"
-            alt="auction icon"
-            className="user-nav__icon"
-          />
-          <span className="user-nav__notification">2</span>
+          <NavItem icon="/images/SVG/auction.svg" notification={2} />
         </div>
         <div className="user-nav__icon-box">
-          <img
-            src="/images/SVG/user.svg"
-            alt="user icon"
-            className="user-nav__icon"
-          />
+          <NavItem icon="/images/SVG/user.svg">
+            <UserDropdown />
+          </NavItem>
         </div>
       </nav>
     </Fragment>

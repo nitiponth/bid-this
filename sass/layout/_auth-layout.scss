@@ -1,5 +1,7 @@
 .auth__layout {
-  position: fixed;
+  position: relative;
+  top: 0;
+  left: 0;
   width: 60rem;
   min-height: 80rem;
   background: rgba($color: #fff, $alpha: 0.93);

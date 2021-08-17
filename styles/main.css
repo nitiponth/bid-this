@@ -353,6 +353,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  list-style: none;
 }
 
 .user-nav > * {
@@ -396,14 +397,14 @@ body {
   transition: transform 0.2s, -webkit-transform 0.2s;
 }
 
-.user-nav__icon-box:hover {
-  -webkit-transform: scale(1.2);
-          transform: scale(1.2);
-}
-
 .user-nav__icon {
   width: 2.5rem;
   height: 2.5rem;
+}
+
+.user-nav__icon:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
 }
 
 .user-nav__notification {
@@ -768,6 +769,58 @@ body {
   margin-right: 2rem;
 }
 
+.user-dropdown {
+  position: absolute;
+  z-index: 500;
+  top: 4.5rem;
+  width: 15rem;
+  background-color: var(--color-grey-light-1);
+  -webkit-transform: translateX(-85%);
+          transform: translateX(-85%);
+  border: none;
+  border-radius: 1rem;
+  padding: 1rem;
+  -webkit-box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+
+.user-dropdown-item {
+  height: 5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 1rem;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+  padding: 0.5rem;
+}
+
+.user-dropdown-item .icon-button {
+  line-height: 1;
+  padding: 0 1rem;
+}
+
+.user-dropdown-item .icon-button--left {
+  margin-right: 1rem;
+}
+
+.user-dropdown-item:link, .user-dropdown-item:visited {
+  font-family: inherit;
+  font-size: 1.6rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.user-dropdown-item:hover {
+  background-color: var(--color-grey-light-2);
+}
+
 .user-info {
   min-height: 100%;
   border-radius: 2rem;
@@ -1087,7 +1140,9 @@ body {
 }
 
 .auth__layout {
-  position: fixed;
+  position: relative;
+  top: 0;
+  left: 0;
   width: 60rem;
   min-height: 80rem;
   background: rgba(255, 255, 255, 0.93);

@@ -1,0 +1,45 @@
+.user-dropdown {
+  position: absolute;
+  z-index: 500;
+  top: 4.5rem;
+  width: 15rem;
+  background-color: var(--color-grey-light-1);
+  transform: translateX(-85%);
+  border: none;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 0.5rem 2rem rgba($color: #000000, $alpha: 0.15);
+  overflow: hidden;
+
+  backface-visibility: hidden;
+
+  &-item {
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    transition: background-color 0.2s;
+    padding: 0.5rem;
+
+    .icon-button {
+      line-height: 1;
+      padding: 0 1rem;
+
+      &--left {
+        margin-right: 1rem;
+      }
+    }
+
+    &:link,
+    &:visited {
+      font-family: inherit;
+      font-size: 1.6rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    &:hover {
+      background-color: var(--color-grey-light-2);
+    }
+  }
+}
