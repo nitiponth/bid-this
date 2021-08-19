@@ -1,8 +1,10 @@
 import { useContext } from "react";
+import AuthContext from "../../store/auth-context";
 import LayoutContext from "../../store/layout-context";
 
 function Login() {
   const layoutCtx = useContext(LayoutContext);
+  const authCtx = useContext(AuthContext);
 
   const onCloseHandler = () => {
     layoutCtx.setAuth(false);
@@ -11,6 +13,14 @@ function Login() {
 
   const onSignupHandler = () => {
     layoutCtx.setType("register");
+  };
+
+  const onLoginHander = (event) => {
+    event.preventDefault();
+    authCtx.toLogin();
+
+    layoutCtx.setAuth(false);
+    layoutCtx.setType(null);
   };
 
   return (
@@ -34,7 +44,7 @@ function Login() {
       </div>
 
       <div className="login__content">
-        <form className="login__form">
+        <form className="login__form" onSubmit={onLoginHander}>
           <label htmlFor="email" className="login__form--text">
             Email
           </label>

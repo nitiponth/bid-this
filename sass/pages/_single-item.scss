@@ -64,35 +64,48 @@
     }
     &--seller {
       height: 4rem;
-      line-height: 0;
+      line-height: 1.2;
       display: flex;
       align-items: center;
       font-size: 3rem;
       box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.15);
       padding: 1.8rem 2rem;
-      background-color: white;
+      background-color: var(--color-grey-light-1);
       border-radius: 20px;
 
       &--link {
         &:link,
         &:visited {
-          text-decoration: none;
-          font-size: 1.5rem;
-          color: var(--primary-yellow-dark-1);
+          font-size: 2.5rem;
+
+          background-clip: text;
+          color: transparent;
+          text-overflow: ellipsis;
+
+          background-image: linear-gradient(
+            110.78deg,
+            rgb(118, 230, 80) -1.13%,
+            rgb(249, 214, 73) 15.22%,
+            rgb(240, 142, 53) 32.09%,
+            rgb(236, 81, 87) 48.96%,
+            rgb(255, 24, 189) 67.94%,
+            rgb(26, 75, 255) 85.34%,
+            rgb(98, 216, 249) 99.57%
+          );
         }
       }
     }
 
     &--popup {
       margin-left: auto;
-      height: 4rem;
-      line-height: 0;
-      display: flex;
-      align-items: center;
-      box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.15);
-      padding: 0 2rem;
-      background-color: white;
-      border-radius: 20px;
+      // height: 4rem;
+      // line-height: 0;
+      // display: flex;
+      // align-items: center;
+      // box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.15);
+      // padding: 0 2rem;
+      // background-color: white;
+      // border-radius: 20px;
 
       cursor: pointer;
     }

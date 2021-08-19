@@ -2,14 +2,26 @@
   position: absolute;
   z-index: 500;
   top: 4.5rem;
-  width: 15rem;
-  background-color: var(--color-grey-light-1);
+  min-width: 15rem;
+  background-color: white;
   transform: translateX(-85%);
   border: none;
   border-radius: 1rem;
   padding: 1rem;
   box-shadow: 0 0.5rem 2rem rgba($color: #000000, $alpha: 0.15);
   overflow: hidden;
+
+  &--profile {
+    top: 4.8rem;
+    transform: translateX(-12%);
+  }
+
+  &--items {
+    top: 5.8rem;
+    transform: translateX(-80%);
+
+    min-width: 20rem;
+  }
 
   backface-visibility: hidden;
 
@@ -28,12 +40,25 @@
       &--left {
         margin-right: 1rem;
       }
+
+      &--red {
+        filter: invert(48%) sepia(44%) saturate(757%) hue-rotate(313deg)
+          brightness(101%) contrast(92%);
+      }
+
+      &-profile {
+        border-radius: 50%;
+        height: 3rem;
+        width: 3rem;
+
+        object-fit: cover;
+      }
     }
 
     &:link,
     &:visited {
       font-family: inherit;
-      font-size: 1.6rem;
+      font-size: 1.3rem;
       text-decoration: none;
       color: inherit;
     }

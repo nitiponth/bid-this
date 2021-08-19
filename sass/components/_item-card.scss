@@ -29,7 +29,7 @@
   &__detail {
     display: flex;
     flex-direction: column;
-    padding: 2rem 3rem;
+    padding: 2rem 2.5rem;
     line-height: 1;
     &-title {
       &:link,
@@ -62,9 +62,10 @@
     &-auction {
       display: flex;
       margin-bottom: auto;
+      column-gap: 2.5rem;
 
       &-res {
-        margin-right: 5rem;
+        min-width: 30%;
       }
       &-res,
       &-time {
@@ -73,6 +74,7 @@
       }
       &-text {
         text-transform: uppercase;
+
         margin-bottom: 0.25rem;
         color: var(--color-grey-dark-3);
       }

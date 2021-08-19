@@ -9,6 +9,10 @@ body {
 .at-sign {
   font-size: 1rem;
   margin-right: 0.2rem;
+
+  &--md {
+    font-size: 2rem;
+  }
 }
 
 .auction-text {

@@ -1,4 +1,7 @@
 import useTimer from "../../../hooks/useTimer";
+import ItemsDropdown from "../../dropdown/items-dropdown/items-dropdown";
+import PopupDropdown from "../../dropdown/profile-dropdown/profile-dropdown";
+import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
 
 import Bidder from "./bidder";
 
@@ -52,16 +55,17 @@ function SingleItem(props) {
         <div className="floatbox--title">{props.item.title}</div>
         <div className="floatbox--seller">
           <a href="#" className="floatbox--seller--link">
-            <span className="at-sign">@</span>
+            <span className="at-sign at-sign--md">@</span>
             {props.item.seller}
           </a>
         </div>
         <div className="floatbox--popup">
-          <img
-            src="images/SVG/dots-three-horizontal.svg"
-            alt="three dot"
-            className="floatbox--popup-img"
-          />
+          <PopupItem
+            icon="images/SVG/dots-three-horizontal.svg"
+            style="floatbox--popup-img"
+          >
+            <ItemsDropdown />
+          </PopupItem>
         </div>
       </div>
       <div className="section__content">

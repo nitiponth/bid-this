@@ -1,4 +1,6 @@
 import { useState } from "react";
+import PopupDropdown from "../../dropdown/profile-dropdown/profile-dropdown";
+import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
 
 import ItemCard from "../main-content/item_card";
 
@@ -6,23 +8,19 @@ const DUMMY_ITEMS = [
   {
     img: "/images/items/model1.jpg",
     title: "Luffy Samurai",
-    seller: "piterpasma",
+    seller: "johndoe",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis metus quis nibh sodales consectetur ac id turpis. Nulla nec facilisis libero, a fermentum arcu. Nullam mollis lacus varius erat pulvinar mattis. Vestibulum congue hendrerit nunc id suscipit. Nullam fermentum.",
     resPrice: 500,
-    hour: 0,
-    min: 52,
-    sec: 12,
+    endTime: 1629379800000,
     watched: true,
   },
   {
     img: "/images/items/item2.jpg",
     title: "Skateboard",
-    seller: "piterpasma",
+    seller: "oliver",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis a consectetur ligula. In varius magna ac sapien dapibus, vehicula finibus felis mollis. Morbi ac enim dignissim, semper risus ut, dictum ligula. Proin nisl elit, laoreet non fermentum ac, posuere sed leo. Praesent maximus ac est mattis convallis. Aliquam erat volutpat.",
     resPrice: 1000,
-    hour: 1,
-    min: 18,
-    sec: 11,
+    endTime: 1629385200000,
     watched: false,
   },
   {
@@ -31,9 +29,7 @@ const DUMMY_ITEMS = [
     seller: "PabloMartinez",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque consectetur sed justo non aliquam. Phasellus quam felis, fermentum condimentum lectus sed, iaculis tempus risus. Sed id pellentesque metus. Nullam sagittis",
     resPrice: 3000,
-    hour: 3,
-    min: 12,
-    sec: 16,
+    endTime: 1629111600000,
     watched: false,
   },
   {
@@ -42,9 +38,7 @@ const DUMMY_ITEMS = [
     seller: "NeonBRAND",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia nisl a commodo pulvinar. Integer dapibus vestibulum egestas. Mauris sed faucibus quam. Donec congue urna eu iaculis pharetra. Maecenas dui.",
     resPrice: 10000,
-    hour: 6,
-    min: 59,
-    sec: 55,
+    endTime: 1629109800000,
     watched: false,
   },
   {
@@ -53,9 +47,7 @@ const DUMMY_ITEMS = [
     seller: "ChrisHenry",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non nisl dapibus, volutpat est non, vestibulum augue. Pellentesque sed ante vestibulum leo convallis mattis sit amet facilisis mi. Duis non ipsum vitae nisi volutpat dictum.",
     resPrice: 4888,
-    hour: 0,
-    min: 12,
-    sec: 9,
+    endTime: 1629115200000,
     watched: true,
   },
   {
@@ -64,9 +56,7 @@ const DUMMY_ITEMS = [
     seller: "gorgias",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis lorem neque, et rhoncus ex ornare sit amet. Nam posuere rhoncus purus, malesuada interdum orci molestie efficitur. Sed at dui elit. Suspendisse ultrices justo et ante varius pretium. Maecenas non.",
     resPrice: 1990,
-    hour: 2,
-    min: 11,
-    sec: 32,
+    endTime: 1629115200000,
     watched: true,
   },
 ];
@@ -136,11 +126,14 @@ function UserInfo(props) {
           <div className="info__joined-date">April 2021</div>
         </div>
         <div className="info__popup">
-          <img
+          <PopupItem icon="images/SVG/dots-three-horizontal.svg">
+            <PopupDropdown />
+          </PopupItem>
+          {/* <img
             src="images/SVG/dots-three-horizontal.svg"
             alt="three dot"
             className="floatbox--popup-img"
-          />
+          /> */}
         </div>
         <div className="legal">
           &copy; 2021 by <a href="#">N. Do San.</a> <br></br>All rights
@@ -162,10 +155,6 @@ function UserInfo(props) {
         <div className="auction-info__list-items">
           <ItemCard item={DUMMY_ITEMS[0]} />
           <ItemCard item={DUMMY_ITEMS[1]} />
-          <ItemCard item={DUMMY_ITEMS[1]} />
-          <ItemCard item={DUMMY_ITEMS[1]} />
-          <ItemCard item={DUMMY_ITEMS[1]} />
-          {/* <ItemCard item={DUMMY_ITEMS[2]} /> */}
         </div>
       </div>
     </div>

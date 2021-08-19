@@ -19,7 +19,7 @@ let useClickOutside = (handler) => {
   return domNode;
 };
 
-function NavItem(props) {
+function PopupItem(props) {
   const [open, setOpen] = useState(false);
 
   let domNode = useClickOutside(() => {
@@ -28,33 +28,17 @@ function NavItem(props) {
 
   let component = (
     <Fragment>
-      <img src={props.icon} alt="icon" className="user-nav__icon" />
+      <img src={props.icon} alt="icon" className="" />
       {props.notification && (
         <span className="user-nav__notification">{props.notification}</span>
       )}
     </Fragment>
   );
 
-  if (props.isLogin) {
-    component = (
-      <Fragment>
-        <div className="user-nav__user">
-          <span className="user-nav__user--credits">{props.credits}฿</span>
-          <span className="user-nav__user--name">{props.user}</span>
-        </div>
-        <img
-          src={props.profile}
-          alt="user-profile"
-          className="user-nav__profile"
-        />
-      </Fragment>
-    );
-  }
-
   return (
     <div
       ref={domNode}
-      className="user-nav__icon-box"
+      className="popup__btn"
       onClick={() => {
         setOpen(!open);
       }}
@@ -65,4 +49,4 @@ function NavItem(props) {
   );
 }
 
-export default NavItem;
+export default PopupItem;

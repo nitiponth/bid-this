@@ -24,7 +24,7 @@
       &-img {
         border: 6px solid white;
         border-radius: 100%;
-        width: auto;
+        width: 17rem;
         height: 17rem;
         object-fit: cover;
       }
@@ -167,29 +167,10 @@
     }
 
     &__popup {
-      margin-top: 1rem;
-      width: min-content;
-      display: flex;
-      align-items: center;
-      padding: 1rem 2rem;
-      border-radius: 5rem;
-      background-color: var(--color-grey-light-1);
-      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
-      transition: all 0.3s;
-
       cursor: pointer;
 
       margin-bottom: auto;
-
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.05);
-      }
-
-      &:active {
-        transform: translateY(1px);
-        box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.12);
-      }
+      position: relative;
     }
   }
 
