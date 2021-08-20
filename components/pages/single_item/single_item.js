@@ -1,7 +1,7 @@
 import useTimer from "../../../hooks/useTimer";
 import ItemsDropdown from "../../dropdown/items-dropdown/items-dropdown";
-import PopupDropdown from "../../dropdown/profile-dropdown/profile-dropdown";
 import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
+import Slider from "../../slider/slider";
 
 import Bidder from "./bidder";
 
@@ -42,14 +42,11 @@ const DUMMY_INFO = [
 
 function SingleItem(props) {
   const time = useTimer(props.item.endTime);
+
   return (
     <div className="single-item">
       <div className="section__img">
-        <img
-          src={props.item.img}
-          alt={props.item.title}
-          className="item__img"
-        />
+        <Slider items={props.item.images} />
       </div>
       <div className="floatbox">
         <div className="floatbox--title">{props.item.title}</div>
