@@ -152,6 +152,9 @@ function UserInfo(props) {
             Bidded <span className="reddot reddot--dark">{0}</span>
           </li>
         </nav>
+        <div className="auction-info__add-items">
+          Click to add your items to the auction
+        </div>
         <div className="auction-info__list-items">
           <ItemCard item={DUMMY_ITEMS[0]} />
           <ItemCard item={DUMMY_ITEMS[1]} />

@@ -216,6 +216,23 @@
       }
     }
 
+    &__add-items {
+      margin-top: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed var(--color-grey-light-4);
+      border-radius: 1rem;
+      min-height: 11.5rem;
+
+      background-color: var(--color-grey-light-2);
+
+      cursor: pointer;
+      outline: none;
+
+      font-size: 1.4rem;
+    }
+
     &__list-items {
       padding: 3rem 0;
       display: grid;
@@ -224,14 +241,6 @@
       grid-row-gap: 3rem;
       grid-column-gap: 4rem;
       //   justify-content: space-between;
-
-      &__hero {
-        grid-column: 1 / -1;
-        background-color: var(--color-grey-light-2);
-        border-radius: 30px;
-        overflow: hidden;
-        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
-      }
     }
   }
 }

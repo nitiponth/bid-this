@@ -1,4 +1,4 @@
-.ep-container {
+.uf-container {
   min-height: 100%;
   background-color: var(--color-grey-light-1);
   border-radius: 2rem;
@@ -14,7 +14,7 @@
     padding-bottom: 2rem;
   }
 
-  .edit-container {
+  .form-container {
     padding: 5rem 15rem;
 
     background-color: white;
@@ -24,7 +24,7 @@
     display: grid;
     gap: 4rem;
 
-    .edit__box {
+    .form__box {
       display: grid;
       grid-template-columns: 35% auto;
       gap: 6.5rem;
@@ -124,7 +124,7 @@
         &-box {
           margin-top: 0.5rem;
           display: flex;
-          align-items: baseline;
+          align-items: center;
           font-size: 2rem;
           border-radius: 1rem;
           padding-left: 1.5rem;
@@ -183,7 +183,8 @@
             border-radius: 1rem;
             border: none;
 
-            background-color: var(--color-grey-light-1);
+            // background-color: var(--color-grey-light-1);
+            background-color: #fff;
             margin-bottom: 0;
             margin-left: 1rem;
 
@@ -270,10 +271,16 @@
             }
           }
         }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
       }
     }
 
-    .edit__end {
+    .form__end {
       grid-column: 1 / -1;
       text-align: center;
       &-btn {

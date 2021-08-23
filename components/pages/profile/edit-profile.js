@@ -14,13 +14,13 @@ function EditProfile() {
   }
 
   const imgThumbs = imgFiles.map((file) => (
-    <div className="edit__box-imagebox" key={file.name}>
-      <div className="edit__box-imagebox-box">
-        <img src={file.preview} className="edit__box-imagebox-img" />
+    <div className="form__box-imagebox" key={file.name}>
+      <div className="form__box-imagebox-box">
+        <img src={file.preview} className="form__box-imagebox-img" />
       </div>
-      <aside className="edit__box-imagebox-aside">
-        <div className="edit__box-imagebox-filename">{file.name}</div>
-        <button onClick={imgDeleteBtn} className="edit__box-imagebox-delete">
+      <aside className="form__box-imagebox-aside">
+        <div className="form__box-imagebox-filename">{file.name}</div>
+        <button onClick={imgDeleteBtn} className="form__box-imagebox-delete">
           Delete
         </button>
       </aside>
@@ -28,13 +28,13 @@ function EditProfile() {
   ));
 
   const covThumbs = covFiles.map((file) => (
-    <div className="edit__box-imagebox" key={file.name}>
-      <div className="edit__box-imagebox-box">
-        <img src={file.preview} className="edit__box-imagebox-img" />
+    <div className="form__box-imagebox" key={file.name}>
+      <div className="form__box-imagebox-box">
+        <img src={file.preview} className="form__box-imagebox-img" />
       </div>
-      <aside className="edit__box-imagebox-aside">
-        <div className="edit__box-imagebox-filename">{file.name}</div>
-        <button onClick={covDeleteBtn} className="edit__box-imagebox-delete">
+      <aside className="form__box-imagebox-aside">
+        <div className="form__box-imagebox-filename">{file.name}</div>
+        <button onClick={covDeleteBtn} className="form__box-imagebox-delete">
           Delete
         </button>
       </aside>
@@ -51,15 +51,15 @@ function EditProfile() {
   );
 
   return (
-    <div className="ep-container">
+    <div className="uf-container">
       <h1 className="title">Edit your Profile</h1>
       <form>
-        <div className="edit-container">
-          <div className="edit__box">
-            <div className="edit__box-title">Enter your details.</div>
-            <div className="edit__box-input">
+        <div className="form-container">
+          <div className="form__box">
+            <div className="form__box-title">Enter your details.</div>
+            <div className="form__box-input">
               <div className="input__form">
-                <label htmlFor="name" className="glabel glabel--edit">
+                <label htmlFor="name" className="glabel glabel--form">
                   Name
                 </label>
                 <input
@@ -68,7 +68,7 @@ function EditProfile() {
                   placeholder="Firstname"
                   className="input__form-input"
                 />
-                <label htmlFor="name" className="glabel glabel--edit">
+                <label htmlFor="name" className="glabel glabel--form">
                   Lastname
                 </label>
                 <input
@@ -77,7 +77,7 @@ function EditProfile() {
                   placeholder="Lastname"
                   className="input__form-input"
                 />
-                <label htmlFor="username" className="glabel glabel--edit">
+                <label htmlFor="username" className="glabel glabel--form">
                   Username
                 </label>
                 <div className="input__form-box ">
@@ -92,10 +92,10 @@ function EditProfile() {
               </div>
             </div>
           </div>
-          <div className="edit__box">
-            <div className="edit__box-title">Enter your delivery address.</div>
-            <div className="edit__box-input">
-              <label htmlFor="address" className="glabel glabel--edit">
+          <div className="form__box">
+            <div className="form__box-title">Enter your delivery address.</div>
+            <div className="form__box-input">
+              <label htmlFor="address" className="glabel glabel--form">
                 Address
               </label>
               <input
@@ -131,11 +131,11 @@ function EditProfile() {
               </div>
             </div>
           </div>
-          <div className="edit__box">
-            <div className="edit__box-title">
+          <div className="form__box">
+            <div className="form__box-title">
               Add a short description about yourself.
             </div>
-            <div className="edit__box-input">
+            <div className="form__box-input">
               <textarea
                 name="desc"
                 rows="10"
@@ -145,14 +145,14 @@ function EditProfile() {
               />
             </div>
           </div>
-          <div className="edit__box">
-            <div className="edit__box-title">
+          <div className="form__box">
+            <div className="form__box-title">
               Upload a profile image.
-              <div className="edit__box-subtitle">
+              <div className="form__box-subtitle">
                 Recommended size: 1000x1000px. JPG, JPEG or PNG. 10MB max size.
               </div>
             </div>
-            <div className="edit__box-input">
+            <div className="form__box-input">
               {imgFiles.length != 0 ? (
                 <div>{imgThumbs}</div>
               ) : (
@@ -170,7 +170,7 @@ function EditProfile() {
                   accept={"image/jpeg, image/jpg, image/png"}
                 >
                   {({ getRootProps, getInputProps }) => (
-                    <div {...getRootProps({ className: "edit__box-dropbox" })}>
+                    <div {...getRootProps({ className: "form__box-dropbox" })}>
                       <input {...getInputProps()} />
                       <p className="input__form-istext">
                         Drag and drop an image here, or click to browse.
@@ -181,14 +181,14 @@ function EditProfile() {
               )}
             </div>
           </div>
-          <div className="edit__box">
-            <div className="edit__box-title">
+          <div className="form__box">
+            <div className="form__box-title">
               Upload a cover image
-              <div className="edit__box-subtitle">
+              <div className="form__box-subtitle">
                 Recommended size: 1500x500px. JPG, JPEG or PNG. 10MB max size.
               </div>
             </div>
-            <div className="edit__box-input">
+            <div className="form__box-input">
               {covFiles.length != 0 ? (
                 <div>{covThumbs}</div>
               ) : (
@@ -206,7 +206,7 @@ function EditProfile() {
                   accept={"image/jpeg, image/jpg, image/png"}
                 >
                   {({ getRootProps, getInputProps }) => (
-                    <div {...getRootProps({ className: "edit__box-dropbox" })}>
+                    <div {...getRootProps({ className: "form__box-dropbox" })}>
                       <input {...getInputProps()} />
                       <p className="input__form-istext">
                         Drag and drop an image here, or click to browse.
@@ -217,23 +217,23 @@ function EditProfile() {
               )}
             </div>
           </div>
-          <div className="edit__box">
-            <div className="edit__box-title">
+          <div className="form__box">
+            <div className="form__box-title">
               Verify your profile
               <img
                 src="/images/ios-icon/check.png"
                 alt="verify mark"
-                className="edit__box-mark"
+                className="form__box-mark"
               />
-              <div className="edit__box-subtitle">
+              <div className="form__box-subtitle">
                 Show the BidThis community that your profile is authentic.
               </div>
             </div>
-            <div className="edit__box-input">
-              <div className="edit__box-title edit__box-title--sm">
+            <div className="form__box-input">
+              <div className="form__box-title form__box-title--sm">
                 KYC Verification
               </div>
-              <div className="edit__box-dropzone">
+              <div className="form__box-dropzone">
                 {covFiles.length != 0 ? (
                   <div>{covThumbs}</div>
                 ) : (
@@ -252,7 +252,7 @@ function EditProfile() {
                   >
                     {({ getRootProps, getInputProps }) => (
                       <div
-                        {...getRootProps({ className: "edit__box-dropbox" })}
+                        {...getRootProps({ className: "form__box-dropbox" })}
                       >
                         <input {...getInputProps()} />
                         <p className="input__form-istext">
@@ -263,7 +263,7 @@ function EditProfile() {
                   </Dropzone>
                 )}
               </div>
-              <div className="edit__box-dropzone">
+              <div className="form__box-dropzone">
                 {covFiles.length != 0 ? (
                   <div>{covThumbs}</div>
                 ) : (
@@ -282,7 +282,7 @@ function EditProfile() {
                   >
                     {({ getRootProps, getInputProps }) => (
                       <div
-                        {...getRootProps({ className: "edit__box-dropbox" })}
+                        {...getRootProps({ className: "form__box-dropbox" })}
                       >
                         <input {...getInputProps()} />
                         <p className="input__form-istext">
@@ -294,7 +294,7 @@ function EditProfile() {
                   </Dropzone>
                 )}
               </div>
-              <div className="edit__box-title edit__box-title--sm u-margin-bottom-small u-padding-top-tiny">
+              <div className="form__box-title form__box-title--sm u-margin-bottom-small u-padding-top-tiny">
                 Email Verification
               </div>
               <div className="input__form-request">
@@ -304,8 +304,8 @@ function EditProfile() {
               </div>
             </div>
           </div>
-          <div className="edit__end u-padding-top-medium">
-            <button className="edit__end-btn">Save Changes</button>
+          <div className="form__end u-padding-top-medium">
+            <button className="form__end-btn">Save Changes</button>
           </div>
         </div>
       </form>
