@@ -1,3 +1,4 @@
+import { useState } from "react";
 import useTimer from "../../../hooks/useTimer";
 
 function ItemCard(props) {
@@ -8,8 +9,10 @@ function ItemCard(props) {
     auctionTextClass = "auction-text--card auction-text--card--red";
   }
 
+  const [isWatched, setIsWatched] = useState(props.item.watched);
+
   let watchlistsClass = "watchlists__icon";
-  if (props.item.watched) {
+  if (isWatched) {
     watchlistsClass = "watch__icon--red";
   }
   return (
@@ -20,7 +23,8 @@ function ItemCard(props) {
             src="/images/SVG/heart-outlined.svg"
             alt="bookmark img"
             className={watchlistsClass}
-          ></img>
+            onClick={() => setIsWatched(!isWatched)}
+          />
         </div>
       </div>
       <div className="item-card__img-box">

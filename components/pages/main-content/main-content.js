@@ -8,7 +8,7 @@ const DUMMY_ITEMS = [
     seller: "johndoe",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis metus quis nibh sodales consectetur ac id turpis. Nulla nec facilisis libero, a fermentum arcu. Nullam mollis lacus varius erat pulvinar mattis. Vestibulum congue hendrerit nunc id suscipit. Nullam fermentum.",
     resPrice: 500,
-    endTime: 1629109500000,
+    endTime: "2021-08-25T06:00:20.142Z",
     watched: true,
   },
   {

@@ -50,7 +50,7 @@ function MainHeader() {
               isLogin={authCtx.isLogin}
               user={"gorgias"}
               credits={2000}
-              profile="images/users/user2.jpg"
+              profile="/images/users/user2.jpg"
             >
               <UserLoginDropdown />
             </NavItem>

@@ -5,6 +5,11 @@ import UserDropdownItem from "./user-dropdown-item";
 
 import LayoutContext from "../../../store/layout-context";
 import AuthContext from "../../../store/auth-context";
+import {
+  HiOutlineLogout,
+  HiOutlineCog,
+  HiOutlineSupport,
+} from "react-icons/hi";
 
 function UserLoginDropdown() {
   const router = useRouter();
@@ -15,10 +20,12 @@ function UserLoginDropdown() {
   const toProfilePage = () => {
     router.push("/users");
   };
+  const toEditProfilePage = () => {
+    router.push("/users/edit");
+  };
 
-  const showRegisterLayout = () => {
-    layoutCtx.setAuth(true);
-    layoutCtx.setType("register");
+  const toSupportPage = () => {
+    //support page
   };
 
   const toLogoutHandler = () => {
@@ -29,25 +36,25 @@ function UserLoginDropdown() {
     <Fragment>
       <div className="user-login-dropdown">
         <UserDropdownItem
-          leftProfile={"images/users/user2.jpg"}
+          leftProfile={"/images/users/user2.jpg"}
           onClickHandler={toProfilePage}
         >
           View Your Profile
         </UserDropdownItem>
         <UserDropdownItem
-          leftIcon="images/SVG/cog.svg"
-          onClickHandler={showRegisterLayout}
+          leftIcon={<HiOutlineCog />}
+          onClickHandler={toEditProfilePage}
         >
           Setting
         </UserDropdownItem>
         <UserDropdownItem
-          leftIcon="images/SVG/lifebuoy.svg"
-          onClickHandler={showRegisterLayout}
+          leftIcon={<HiOutlineSupport />}
+          onClickHandler={toSupportPage}
         >
           Support
         </UserDropdownItem>
         <UserDropdownItem
-          leftIcon="images/SVG/log-out.svg"
+          leftIcon={<HiOutlineLogout />}
           onClickHandler={toLogoutHandler}
         >
           Logout

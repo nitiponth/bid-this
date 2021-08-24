@@ -3,6 +3,8 @@ import { Fragment, useContext } from "react";
 import UserDropdownItem from "./user-dropdown-item";
 
 import LayoutContext from "../../../store/layout-context";
+import { BiLogIn } from "react-icons/bi";
+import { HiPencil } from "react-icons/hi";
 
 function UserDropdown() {
   const layoutCtx = useContext(LayoutContext);
@@ -21,13 +23,13 @@ function UserDropdown() {
     <Fragment>
       <div className="user-dropdown">
         <UserDropdownItem
-          leftIcon={"images/SVG/login.svg"}
+          leftIcon={<BiLogIn />}
           onClickHandler={showLoginLayout}
         >
           Sign In
         </UserDropdownItem>
         <UserDropdownItem
-          leftIcon="images/SVG/edit.svg"
+          leftIcon={<HiPencil />}
           onClickHandler={showRegisterLayout}
         >
           Sign Up

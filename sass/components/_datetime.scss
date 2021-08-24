@@ -1,0 +1,79 @@
+.datetime {
+  font-family: inherit;
+  color: var(--color-grey-dark-1);
+  font-size: 1.6rem;
+  padding: 0.5rem 0.5rem;
+  border-radius: 2px;
+  background-color: rgba(var(--color-grey-light-2), 0.3);
+  border: none;
+  border-bottom: 3px solid var(--color-grey-dark-3);
+  width: 100%;
+  display: block;
+
+  cursor: pointer;
+
+  margin-bottom: 1.7rem;
+
+  transition: all 0.2s ease-in;
+
+  &:focus {
+    outline: none;
+    // box-shadow: 0 1rem 2rem rgba(#000, 0.1);
+    border-bottom: 3px solid var(--primary-yellow);
+  }
+
+  &:focus:invalid {
+    border-bottom: 3px solid salmon;
+  }
+
+  &::-webkit-input-placeholder {
+    color: var(--color-grey-dark-3);
+  }
+}
+
+.rdtPicker {
+  //   color: var(--color-grey-dark-1);
+
+  border-radius: 1rem;
+  width: 30rem;
+
+  font-size: 1.2rem;
+  font-weight: "400";
+  transition: all 0.3 ease;
+}
+
+.rdtPicker td.rdtActive,
+.rdtPicker td.rdtActive:hover {
+  background-color: var(--primary-yellow-dark-1) !important;
+}
+
+.rdtPicker td.rdtToday:before {
+  content: "";
+  display: inline-block;
+  border-left: 7px solid transparent;
+  border-bottom: 7px solid var(--primary-yellow-dark-1) !important;
+  border-top-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+}
+
+.rdtPicker td {
+  border-radius: 5px;
+}
+
+.rdtPicker th {
+  border-radius: 5px;
+  padding-bottom: 5px;
+}
+
+.rdtPicker {
+  .rdtTimeToggle {
+    padding: 1rem 0;
+  }
+}
+
+.rdtPicker td.rdtOld,
+.rdtPicker td.rdtNew {
+  color: #cccccc;
+}

@@ -43,10 +43,14 @@
       background-color: var(--color-grey-light-1);
       box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
 
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       font-weight: 600;
       color: var(--color-grey-dark-1);
       letter-spacing: 0.5px;
+      &:link,
+      &:visited {
+        text-decoration: none;
+      }
 
       transition: all 0.3s;
 

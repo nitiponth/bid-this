@@ -3,7 +3,9 @@ import { Form, Formik, Field } from "formik";
 import { BiPlus } from "react-icons/bi";
 import Dropzone from "react-dropzone";
 import SelectionBox from "../../etc/selection/selection";
+import Datetime from "react-datetime";
 
+import "react-datetime/css/react-datetime.css";
 function AddProduct() {
   const categoryOptions = ["Clothing", "Games", "Figures", "Others"];
   const conditionOptions = [
@@ -27,6 +29,7 @@ function AddProduct() {
   const [selectedCate, setSelectedCate] = useState("Select Category");
   const [selectedCon, setSelectedCon] = useState("Select Condition");
   const [selectedShip, setSelectedShip] = useState("Select Shipping Company");
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const [productsFiles, setProductsFiles] = useState([]);
 
@@ -61,29 +64,106 @@ function AddProduct() {
   return (
     <div className="uf-container">
       <h1 className="title">Add your Product</h1>
-      <Formik initialValues={{ checked: [] }}>
-        <Form>
-          <div className="form-container">
-            <div className="form__box">
-              <div className="form__box-title">Enter Product details.</div>
-              <div className="form__box-input">
-                <div className="input__form">
-                  <label htmlFor="name" className="glabel glabel--form">
-                    Category
+      <Formik
+        initialValues={{
+          category: "",
+          productName: "",
+          condition: "",
+          productDetails: "",
+          auctionTime: "",
+          reservePrice: 0,
+          currentPrice: 0,
+          bidOffer: 0,
+          productImages: [],
+          shipCompany: "",
+          shipCost: 0,
+          checked: [],
+        }}
+        onSubmit={(values) => {
+          values.category = selectedCate;
+          values.condition = selectedCon;
+          values.auctionTime = selectedDate;
+          values.productImages = productsFiles;
+          values.shipCompany = selectedShip;
+          alert(JSON.stringify({ values }, null, 2));
+          console.log(JSON.stringify({ values }, null, 2));
+        }}
+      >
+        {({ values, handleChange, handleSubmit, isSubmitting }) => (
+          <Form onSubmit={handleSubmit}>
+            <div className="form-container">
+              <div className="form__box">
+                <div className="form__box-title">Enter Product details.</div>
+                <div className="form__box-input">
+                  <div className="input__form">
+                    <label htmlFor="name" className="glabel glabel--form">
+                      Category
+                    </label>
+                    <SelectionBox
+                      options={categoryOptions}
+                      selected={selectedCate}
+                      setSelected={setSelectedCate}
+                    />
+                    <label
+                      htmlFor="productName"
+                      className="glabel glabel--form"
+                    >
+                      Product name
+                    </label>
+                    <input
+                      id="productName"
+                      type="text"
+                      placeholder="Product name"
+                      className="input__form-input"
+                      value={values.productName}
+                      onChange={handleChange}
+                    />
+
+                    <label htmlFor="condition" className="glabel glabel--form">
+                      Product Condition
+                    </label>
+                    <SelectionBox
+                      options={conditionOptions}
+                      selected={selectedCon}
+                      setSelected={setSelectedCon}
+                    />
+                    <label
+                      htmlFor="productDetails"
+                      className="glabel glabel--form u-margin-top-small u-margin-bottom-extra-small"
+                    >
+                      Product details
+                    </label>
+                    <div className="form__box-input">
+                      <textarea
+                        id="productDetails"
+                        name="productDetails"
+                        rows="5"
+                        className="input__form-textarea"
+                        placeholder="Enter a description about your product"
+                        spellCheck="false"
+                        value={values.productDetails}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="form__box">
+                <div className="form__box-title">Enter Auction Information</div>
+                <div className="form__box-input">
+                  <label htmlFor="datePicker" className="glabel glabel--form">
+                    Auction Time
                   </label>
-                  <SelectionBox
-                    options={categoryOptions}
-                    selected={selectedCate}
-                    setSelected={setSelectedCate}
-                  />
-                  <label htmlFor="itemName" className="glabel glabel--form">
-                    Product name
-                  </label>
-                  <input
-                    id="itemName"
-                    type="text"
-                    placeholder="Product name"
-                    className="input__form-input"
+                  <Datetime
+                    inputProps={{ className: "datetime" }}
+                    value={selectedDate}
+                    onChange={(newValue) => setSelectedDate(newValue)}
+                    locale="ict"
+                    timeFormat="HH:mm"
+                    timeConstraints={{
+                      hours: { min: 0, max: 23 },
+                      minutes: { min: 0, max: 59 },
+                    }}
                   />
                   <label htmlFor="reservePrice" className="glabel glabel--form">
                     Reserve price
@@ -95,6 +175,8 @@ function AddProduct() {
                       type="number"
                       placeholder="Reserve price"
                       className="input__form-input input__form-input--username"
+                      value={values.reservePrice}
+                      onChange={handleChange}
                     />
                   </div>
                   <label htmlFor="bidOffer" className="glabel glabel--form">
@@ -107,148 +189,134 @@ function AddProduct() {
                       type="number"
                       placeholder="Bid offer"
                       className="input__form-input input__form-input--username"
-                    />
-                  </div>
-                  <label htmlFor="name" className="glabel glabel--form">
-                    Product Condition
-                  </label>
-                  <SelectionBox
-                    options={conditionOptions}
-                    selected={selectedCon}
-                    setSelected={setSelectedCon}
-                  />
-                  <label
-                    htmlFor="desc"
-                    className="glabel glabel--form u-margin-top-small u-margin-bottom-extra-small"
-                  >
-                    Product details
-                  </label>
-                  <div className="form__box-input">
-                    <textarea
-                      id="desc"
-                      name="desc"
-                      rows="5"
-                      className="input__form-textarea"
-                      placeholder="Enter a short description about your product"
-                      spellCheck="false"
+                      value={values.bidOffer}
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="form__box">
-              <div className="form__box-title">
-                Upload products images
-                <div className="form__box-subtitle">
-                  Recommended size: 1000x1000px. JPG, JPEG or PNG. 10MB max
-                  size.
-                </div>
-              </div>
-              <div className="form__box-input">
-                {productsFiles.length != 0 && (
-                  <div className="u-margin-bottom-extra-small">
-                    {productsThumbs}
+              <div className="form__box">
+                <div className="form__box-title">
+                  Upload products images
+                  <div className="form__box-subtitle">
+                    Recommended size: 1000x1000px. JPG, JPEG or PNG. 10MB max
+                    size.
                   </div>
-                )}
-                <Dropzone
-                  multiple={true}
-                  onDrop={(acceptedFiles) => {
-                    const newFiles = acceptedFiles.map((file) =>
-                      Object.assign(file, {
-                        preview: URL.createObjectURL(file),
-                      })
-                    );
-                    if (productsFiles.length == 0) {
-                      setProductsFiles(newFiles);
-                    } else {
-                      setProductsFiles((prevProductsFiles) => [
-                        ...prevProductsFiles,
-                        ...newFiles,
-                      ]);
-                    }
-                  }}
-                  accept={"image/jpeg, image/jpg, image/png"}
-                >
-                  {({ getRootProps, getInputProps }) => (
-                    <div {...getRootProps({ className: "form__box-dropbox" })}>
-                      <input {...getInputProps()} />
-                      <p className="input__form-istext">
-                        Drag and drop an image here, or click to browse.
-                      </p>
+                </div>
+                <div className="form__box-input">
+                  {productsFiles.length != 0 && (
+                    <div className="u-margin-bottom-extra-small">
+                      {productsThumbs}
                     </div>
                   )}
-                </Dropzone>
-              </div>
-            </div>
-            <div className="form__box">
-              <div className="form__box-title">Enter Shipping Information</div>
-              <div className="form__box-input">
-                <div className="input__form">
-                  <label htmlFor="name" className="glabel glabel--form">
-                    Shipping Company
-                  </label>
-                  <SelectionBox
-                    options={shippingOptions}
-                    selected={selectedShip}
-                    setSelected={setSelectedShip}
-                  />
-
-                  <label htmlFor="shipCost" className="glabel glabel--form">
-                    Shipping Cost
-                  </label>
-                  <div className="input__form-box u-margin-bottom-small">
-                    ฿
-                    <input
-                      id="shipCost"
-                      type="number"
-                      placeholder="Shipping Cost"
-                      className="input__form-input input__form-input--username"
-                    />
-                  </div>
+                  <Dropzone
+                    multiple={true}
+                    onDrop={(acceptedFiles) => {
+                      const newFiles = acceptedFiles.map((file) =>
+                        Object.assign(file, {
+                          preview: URL.createObjectURL(file),
+                        })
+                      );
+                      if (productsFiles.length == 0) {
+                        setProductsFiles(newFiles);
+                      } else {
+                        setProductsFiles((prevProductsFiles) => [
+                          ...prevProductsFiles,
+                          ...newFiles,
+                        ]);
+                      }
+                    }}
+                    accept={"image/jpeg, image/jpg, image/png"}
+                  >
+                    {({ getRootProps, getInputProps }) => (
+                      <div
+                        {...getRootProps({ className: "form__box-dropbox" })}
+                      >
+                        <input {...getInputProps()} />
+                        <p className="input__form-istext">
+                          Drag and drop an image here, or click to browse.
+                        </p>
+                      </div>
+                    )}
+                  </Dropzone>
                 </div>
               </div>
-            </div>
-            <div className="form__box">
-              <div className="form__box-title">After-sales Warranty</div>
-              <div className="form__box-input">
-                <div className="input__form">
-                  <label htmlFor="name" className="glabel glabel--form">
-                    Warranty Policy
-                  </label>
-                  <div id="policy-checkbox">
-                    <div
-                      role="group"
-                      aria-labelledby="policy-checkbox"
-                      className="checkbox"
-                    >
-                      <label className="checkbox__item">
-                        <Field
-                          type="checkbox"
-                          name="checked"
-                          value="7 days return to seller"
-                          className="checkbox__box"
-                        />
-                        7 days return to seller
-                      </label>
-                      <label className="checkbox__item">
-                        <Field
-                          type="checkbox"
-                          name="checked"
-                          value="15 days warranty by seller"
-                          className="checkbox__box"
-                        />
-                        15 days warranty by seller
-                      </label>
+              <div className="form__box">
+                <div className="form__box-title">
+                  Enter Shipping Information
+                </div>
+                <div className="form__box-input">
+                  <div className="input__form">
+                    <label htmlFor="name" className="glabel glabel--form">
+                      Shipping Company
+                    </label>
+                    <SelectionBox
+                      options={shippingOptions}
+                      selected={selectedShip}
+                      setSelected={setSelectedShip}
+                    />
+
+                    <label htmlFor="shipCost" className="glabel glabel--form">
+                      Shipping Cost
+                    </label>
+                    <div className="input__form-box u-margin-bottom-small">
+                      ฿
+                      <input
+                        id="shipCost"
+                        type="number"
+                        placeholder="Shipping Cost"
+                        className="input__form-input input__form-input--username"
+                        value={values.shipCost}
+                        onChange={handleChange}
+                      />
                     </div>
                   </div>
                 </div>
               </div>
+              <div className="form__box">
+                <div className="form__box-title">After-sales Warranty</div>
+                <div className="form__box-input">
+                  <div className="input__form">
+                    <label htmlFor="name" className="glabel glabel--form">
+                      Warranty Policy
+                    </label>
+                    <div id="policy-checkbox">
+                      <div
+                        role="group"
+                        aria-labelledby="policy-checkbox"
+                        className="checkbox"
+                      >
+                        <label className="checkbox__item">
+                          <Field
+                            type="checkbox"
+                            name="checked"
+                            value="7 days return to seller"
+                            className="checkbox__box"
+                          />
+                          7 days return to seller
+                        </label>
+                        <label className="checkbox__item">
+                          <Field
+                            type="checkbox"
+                            name="checked"
+                            value="15 days warranty by seller"
+                            className="checkbox__box"
+                          />
+                          15 days warranty by seller
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="form__end u-padding-top-medium">
+                <button type="submit" className="form__end-btn">
+                  Post Product
+                </button>
+              </div>
             </div>
-            <div className="form__end u-padding-top-medium">
-              <button className="form__end-btn">Post Product</button>
-            </div>
-          </div>
-        </Form>
+          </Form>
+        )}
       </Formik>
     </div>
   );

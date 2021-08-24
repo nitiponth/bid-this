@@ -1,4 +1,6 @@
-import { useState } from "react";
+import Link from "next/link";
+import { useContext, useState } from "react";
+import AuthContext from "../../../store/auth-context";
 import PopupDropdown from "../../dropdown/profile-dropdown/profile-dropdown";
 import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
 
@@ -63,6 +65,8 @@ const DUMMY_ITEMS = [
 
 function UserInfo(props) {
   const [userVerify, setUserVerify] = useState(true);
+
+  const authCtx = useContext(AuthContext);
   return (
     <div className="user-info">
       <div
@@ -78,7 +82,13 @@ function UserInfo(props) {
             className="banner__profile-img"
           />
         </div>
-        <a className="banner__btn">Follow</a>
+        {authCtx.isLogin ? (
+          <Link href="/users/edit">
+            <a className="banner__btn">Edit</a>
+          </Link>
+        ) : (
+          <a className="banner__btn">Follow</a>
+        )}
       </div>
       <div className="info">
         <div className="info__name">
@@ -152,9 +162,13 @@ function UserInfo(props) {
             Bidded <span className="reddot reddot--dark">{0}</span>
           </li>
         </nav>
-        <div className="auction-info__add-items">
-          Click to add your items to the auction
-        </div>
+        {authCtx.isLogin && (
+          <Link href="/users/add-item">
+            <div className="auction-info__add-items">
+              Click to add your items to the auction
+            </div>
+          </Link>
+        )}
         <div className="auction-info__list-items">
           <ItemCard item={DUMMY_ITEMS[0]} />
           <ItemCard item={DUMMY_ITEMS[1]} />

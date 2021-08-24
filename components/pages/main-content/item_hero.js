@@ -1,3 +1,4 @@
+import Link from "next/link";
 import useTimer from "../../../hooks/useTimer";
 
 function ItemHero(props) {
@@ -26,9 +27,9 @@ function ItemHero(props) {
       </div>
 
       <div className="item-hero__detail">
-        <a href="#" className="item-hero__detail-title">
-          {props.item.title}
-        </a>
+        <Link href="/items">
+          <a className="item-hero__detail-title">{props.item.title}</a>
+        </Link>
         <a href="#" className="item-hero__detail-seller">
           <span className="at-sign">@</span>
           {props.item.seller}

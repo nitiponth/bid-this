@@ -13,13 +13,13 @@ function UserDropdownItem(props) {
       )}
       {props.leftIcon && (
         <span className="icon-button icon-button--left">
-          <img src={props.leftIcon} className={`icon-button-img ${addStyle}`} />
+          <div className={`icon-button-img ${addStyle}`}>{props.leftIcon}</div>
         </span>
       )}
       {props.children}
       {props.rightIcon && (
         <span className="icon-button icon-button--right">
-          <img src={props.rightIcon} className="icon-button-img" />
+          <div className={`icon-button-img ${addStyle}`}>{props.rightIcon}</div>
         </span>
       )}
     </a>
