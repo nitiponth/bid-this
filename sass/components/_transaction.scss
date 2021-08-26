@@ -1,0 +1,47 @@
+.transaction {
+  width: 80%;
+
+  background-color: var(--color-grey-light-1);
+  border-radius: 1rem;
+  //   min-height: 6rem;
+  padding: 1rem 3rem;
+  margin: 0.75rem 0;
+
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--color-grey-dark-1);
+
+  box-shadow: 0 1rem 2rem rgba($color: #000000, $alpha: 0.15);
+
+  display: flex;
+  justify-content: space-between;
+
+  &__title {
+    font-size: 1.6rem;
+  }
+
+  &__value {
+    color: var(--color-grey-dark-2);
+  }
+
+  &__link {
+    margin-left: 0.5rem;
+    &:link,
+    &:visited {
+      color: var(--color-grey-dark-1);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    transition: text-shadow 0.2s;
+
+    &:hover {
+      text-shadow: 0 2px 5px rgba($color: #000000, $alpha: 0.15);
+    }
+  }
+
+  &__date {
+    justify-self: end;
+    font-size: 1.4rem;
+    color: var(--color-grey-dark-3);
+  }
+}

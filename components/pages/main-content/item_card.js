@@ -12,7 +12,7 @@ function ItemCard(props) {
   const [isWatched, setIsWatched] = useState(props.item.watched);
 
   let watchlistsClass = "watchlists__icon";
-  if (isWatched) {
+  if (props.item.watched) {
     watchlistsClass = "watch__icon--red";
   }
   return (

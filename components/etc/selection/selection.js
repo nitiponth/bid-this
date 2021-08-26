@@ -48,6 +48,7 @@ function SelectionBox(props) {
           <div className="selection-content">
             {props.options.map((option) => (
               <div
+                key={option}
                 onClick={(e) => {
                   props.setSelected(option);
                   setIsActive(false);
