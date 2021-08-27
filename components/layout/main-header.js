@@ -6,6 +6,7 @@ import UserLoginDropdown from "../dropdown/user-dropdown/user-login-dropdown";
 
 import NavItem from "../navbar/nav-item";
 import AuthContext from "../../store/auth-context";
+import AuctionDropdown from "../dropdown/auction-dropdown/auction-dropdown";
 
 function MainHeader() {
   const authCtx = useContext(AuthContext);
@@ -42,14 +43,16 @@ function MainHeader() {
           Shipping
         </a>
         <div className="user-nav__icon-box">
-          <NavItem icon="/images/SVG/auction.svg" notification={2} />
+          <NavItem icon="/images/SVG/auction.svg" notification={2}>
+            <AuctionDropdown />
+          </NavItem>
         </div>
         {authCtx.isLogin ? (
           <div className="user-nav__user-box">
             <NavItem
               isLogin={authCtx.isLogin}
               user={"gorgias"}
-              credits={2000}
+              credits={5000}
               profile="/images/users/user2.jpg"
             >
               <UserLoginDropdown />

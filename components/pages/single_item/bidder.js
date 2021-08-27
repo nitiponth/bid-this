@@ -3,6 +3,7 @@ function Bidder(props) {
   if (props.info.type == "lister") {
     text = "Listed by";
   }
+
   return (
     <div className="bidder">
       <div className="bid__profile">

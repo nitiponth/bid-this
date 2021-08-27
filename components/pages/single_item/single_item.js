@@ -1,4 +1,7 @@
+import Link from "next/link";
+import { useContext } from "react";
 import useTimer from "../../../hooks/useTimer";
+import LayoutContext from "../../../store/layout-context";
 import ItemsDropdown from "../../dropdown/items-dropdown/items-dropdown";
 import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
 import Slider from "../../slider/slider";
@@ -9,39 +12,46 @@ const DUMMY_INFO = [
   {
     img: "/images/users/user4.jpg",
     user: "katerine",
-    date: "Jun 2, 2021",
-    time: "9:18pm",
+    date: "Aug 27, 2021",
+    time: "1:18pm",
     value: 1000,
     type: "lister",
   },
   {
     img: "/images/users/user2.jpg",
     user: "oizo3000",
-    date: "Jun 2, 2021",
-    time: "9:32pm",
+    date: "Aug 27, 2021",
+    time: "1:32pm",
     value: 1200,
     type: "bidder",
   },
   {
     img: "/images/users/user3.jpg",
     user: "nikita",
-    date: "Jun 2, 2021",
-    time: "9:40pm",
+    date: "Aug 27, 2021",
+    time: "1:40pm",
     value: 1800,
     type: "bidder",
   },
   {
     img: "/images/users/user1.jpg",
     user: "cassiopeus",
-    date: "Jun 2, 2021",
-    time: "10:11pm",
-    value: 1990,
+    date: "Aug 27, 2021",
+    time: "1:50pm",
+    value: 1900,
     type: "bidder",
   },
 ];
 
 function SingleItem(props) {
+  const layoutCtx = useContext(LayoutContext);
+
   const time = useTimer(props.item.endTime);
+
+  const onPlaceBid = () => {
+    layoutCtx.setAuth(true);
+    layoutCtx.setType("bid");
+  };
 
   return (
     <div className="single-item">
@@ -51,10 +61,12 @@ function SingleItem(props) {
       <div className="floatbox">
         <div className="floatbox--title">{props.item.title}</div>
         <div className="floatbox--seller">
-          <a href="#" className="floatbox--seller--link">
-            <span className="at-sign at-sign--md">@</span>
-            {props.item.seller}
-          </a>
+          <Link href="/users">
+            <a className="floatbox--seller--link">
+              <span className="at-sign at-sign--md">@</span>
+              {props.item.seller}
+            </a>
+          </Link>
         </div>
         <div className="floatbox--popup">
           <PopupItem
@@ -108,7 +120,7 @@ function SingleItem(props) {
               </div>
             </div>
             <div className="item__bidding-btn">
-              <a href="#" className="btn btn--single-item">
+              <a onClick={onPlaceBid} className="btn btn--single-item">
                 Place a bid
               </a>
             </div>

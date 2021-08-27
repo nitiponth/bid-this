@@ -193,11 +193,22 @@ body {
   border-radius: 100px;
   background-color: #f8cb71;
   padding: 1.25rem 2rem;
+  font-size: 1.4rem;
   -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
           box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   text-align: center;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
+  cursor: pointer;
+}
+
+.btn--disabled {
+  cursor: not-allowed;
+}
+
+.btn--disabled:hover {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
 }
 
 .btn--card {
@@ -1270,6 +1281,13 @@ body {
   min-width: 20rem;
 }
 
+.user-dropdown--auction {
+  top: 4.8rem;
+  -webkit-transform: translateX(-90%);
+          transform: translateX(-90%);
+  min-width: 40rem;
+}
+
 .user-dropdown-item {
   height: 5rem;
   display: -webkit-box;
@@ -1284,6 +1302,11 @@ body {
   padding: 0.5rem;
 }
 
+.user-dropdown-item--auction {
+  height: 6.5rem;
+  margin: 0.5rem 0;
+}
+
 .user-dropdown-item .icon-button {
   line-height: 1;
   padding: 0 1rem;
@@ -1291,6 +1314,10 @@ body {
 
 .user-dropdown-item .icon-button--left {
   margin-right: 1rem;
+}
+
+.user-dropdown-item .icon-button--right {
+  margin-left: auto;
 }
 
 .user-dropdown-item .icon-button--red {
@@ -1308,6 +1335,24 @@ body {
 
 .user-dropdown-item .icon-button-img {
   font-size: 2.3rem;
+}
+
+.user-dropdown-item .auction__img {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 5px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.user-dropdown-item .auction__time {
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 1.6rem;
+}
+
+.user-dropdown-item .auction__time--red {
+  color: salmon;
 }
 
 .user-dropdown-item:link, .user-dropdown-item:visited {
@@ -1954,6 +1999,20 @@ body {
   -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
           box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
   cursor: pointer;
+  -webkit-transition: -webkit-transform 0.1s;
+  transition: -webkit-transform 0.1s;
+  transition: transform 0.1s;
+  transition: transform 0.1s, -webkit-transform 0.1s;
+}
+
+.bid-item .section__auction .auction__btn-minus:hover, .bid-item .section__auction .auction__btn-plus:hover {
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+}
+
+.bid-item .section__auction .auction__btn-minus:active, .bid-item .section__auction .auction__btn-plus:active {
+  -webkit-transform: translateY(1px);
+          transform: translateY(1px);
 }
 
 .bid-item .section__auction .auction__btn-minus {

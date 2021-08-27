@@ -23,6 +23,12 @@
     min-width: 20rem;
   }
 
+  &--auction {
+    top: 4.8rem;
+    transform: translateX(-90%);
+    min-width: 40rem;
+  }
+
   backface-visibility: hidden;
 
   &-item {
@@ -33,12 +39,21 @@
     transition: background-color 0.2s;
     padding: 0.5rem;
 
+    &--auction {
+      height: 6.5rem;
+      margin: 0.5rem 0;
+    }
+
     .icon-button {
       line-height: 1;
       padding: 0 1rem;
 
       &--left {
         margin-right: 1rem;
+      }
+
+      &--right {
+        margin-left: auto;
       }
 
       &--red {
@@ -56,6 +71,27 @@
 
       &-img {
         font-size: 2.3rem;
+      }
+    }
+
+    .auction {
+      &__img {
+        height: 5rem;
+        width: 5rem;
+
+        border-radius: 5px;
+
+        object-fit: cover;
+      }
+
+      &__time {
+        font-family: inherit;
+        font-weight: 400;
+        font-size: 1.6rem;
+
+        &--red {
+          color: salmon;
+        }
       }
     }
 

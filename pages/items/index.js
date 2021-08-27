@@ -10,10 +10,10 @@ const DUMMY_ITEMS = [
       { uri: "/images/items/keyboard4.jpg" },
     ],
     title: "Keychron",
-    seller: "gorgias",
+    seller: "piterpasma",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis lorem neque, et rhoncus ex ornare sit amet. Nam posuere rhoncus purus, malesuada interdum orci molestie efficitur. Sed at dui elit. Suspendisse ultrices justo et ante varius pretium. Maecenas non.",
-    resPrice: 1990,
-    endTime: 1629115200000,
+    resPrice: 1900,
+    endTime: 1630060200000,
     watched: true,
   },
 ];

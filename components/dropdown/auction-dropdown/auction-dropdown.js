@@ -1,14 +1,14 @@
-import { useRouter } from "next/router";
-import ItemCard from "./item_card";
-import ItemHero from "./item_hero";
+import { useRouter } from "next/dist/client/router";
+import { Fragment } from "react";
+import AuctionDropdownItem from "./auction-dropdown-item";
 
 const DUMMY_ITEMS = [
   {
     img: "/images/items/keyboard.jpg",
     title: "Keychron",
-    seller: "piterpasma",
+    seller: "gorgias",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis lorem neque, et rhoncus ex ornare sit amet. Nam posuere rhoncus purus, malesuada interdum orci molestie efficitur. Sed at dui elit. Suspendisse ultrices justo et ante varius pretium. Maecenas non.",
-    resPrice: 1900,
+    resPrice: 1990,
     endTime: 1630060200000,
     category: "electronics",
 
@@ -71,40 +71,32 @@ const DUMMY_ITEMS = [
   },
 ];
 
-function MainContent() {
+function AuctionDropdown(props) {
   const router = useRouter();
-  const { cate } = router.query;
+  const toItemPage = () => {
+    router.push("/items");
+  };
 
-  let filteredItems = DUMMY_ITEMS;
-
-  if (cate) {
-    filteredItems = DUMMY_ITEMS.filter((item) => item.category === cate);
-  }
-  if (cate === "watchlists") {
-    filteredItems = DUMMY_ITEMS.filter((item) => item.watched);
-    console.log(filteredItems);
-  }
-  // const itemLists = filteredItems
-  //   .slice(1, filteredItems.length - 1)
-  //   .map((product) => <ItemCard item={product} />);
-
-  let itemLists = filteredItems
-    .slice(1, filteredItems.length)
-    .map((product) => <ItemCard item={product} />);
-  if (cate) {
-    itemLists = filteredItems.map((product) => <ItemCard item={product} />);
-  }
   return (
-    <div className="main-content">
-      {!cate && (
-        <div className="main-content__hero">
-          <ItemHero item={filteredItems[0]} />
-        </div>
-      )}
-
-      {itemLists}
-    </div>
+    <Fragment>
+      <div className="user-dropdown user-dropdown--auction">
+        <AuctionDropdownItem
+          auctionImg={DUMMY_ITEMS[0].img}
+          auctionTime={DUMMY_ITEMS[0].endTime}
+          onClickHandler={toItemPage}
+        >
+          {DUMMY_ITEMS[0].title}
+        </AuctionDropdownItem>
+        <AuctionDropdownItem
+          auctionImg={DUMMY_ITEMS[4].img}
+          auctionTime={DUMMY_ITEMS[4].endTime}
+          onClickHandler={toItemPage}
+        >
+          {DUMMY_ITEMS[4].title}
+        </AuctionDropdownItem>
+      </div>
+    </Fragment>
   );
 }
 
-export default MainContent;
+export default AuctionDropdown;

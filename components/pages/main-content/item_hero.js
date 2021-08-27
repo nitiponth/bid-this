@@ -1,7 +1,10 @@
 import Link from "next/link";
+import { useContext } from "react";
 import useTimer from "../../../hooks/useTimer";
+import LayoutContext from "../../../store/layout-context";
 
 function ItemHero(props) {
+  const layoutCtx = useContext(LayoutContext);
   const time = useTimer(props.item.endTime);
 
   let auctionTextClass = "auction-text";
@@ -14,16 +17,23 @@ function ItemHero(props) {
     watchlistsClass = "watch__icon--red";
   }
 
+  const onPlaceBid = () => {
+    layoutCtx.setAuth(true);
+    layoutCtx.setType("bid");
+  };
+
   return (
     <div className="item-hero">
       <div className="item-hero__img-box">
-        <a href="#">
-          <img
-            src={props.item.img}
-            alt={props.item.title}
-            className="item-hero__img"
-          />
-        </a>
+        <Link href="/items">
+          <a>
+            <img
+              src={props.item.img}
+              alt={props.item.title}
+              className="item-hero__img"
+            />
+          </a>
+        </Link>
       </div>
 
       <div className="item-hero__detail">
@@ -50,7 +60,7 @@ function ItemHero(props) {
           </div>
         </div>
 
-        <a href="#" className="btn">
+        <a onClick={onPlaceBid} className="btn">
           Place a bid
         </a>
 

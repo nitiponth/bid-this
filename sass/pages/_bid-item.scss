@@ -146,6 +146,15 @@
           border: none;
           box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
           cursor: pointer;
+
+          transition: transform 0.1s;
+          &:hover {
+            transform: translateY(-2px);
+          }
+
+          &:active {
+            transform: translateY(1px);
+          }
         }
 
         &-minus {

@@ -14,7 +14,7 @@ import {
 function UserLoginDropdown() {
   const router = useRouter();
 
-  const layoutCtx = useContext(LayoutContext);
+  // const layoutCtx = useContext(LayoutContext);
   const authCtx = useContext(AuthContext);
 
   const toProfilePage = () => {
