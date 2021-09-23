@@ -61,10 +61,11 @@
     top: 50%;
     right: 3rem;
     font-size: 3rem;
-    color: var(--color-grey-light-4);
-
+    z-index: 500;
     cursor: pointer;
     user-select: none;
+
+    color: var(--color-grey-light-4);
 
     transition: all 0.2s;
     &:hover {

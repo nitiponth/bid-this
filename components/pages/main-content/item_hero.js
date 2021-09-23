@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useContext } from "react";
+import { Fragment, useContext } from "react";
 import useTimer from "../../../hooks/useTimer";
 import LayoutContext from "../../../store/layout-context";
 
@@ -7,6 +7,10 @@ function ItemHero(props) {
   const layoutCtx = useContext(LayoutContext);
   const time = useTimer(props.item.endTime);
 
+  let timeText = `${time.timerHours}h ${time.timerMinutes}m ${time.timerSeconds}s`;
+  if (props.item.endTime < new Date().toLocaleString("en-Us")) {
+    timeText = "END";
+  }
   let auctionTextClass = "auction-text";
   if (time.timerHours == 0 && time.timerMinutes <= 14) {
     auctionTextClass = "auction-text auction-text--red";
@@ -47,16 +51,27 @@ function ItemHero(props) {
         <div className="item-hero__detail-desc">{props.item.desc}</div>
         <div className="item-hero__detail-auction">
           <div className="item-hero__detail-auction-res">
-            <span className="item-hero__detail-auction-text">Current bid</span>
-            <span className="auction-text">{props.item.resPrice}฿</span>
+            {props.item.lastPrice ? (
+              <Fragment>
+                <span className="item-hero__detail-auction-text">
+                  Current bid
+                </span>
+                <span className="auction-text">{props.item.lastPrice}฿</span>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <span className="item-hero__detail-auction-text">
+                  Reserve bid
+                </span>
+                <span className="auction-text">{props.item.price}฿</span>
+              </Fragment>
+            )}
           </div>
           <div className="item-hero__detail-auction-time">
             <span className="item-hero__detail-auction-text">
               Auction ending in
             </span>
-            <span className={auctionTextClass}>
-              {time.timerHours}h {time.timerMinutes}m {time.timerSeconds}s
-            </span>
+            <span className={auctionTextClass}>{timeText}</span>
           </div>
         </div>
 

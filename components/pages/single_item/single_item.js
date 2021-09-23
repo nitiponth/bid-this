@@ -53,6 +53,14 @@ function SingleItem(props) {
     layoutCtx.setType("bid");
   };
 
+  const bidData = [...props.bidInfo].sort(
+    (a, b) => new Date(b.bidTime) - new Date(a.bidTime)
+  );
+
+  const bidders = bidData.map((bidder) => {
+    return <Bidder info={bidder} />;
+  });
+
   return (
     <div className="single-item">
       <div className="section__img">
@@ -128,12 +136,7 @@ function SingleItem(props) {
 
           <label className="glabel glabel--title">Activity</label>
 
-          <div className="item__activity">
-            <Bidder info={DUMMY_INFO[3]} />
-            <Bidder info={DUMMY_INFO[2]} />
-            <Bidder info={DUMMY_INFO[1]} />
-            <Bidder info={DUMMY_INFO[0]} />
-          </div>
+          <div className="item__activity">{bidders}</div>
         </div>
       </div>
     </div>

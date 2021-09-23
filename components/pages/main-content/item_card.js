@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import useTimer from "../../../hooks/useTimer";
 
 function ItemCard(props) {
   const time = useTimer(props.item.endTime);
+
+  let timeText = `${time.timerHours}h ${time.timerMinutes}m ${time.timerSeconds}s`;
+  if (props.item.endTime < new Date()) {
+    timeText = "END";
+  }
+
   let auctionTextClass = "auction-text--card";
 
   if (time.timerHours == 0 && time.timerMinutes <= 14) {
@@ -48,18 +54,29 @@ function ItemCard(props) {
         <div className="item-card__detail-desc">{props.item.desc}</div>
         <div className="item-card__detail-auction">
           <div className="item-card__detail-auction-res">
-            <span className="item-card__detail-auction-text">Current bid</span>
-            <span className="auction-text--card">{props.item.resPrice}฿</span>
+            {props.item.lastPrice ? (
+              <Fragment>
+                <span className="item-card__detail-auction-text">
+                  Current bid
+                </span>
+                <span className="auction-text--card">
+                  {props.item.lastPrice}฿
+                </span>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <span className="item-card__detail-auction-text">
+                  Reserve bid
+                </span>
+                <span className="auction-text--card">{props.item.price}฿</span>
+              </Fragment>
+            )}
           </div>
           <div className="item-card__detail-auction-time">
             <span className="item-card__detail-auction-text">
               Auction ending in
             </span>
-            <span className={auctionTextClass}>
-              {time.timerComplete ||
-                `${time.timerHours}h ${time.timerMinutes}m ${time.timerSeconds}s`}
-              {time.timerComplete && "END"}
-            </span>
+            <span className={auctionTextClass}>{timeText}</span>
           </div>
         </div>
         <a href="#" className="btn--card">

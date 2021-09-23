@@ -1,8 +1,8 @@
 function Bidder(props) {
   let text = "Bid placed by";
-  if (props.info.type == "lister") {
-    text = "Listed by";
-  }
+  // if (props.info.type == "lister") {
+  //   text = "Listed by";
+  // }
 
   return (
     <div className="bidder">
@@ -10,8 +10,8 @@ function Bidder(props) {
         <a href="#">
           <div className="bid__profile-box">
             <img
-              src={props.info.img}
-              alt={props.info.user}
+              src="/images/users/user1.jpg"
+              alt={props.info.bidder.username}
               className="bid__profile-img"
             />
           </div>
@@ -21,15 +21,16 @@ function Bidder(props) {
         <div className="bid__text-info">
           {text}
           <a href="#" className="bid__text-info--name">
-            @{props.info.user}
+            @{props.info.bidder.username}
           </a>
         </div>
         <div className="bid__text-time">
-          {props.info.date} at {props.info.time}
+          {new Date(props.info.bidTime).toLocaleDateString()} at{" "}
+          {new Date(props.info.bidTime).toLocaleTimeString()}
         </div>
       </div>
       <div className="bid__value">
-        <div>{props.info.value} ฿</div>
+        <div>{props.info.bidPrice} ฿</div>
         <div>&nbsp;</div>
       </div>
     </div>

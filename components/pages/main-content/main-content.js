@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useQuery, gql, useSubscription } from "@apollo/client";
 import ItemCard from "./item_card";
 import ItemHero from "./item_hero";
 
@@ -71,19 +72,76 @@ const DUMMY_ITEMS = [
   },
 ];
 
+const QUERY = gql`
+  query {
+    getProducts {
+      id
+      title
+      desc
+      start
+      end
+      price {
+        initial
+        current
+      }
+      seller {
+        username
+      }
+    }
+  }
+`;
+
 function MainContent() {
   const router = useRouter();
   const { cate } = router.query;
 
-  let filteredItems = DUMMY_ITEMS;
+  const { data, loading, error } = useQuery(QUERY);
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
+
+  if (error) {
+    console.error(error);
+    return null;
+  }
+
+  const products = data.getProducts
+    .filter((product) => product.end > new Date().toLocaleString("en-US"))
+    .map((product) => {
+      return {
+        key: product.id,
+        title: product.title,
+        img: "https://images.unsplash.com/photo-1587033411391-5d9e51cce126?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
+        desc: product.desc,
+        price: product.price.initial,
+        lastPrice: product.price.current,
+        endTime: product.end,
+        seller: product.seller.username,
+      };
+    });
+
+  let filteredItems = products;
+
+  if (filteredItems.length === 0) {
+    return (
+      <div className="main-content">
+        {!cate && (
+          <div className="main-content__hero">
+            <p style={{ textAlign: "center" }}>No product for auction</p>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   if (cate) {
     filteredItems = DUMMY_ITEMS.filter((item) => item.category === cate);
   }
-  if (cate === "watchlists") {
-    filteredItems = DUMMY_ITEMS.filter((item) => item.watched);
-    console.log(filteredItems);
-  }
+  // if (cate === "watchlists") {
+  //   filteredItems = DUMMY_ITEMS.filter((item) => item.watched);
+  //   console.log(filteredItems);
+  // }
   // const itemLists = filteredItems
   //   .slice(1, filteredItems.length - 1)
   //   .map((product) => <ItemCard item={product} />);
@@ -94,6 +152,7 @@ function MainContent() {
   if (cate) {
     itemLists = filteredItems.map((product) => <ItemCard item={product} />);
   }
+
   return (
     <div className="main-content">
       {!cate && (
