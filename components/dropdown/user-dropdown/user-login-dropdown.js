@@ -3,7 +3,6 @@ import { Fragment, useContext } from "react";
 
 import UserDropdownItem from "./user-dropdown-item";
 
-import LayoutContext from "../../../store/layout-context";
 import AuthContext from "../../../store/auth-context";
 import {
   HiOutlineLogout,
@@ -11,7 +10,7 @@ import {
   HiOutlineSupport,
 } from "react-icons/hi";
 
-function UserLoginDropdown() {
+function UserLoginDropdown(props) {
   const router = useRouter();
 
   // const layoutCtx = useContext(LayoutContext);
@@ -29,7 +28,9 @@ function UserLoginDropdown() {
   };
 
   const toLogoutHandler = () => {
-    authCtx.toLogin();
+    authCtx.logout();
+    router.push("/");
+    router.reload();
   };
 
   return (

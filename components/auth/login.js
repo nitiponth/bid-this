@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Form, Field, Formik } from "formik";
 import AuthContext from "../../store/auth-context";
 import LayoutContext from "../../store/layout-context";
 
@@ -15,10 +16,8 @@ function Login() {
     layoutCtx.setType("register");
   };
 
-  const onLoginHander = (event) => {
-    event.preventDefault();
-    authCtx.toLogin();
-
+  const onLoginHander = async ({ email, password }) => {
+    authCtx.login(email, password);
     layoutCtx.setAuth(false);
     layoutCtx.setType(null);
   };
@@ -44,33 +43,43 @@ function Login() {
       </div>
 
       <div className="login__content">
-        <form className="login__form" onSubmit={onLoginHander}>
-          <label htmlFor="email" className="login__form--text">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Email Address"
-            className="login__form-input"
-          />
-          <label htmlFor="password" className="login__form--text">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Password"
-            className="login__form-input"
-          />
-          <a href="#" className="login__link login__link--forgot">
-            Forgot password?
-          </a>
+        <Formik
+          initialValues={{
+            email: "",
+            password: "",
+          }}
+          onSubmit={onLoginHander}
+        >
+          <Form className="login__form">
+            <label htmlFor="email" className="login__form--text">
+              Email
+            </label>
+            <Field
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Email Address"
+              className="login__form-input"
+            />
+            <label htmlFor="password" className="login__form--text">
+              Password
+            </label>
+            <Field
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Password"
+              className="login__form-input"
+            />
+            <a href="#" className="login__link login__link--forgot">
+              Forgot password?
+            </a>
 
-          <button type="submit" className="login__btn">
-            Login
-          </button>
-        </form>
+            <button type="submit" className="login__btn">
+              Login
+            </button>
+          </Form>
+        </Formik>
       </div>
       <div className="login__footer">
         Don't have an account?

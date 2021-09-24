@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useQuery, gql, useSubscription } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 
 import Layout from "../../components/layout/layout";
 import SingleItem from "../../components/pages/single_item/single_item";
@@ -73,14 +73,14 @@ const BIDPLACED_SUB = gql`
 function SingleItemPage() {
   const { data, loading, error, subscribeToMore } = useQuery(PRODUCT_QUERY, {
     variables: {
-      getProductByIdProductId: "614bf9d137b6c817e58950da",
+      getProductByIdProductId: "614c0349fe56d1b17840b3d8",
     },
   });
 
   useEffect(() => {
     subscribeToMore({
       document: BIDPLACED_SUB,
-      variables: { bidPlacedProductId: "614bf9d137b6c817e58950da" },
+      variables: { bidPlacedProductId: "614c0349fe56d1b17840b3d8" },
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
         const product = subscriptionData.data.bidPlaced.product;
@@ -91,11 +91,13 @@ function SingleItemPage() {
             price: {
               ...product.price,
             },
+            end: product.end,
+            bids: product.bids,
           },
         };
       },
     });
-  }, []);
+  }, [subscribeToMore]);
 
   if (loading) return null;
   if (error) return `Error! ${error}`;

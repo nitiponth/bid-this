@@ -21,7 +21,8 @@
     "react-dropzone": "^11.3.4",
     "react-icons": "^4.2.0",
     "sass": "^1.37.0",
-    "subscriptions-transport-ws": "^0.9.19"
+    "subscriptions-transport-ws": "^0.9.19",
+    "swr": "^1.0.1"
   },
   "devDependencies": {
     "eslint": "7.32.0",

@@ -1,4 +1,6 @@
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect, useMemo, useState } from "react";
+import { useQuery, gql } from "@apollo/client";
+
 import Link from "next/link";
 
 import UserDropdown from "../dropdown/user-dropdown/user-dropdown";
@@ -8,8 +10,45 @@ import NavItem from "../navbar/nav-item";
 import AuthContext from "../../store/auth-context";
 import AuctionDropdown from "../dropdown/auction-dropdown/auction-dropdown";
 
+const ME_QUERY = gql`
+  query {
+    me {
+      id
+      username
+      wallet
+    }
+  }
+`;
+
 function MainHeader() {
   const authCtx = useContext(AuthContext);
+  const userIsLoggedIn = authCtx.isLogin;
+
+  const [userData, setUserData] = useState();
+  const { data, loading, error, refetch } = useQuery(ME_QUERY, {
+    fetchPolicy: "network-only",
+  });
+
+  useEffect(() => {
+    if (loading === false && data) {
+      setUserData(data.me);
+    }
+  }, [loading, data, userIsLoggedIn]);
+  // let user = {
+  //   username: "",
+  //   wallet: "",
+  // };
+  // if (authCtx.token) {
+  //   const { data, loading, error } = useQuery(ME_QUERY);
+  //   if (loading) return null;
+  //   if (error) {
+  //     console.log(error);
+  //   }
+  //   if (data) {
+  //     user = data.me;
+  //   }
+  // }
+
   return (
     <Fragment>
       <Link href="/">
@@ -47,12 +86,12 @@ function MainHeader() {
             <AuctionDropdown />
           </NavItem>
         </div>
-        {authCtx.isLogin ? (
+        {userData ? (
           <div className="user-nav__user-box">
             <NavItem
-              isLogin={authCtx.isLogin}
-              user={"gorgias"}
-              credits={5000}
+              isLogin={true}
+              user={userData.username}
+              credits={userData.wallet}
               profile="/images/users/user2.jpg"
             >
               <UserLoginDropdown />
