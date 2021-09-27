@@ -17,9 +17,11 @@ function Login() {
   };
 
   const onLoginHander = async ({ email, password }) => {
-    authCtx.login(email, password);
-    layoutCtx.setAuth(false);
-    layoutCtx.setType(null);
+    const isDone = await authCtx.login(email, password);
+    if (isDone) {
+      layoutCtx.setAuth(false);
+      layoutCtx.setType(null);
+    }
   };
 
   return (

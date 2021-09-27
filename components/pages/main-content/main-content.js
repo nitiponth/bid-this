@@ -111,6 +111,7 @@ function MainContent() {
     .map((product) => {
       return {
         key: product.id,
+        productId: product.id,
         title: product.title,
         img: "https://images.unsplash.com/photo-1587033411391-5d9e51cce126?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
         desc: product.desc,

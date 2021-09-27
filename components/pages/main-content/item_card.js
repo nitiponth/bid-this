@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import Link from "next/dist/client/link";
 import useTimer from "../../../hooks/useTimer";
 
 function ItemCard(props) {
@@ -21,6 +22,9 @@ function ItemCard(props) {
   if (props.item.watched) {
     watchlistsClass = "watch__icon--red";
   }
+
+  const link = `/items/${props.item.productId}`;
+
   return (
     <div className="item-card">
       <div className="watchlists--card">
@@ -34,19 +38,23 @@ function ItemCard(props) {
         </div>
       </div>
       <div className="item-card__img-box">
-        <a href="#">
-          <img
-            src={props.item.img}
-            alt={props.item.title}
-            className="item-card__img"
-          />
-        </a>
+        <Link href={link}>
+          <a>
+            <img
+              src={props.item.img}
+              alt={props.item.title}
+              className="item-card__img"
+            />
+          </a>
+        </Link>
       </div>
 
       <div className="item-card__detail">
-        <a href="#" className="item-card__detail-title">
-          {props.item.title}
-        </a>
+        <Link href={link}>
+          <a href="#" className="item-card__detail-title">
+            {props.item.title}
+          </a>
+        </Link>
         <a href="#" className="item-card__detail-seller">
           <span className="at-sign">@</span>
           {props.item.seller}

@@ -22,7 +22,6 @@ const ME_QUERY = gql`
 
 function MainHeader() {
   const authCtx = useContext(AuthContext);
-  const userIsLoggedIn = authCtx.isLogin;
 
   const [userData, setUserData] = useState();
   const { data, loading, error, refetch } = useQuery(ME_QUERY, {
@@ -31,9 +30,18 @@ function MainHeader() {
 
   useEffect(() => {
     if (loading === false && data) {
-      setUserData(data.me);
+      if (data.me !== null) {
+        setUserData(data.me);
+      }
     }
-  }, [loading, data, userIsLoggedIn]);
+    if (!authCtx.isLogin) {
+      setUserData();
+    }
+  }, [loading, data, authCtx.isLogin]);
+
+  useEffect(() => {
+    refetch();
+  }, [authCtx.isLogin]);
   // let user = {
   //   username: "",
   //   wallet: "",

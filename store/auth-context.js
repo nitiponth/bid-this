@@ -1,13 +1,10 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import useSWR from "swr";
 
 const LOGIN_USER = gql`
   mutation ($loginEmail: String!, $loginPassword: String!) {
     login(email: $loginEmail, password: $loginPassword) {
       token
-      userId
-      expired
     }
   }
 `;
@@ -16,8 +13,6 @@ const ME_QUERY = gql`
   query {
     me {
       id
-      username
-      wallet
     }
   }
 `;
@@ -34,30 +29,29 @@ const AuthContext = createContext({
 export function AuthContextProvider(props) {
   const [login] = useMutation(LOGIN_USER);
 
-  const [userData, setUserData] = useState();
+  const [userId, setUserId] = useState();
   const { data, loading, error, refetch } = useQuery(ME_QUERY, {
     fetchPolicy: "network-only",
   });
 
   useEffect(() => {
     if (loading === false && data) {
-      setUserData(data.me);
+      setUserId(data.me.id);
+    }
+    if (loading === false && error) {
+      setUserId();
+      localStorage.removeItem("token");
+      // localStorage.removeItem("userId");
     }
   }, [loading, data]);
 
-  const userId = userData;
-  let initialToken;
-  if (userId) {
-    initialToken = userId;
-  }
-  const [token, setToken] = useState(initialToken);
-
-  const userIsLoggedIn = !!token;
+  const userIsLoggedIn = !!userId;
 
   const logoutHandler = useCallback(() => {
-    setToken(null);
+    setUserId(null);
     localStorage.removeItem("token");
-    localStorage.removeItem("userId");
+    // localStorage.removeItem("userId");
+    refetch();
   }, []);
 
   const loginHandler = async (email, password) => {
@@ -69,18 +63,20 @@ export function AuthContextProvider(props) {
         },
       });
       localStorage.setItem("token", data.login.token);
-      localStorage.setItem("userId", data.login.userId);
+      // localStorage.setItem("userId", data.login.userId);
 
-      setToken(data.login.userId);
+      setUserId(data.login.userId);
       refetch();
-      console.log("login handler: " + data.login.userId);
     } catch (e) {
       alert(e.message);
+      return false;
     }
+
+    return true;
   };
 
   const context = {
-    token: token,
+    userId: userId,
     isLogin: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,

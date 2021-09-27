@@ -41,6 +41,14 @@
     width: 100%;
   }
 
+  &--disabled-place {
+    &:hover {
+      transform: translateY(0);
+    }
+    cursor: not-allowed;
+    background-color: var(--color-grey-light-4);
+  }
+
   &--w80 {
     display: inline-block;
     width: 80%;

@@ -26,10 +26,12 @@ function ItemHero(props) {
     layoutCtx.setType("bid");
   };
 
+  const link = `/items/${props.item.productId}`;
+
   return (
     <div className="item-hero">
       <div className="item-hero__img-box">
-        <Link href="/items">
+        <Link href={link}>
           <a>
             <img
               src={props.item.img}
@@ -41,7 +43,7 @@ function ItemHero(props) {
       </div>
 
       <div className="item-hero__detail">
-        <Link href="/items">
+        <Link href={link}>
           <a className="item-hero__detail-title">{props.item.title}</a>
         </Link>
         <a href="#" className="item-hero__detail-seller">

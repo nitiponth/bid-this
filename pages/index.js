@@ -34,44 +34,45 @@ export default function Home(props) {
   );
 }
 
-export const getStaticProps = async (ctx) => {
-  const { data } = await client.query({
-    query: gql`
-      query {
-        getProducts {
-          id
-          title
-          desc
-          end
-          price {
-            initial
-            current
-          }
-          seller {
-            username
-          }
-        }
-      }
-    `,
-  });
+// export const getStaticProps = async (ctx) => {
+//   const { data } = await client.query({
+//     query: gql`
+//       query {
+//         getProducts {
+//           id
+//           title
+//           desc
+//           end
+//           price {
+//             initial
+//             current
+//           }
+//           seller {
+//             username
+//           }
+//         }
+//       }
+//     `,
+//   });
 
-  const products = data.getProducts
-    .filter((product) => product.end > new Date().toLocaleString("en-US"))
-    .map((product) => {
-      return {
-        title: product.title,
-        img: "/images/items/model5.jpg",
-        desc: product.desc,
-        price: product.price.initial,
-        lastPrice: product.price.current,
-        endTime: product.end,
-        seller: product.seller.username,
-      };
-    });
+//   const products = data.getProducts
+//     .filter((product) => product.end > new Date().toLocaleString("en-US"))
+//     .map((product) => {
+//       return {
+//         productId: product.id,
+//         title: product.title,
+//         img: "/images/items/model5.jpg",
+//         desc: product.desc,
+//         price: product.price.initial,
+//         lastPrice: product.price.current,
+//         endTime: product.end,
+//         seller: product.seller.username,
+//       };
+//     });
 
-  return {
-    props: {
-      products: products,
-    },
-  };
-};
+//   return {
+//     props: {
+//       products: products,
+//     },
+//   };
+// };

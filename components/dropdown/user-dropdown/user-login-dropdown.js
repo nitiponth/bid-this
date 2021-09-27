@@ -30,7 +30,7 @@ function UserLoginDropdown(props) {
   const toLogoutHandler = () => {
     authCtx.logout();
     router.push("/");
-    router.reload();
+    // router.reload();
   };
 
   return (

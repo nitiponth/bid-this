@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import useTimer from "../../../hooks/useTimer";
 import LayoutContext from "../../../store/layout-context";
 import ItemsDropdown from "../../dropdown/items-dropdown/items-dropdown";
@@ -8,45 +8,18 @@ import Slider from "../../slider/slider";
 
 import Bidder from "./bidder";
 
-const DUMMY_INFO = [
-  {
-    img: "/images/users/user4.jpg",
-    user: "katerine",
-    date: "Aug 27, 2021",
-    time: "1:18pm",
-    value: 1000,
-    type: "lister",
-  },
-  {
-    img: "/images/users/user2.jpg",
-    user: "oizo3000",
-    date: "Aug 27, 2021",
-    time: "1:32pm",
-    value: 1200,
-    type: "bidder",
-  },
-  {
-    img: "/images/users/user3.jpg",
-    user: "nikita",
-    date: "Aug 27, 2021",
-    time: "1:40pm",
-    value: 1800,
-    type: "bidder",
-  },
-  {
-    img: "/images/users/user1.jpg",
-    user: "cassiopeus",
-    date: "Aug 27, 2021",
-    time: "1:50pm",
-    value: 1900,
-    type: "bidder",
-  },
-];
-
 function SingleItem(props) {
   const layoutCtx = useContext(LayoutContext);
 
   const time = useTimer(props.item.endTime);
+  const endTime = new Date(props.item.endTime);
+  const [isEnd, setIsEnd] = useState(false);
+
+  useEffect(() => {
+    if (endTime < new Date()) {
+      setIsEnd(true);
+    }
+  }, [endTime]);
 
   const onPlaceBid = () => {
     layoutCtx.setAuth(true);
@@ -78,7 +51,7 @@ function SingleItem(props) {
         </div>
         <div className="floatbox--popup">
           <PopupItem
-            icon="images/SVG/dots-three-horizontal.svg"
+            icon="/images/SVG/dots-three-horizontal.svg"
             style="floatbox--popup-img"
           >
             <ItemsDropdown />
@@ -108,7 +81,11 @@ function SingleItem(props) {
         <div className="item__auction">
           <div className="item__bidding">
             <div className="item__bidding-bid">
-              <label className="glabel">Current bid</label>
+              {!isEnd ? (
+                <label className="glabel">Current bid</label>
+              ) : (
+                <label className="glabel">End Price</label>
+              )}
               <div className="item__bidding-bid--price">
                 {props.item.resPrice} ฿
               </div>
@@ -117,20 +94,29 @@ function SingleItem(props) {
               <label className="glabel">Auction ending in</label>
               <div className="item__bidding-time-box">
                 <div className="item__bidding-time--text">
-                  {time.timerHours}h
+                  {!isEnd ? `${time.timerHours}` : `-- `}h
                 </div>
                 <div className="item__bidding-time--text">
-                  {time.timerMinutes}m
+                  {!isEnd ? `${time.timerMinutes}` : `-- `}m
                 </div>
                 <div className="item__bidding-time--text">
-                  {time.timerSeconds}s
+                  {!isEnd ? `${time.timerSeconds}` : `-- `}s
                 </div>
               </div>
             </div>
             <div className="item__bidding-btn">
-              <a onClick={onPlaceBid} className="btn btn--single-item">
-                Place a bid
-              </a>
+              {!isEnd ? (
+                <a onClick={onPlaceBid} className="btn btn--single-item">
+                  Place a bid
+                </a>
+              ) : (
+                <a
+                  onClick={onPlaceBid}
+                  className="btn btn--single-item btn--disabled-place"
+                >
+                  Place a bid
+                </a>
+              )}
             </div>
           </div>
 
