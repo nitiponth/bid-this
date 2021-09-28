@@ -6,7 +6,7 @@ function ItemCard(props) {
   const time = useTimer(props.item.endTime);
 
   let timeText = `${time.timerHours}h ${time.timerMinutes}m ${time.timerSeconds}s`;
-  if (props.item.endTime < new Date()) {
+  if (props.item.endTime < new Date().toLocaleDateString("en-US")) {
     timeText = "END";
   }
 

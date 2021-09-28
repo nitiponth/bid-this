@@ -16,6 +16,7 @@ const ME_QUERY = gql`
       id
       username
       wallet
+      profile
     }
   }
 `;
@@ -42,20 +43,6 @@ function MainHeader() {
   useEffect(() => {
     refetch();
   }, [authCtx.isLogin]);
-  // let user = {
-  //   username: "",
-  //   wallet: "",
-  // };
-  // if (authCtx.token) {
-  //   const { data, loading, error } = useQuery(ME_QUERY);
-  //   if (loading) return null;
-  //   if (error) {
-  //     console.log(error);
-  //   }
-  //   if (data) {
-  //     user = data.me;
-  //   }
-  // }
 
   return (
     <Fragment>
@@ -100,9 +87,13 @@ function MainHeader() {
               isLogin={true}
               user={userData.username}
               credits={userData.wallet}
-              profile="/images/users/user2.jpg"
+              profile={
+                userData.profile
+                  ? userData.profile
+                  : "/images/users/no-profile.jpg"
+              }
             >
-              <UserLoginDropdown />
+              <UserLoginDropdown user={userData} />
             </NavItem>
           </div>
         ) : (

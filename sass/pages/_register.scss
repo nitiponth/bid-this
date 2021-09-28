@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
 
     &-box {
       width: 15rem;
@@ -30,6 +30,24 @@
       text-transform: uppercase;
       color: var(--color-grey-dark-3);
     }
+  }
+
+  &__errors {
+    height: 5rem;
+    width: 85%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    padding: 4rem 2rem;
+    // border: 2px solid salmon;
+    border-radius: 0.5rem;
+    background-color: rgb(255, 198, 191);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    font-size: 1.5rem;
+    color: var(--color-grey-dark-3);
   }
 
   &__form {
@@ -111,6 +129,20 @@
     &:active {
       transform: translateY(1px);
       box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+      background-color: var(--color-grey-light-4);
+      &:hover {
+        transform: none;
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+      }
+
+      &:active {
+        transform: none;
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+      }
     }
   }
 

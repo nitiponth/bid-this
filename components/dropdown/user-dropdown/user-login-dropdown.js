@@ -17,7 +17,7 @@ function UserLoginDropdown(props) {
   const authCtx = useContext(AuthContext);
 
   const toProfilePage = () => {
-    router.push("/users");
+    router.push(`/users/${authCtx.userId}`);
   };
   const toEditProfilePage = () => {
     router.push("/users/edit");
@@ -37,7 +37,11 @@ function UserLoginDropdown(props) {
     <Fragment>
       <div className="user-login-dropdown">
         <UserDropdownItem
-          leftProfile={"/images/users/user2.jpg"}
+          leftProfile={
+            props.user.profile
+              ? props.user.profile
+              : "/images/users/no-profile.jpg"
+          }
           onClickHandler={toProfilePage}
         >
           View Your Profile

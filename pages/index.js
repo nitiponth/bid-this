@@ -11,8 +11,8 @@ import MainContent from "../components/pages/main-content/main-content";
 import ClientOnly from "../components/ClientOnly";
 
 export default function Home(props) {
-  const [showBackdrop, setShowBackdrop] = useState(false);
-  const [bidLayout, setBidLayout] = useState();
+  // const [showBackdrop, setShowBackdrop] = useState(false);
+  // const [bidLayout, setBidLayout] = useState();
 
   return (
     <Fragment>
@@ -24,7 +24,7 @@ export default function Home(props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Backdrop show={showBackdrop}>{bidLayout && <BidItem />}</Backdrop>
+      {/* <Backdrop show={showBackdrop}>{bidLayout && <BidItem />}</Backdrop> */}
       <Layout>
         <ClientOnly>
           <MainContent />
@@ -33,46 +33,3 @@ export default function Home(props) {
     </Fragment>
   );
 }
-
-// export const getStaticProps = async (ctx) => {
-//   const { data } = await client.query({
-//     query: gql`
-//       query {
-//         getProducts {
-//           id
-//           title
-//           desc
-//           end
-//           price {
-//             initial
-//             current
-//           }
-//           seller {
-//             username
-//           }
-//         }
-//       }
-//     `,
-//   });
-
-//   const products = data.getProducts
-//     .filter((product) => product.end > new Date().toLocaleString("en-US"))
-//     .map((product) => {
-//       return {
-//         productId: product.id,
-//         title: product.title,
-//         img: "/images/items/model5.jpg",
-//         desc: product.desc,
-//         price: product.price.initial,
-//         lastPrice: product.price.current,
-//         endTime: product.end,
-//         seller: product.seller.username,
-//       };
-//     });
-
-//   return {
-//     props: {
-//       products: products,
-//     },
-//   };
-// };

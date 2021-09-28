@@ -6,40 +6,55 @@ import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
 
 import ItemCard from "../main-content/item_card";
 
-const DUMMY_ITEMS = [
-  {
-    img: "/images/items/keyboard.jpg",
-    title: "Keychron",
-    seller: "piterpasma",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis lorem neque, et rhoncus ex ornare sit amet. Nam posuere rhoncus purus, malesuada interdum orci molestie efficitur. Sed at dui elit. Suspendisse ultrices justo et ante varius pretium. Maecenas non.",
-    resPrice: 1990,
-    endTime: 1630060200000,
-    category: "electronics",
+// const DUMMY_ITEMS = [
+//   {
+//     img: "/images/items/keyboard.jpg",
+//     title: "Keychron",
+//     seller: "piterpasma",
+//     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis lorem neque, et rhoncus ex ornare sit amet. Nam posuere rhoncus purus, malesuada interdum orci molestie efficitur. Sed at dui elit. Suspendisse ultrices justo et ante varius pretium. Maecenas non.",
+//     resPrice: 1990,
+//     endTime: 1630060200000,
+//     category: "electronics",
 
-    watched: true,
-  },
-];
+//     watched: true,
+//   },
+// ];
 
 function UserInfo(props) {
-  const [userVerify, setUserVerify] = useState(true);
+  const [userVerify, setUserVerify] = useState(false);
 
   const authCtx = useContext(AuthContext);
+
+  const productsList = props.productsData.map((product) => {
+    const productData = {
+      img: "/images/items/keyboard.jpg",
+      title: product.title,
+      seller: product.seller.username,
+      desc: product.desc,
+      price: product.price.initial,
+      lastPrice: product.price.current,
+      endTime: product.end,
+    };
+    return <ItemCard item={productData} key={product.id} />;
+  });
+
+  const isOwner = authCtx.userId === props.userData.userId;
   return (
     <div className="user-info">
       <div
         className="banner"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url("/images/users/bg-cover1.jpg")`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url(${props.userData.cover})`,
         }}
       >
         <div className="banner__profile">
           <img
-            src="images/users/user2.jpg"
-            alt="user profile"
+            src={props.userData.profile}
+            alt={props.userData.username}
             className="banner__profile-img"
           />
         </div>
-        {authCtx.isLogin ? (
+        {isOwner ? (
           <Link href="/users/edit">
             <a className="banner__btn">Edit</a>
           </Link>
@@ -50,11 +65,11 @@ function UserInfo(props) {
       <div className="info">
         <div className="info__name">
           <div className="info__name-display">
-            {"Piter"} {"Pasma"}{" "}
+            {props.userData.name} {props.userData.last}{" "}
             {userVerify && (
               <span className="info__name-verify">
                 <img
-                  src="images/ios-icon/check.png"
+                  src="/images/ios-icon/check.png"
                   alt="verify"
                   className="info__name-verify-img"
                 />
@@ -62,7 +77,10 @@ function UserInfo(props) {
             )}
           </div>
           <div className="info__name-username">
-            @ <span className="info__name-username--dec">{"piterpasma"}</span>
+            @{" "}
+            <span className="info__name-username--dec">
+              {props.userData.username}
+            </span>
           </div>
         </div>
         <div className="info__social">
@@ -77,30 +95,16 @@ function UserInfo(props) {
         </div>
         <div className="info__desc">
           <div className="info__desc-header">Description</div>
-          <p className="info__desc-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-            magna odio, euismod eget lacinia a, dapibus vitae nunc. Cras
-            lobortis sagittis lectus quis dictum. Nam scelerisque ullamcorper
-            mi, ut volutpat orci. Sed malesuada imperdiet ante. Suspendisse non
-            pharetra ipsum. Integer consectetur enim tortor, eget convallis ex
-            tincidunt ac. Mauris vitae urna lorem. Sed in neque et felis euismod
-            semper. Nulla ac nunc vitae dui blandit gravida in sed erat. Etiam
-            ut arcu velit.
-          </p>
+          <p className="info__desc-text">{props.userData.desc}</p>
         </div>
         <div className="info__joined">
           <div className="info__joined-header">Joined</div>
           <div className="info__joined-date">April 2021</div>
         </div>
         <div className="info__popup">
-          <PopupItem icon="images/SVG/dots-three-horizontal.svg">
+          <PopupItem icon="/images/SVG/dots-three-horizontal.svg">
             <PopupDropdown />
           </PopupItem>
-          {/* <img
-            src="images/SVG/dots-three-horizontal.svg"
-            alt="three dot"
-            className="floatbox--popup-img"
-          /> */}
         </div>
         <div className="legal">
           &copy; 2021 by <a href="#">N. Do San.</a> <br></br>All rights
@@ -110,7 +114,8 @@ function UserInfo(props) {
       <div className="auction-info">
         <nav className="auction-info__nav">
           <li className="auction-info__nav-list auction-info__nav-list--actived">
-            Auctioning <span className="reddot">{1}</span>
+            Auctioning{" "}
+            <span className="reddot">{props.productsData.length}</span>
           </li>
           <li className="auction-info__nav-list ">
             Auctioned <span className="reddot reddot--dark">{6}</span>
@@ -119,16 +124,14 @@ function UserInfo(props) {
             Bidded <span className="reddot reddot--dark">{0}</span>
           </li>
         </nav>
-        {authCtx.isLogin && (
+        {isOwner && (
           <Link href="/users/add-item">
             <div className="auction-info__add-items">
               Click to add your items to the auction
             </div>
           </Link>
         )}
-        <div className="auction-info__list-items">
-          <ItemCard item={DUMMY_ITEMS[0]} />
-        </div>
+        <div className="auction-info__list-items">{productsList}</div>
       </div>
     </div>
   );

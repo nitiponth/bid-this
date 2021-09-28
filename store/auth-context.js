@@ -9,6 +9,12 @@ const LOGIN_USER = gql`
   }
 `;
 
+const LOGOUT_USER = gql`
+  mutation {
+    logout
+  }
+`;
+
 const ME_QUERY = gql`
   query {
     me {
@@ -17,17 +23,17 @@ const ME_QUERY = gql`
   }
 `;
 
-// let logoutTimer;
-
 const AuthContext = createContext({
   isLogin: false,
   token: "",
+  userId: "",
   login: (token) => {},
   logout: () => {},
 });
 
 export function AuthContextProvider(props) {
   const [login] = useMutation(LOGIN_USER);
+  const [logout] = useMutation(LOGOUT_USER);
 
   const [userId, setUserId] = useState();
   const { data, loading, error, refetch } = useQuery(ME_QUERY, {
@@ -41,16 +47,20 @@ export function AuthContextProvider(props) {
     if (loading === false && error) {
       setUserId();
       localStorage.removeItem("token");
-      // localStorage.removeItem("userId");
     }
   }, [loading, data]);
 
   const userIsLoggedIn = !!userId;
 
-  const logoutHandler = useCallback(() => {
+  const logoutHandler = useCallback(async () => {
+    try {
+      const { data } = await logout();
+      console.log(data.logout);
+    } catch (e) {
+      console.log(e.message);
+    }
     setUserId(null);
     localStorage.removeItem("token");
-    // localStorage.removeItem("userId");
     refetch();
   }, []);
 
@@ -63,7 +73,6 @@ export function AuthContextProvider(props) {
         },
       });
       localStorage.setItem("token", data.login.token);
-      // localStorage.setItem("userId", data.login.userId);
 
       setUserId(data.login.userId);
       refetch();
