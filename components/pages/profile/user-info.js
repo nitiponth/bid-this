@@ -1,5 +1,7 @@
+import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useRouter } from "next/router";
+import { useContext, useState, useEffect } from "react";
 import AuthContext from "../../../store/auth-context";
 import PopupDropdown from "../../dropdown/profile-dropdown/profile-dropdown";
 import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
@@ -20,12 +22,81 @@ import ItemCard from "../main-content/item_card";
 //   },
 // ];
 
+const AUCTIONING_QUERY = gql`
+  query ($getProductsByUserIdUserId: ID!, $getProductsByUserIdFilter: String) {
+    getProductsByUserId(
+      userId: $getProductsByUserIdUserId
+      filter: $getProductsByUserIdFilter
+    ) {
+      id
+      title
+      desc
+      seller {
+        username
+      }
+      price {
+        initial
+        current
+      }
+      end
+    }
+  }
+`;
+
 function UserInfo(props) {
+  const authCtx = useContext(AuthContext);
+  const router = useRouter();
+  const { lists } = router.query;
   const [userVerify, setUserVerify] = useState(false);
 
-  const authCtx = useContext(AuthContext);
+  const [productsData, setProductsData] = useState();
 
-  const productsList = props.productsData.map((product) => {
+  let variables;
+  if (!lists || lists === "Auctioning") {
+    variables = {
+      getProductsByUserIdUserId: props.userData.userId,
+      getProductsByUserIdFilter: null,
+    };
+  }
+  if (lists === "Auctioned") {
+    variables = {
+      getProductsByUserIdUserId: props.userData.userId,
+      getProductsByUserIdFilter: "AUCTIONED",
+    };
+  }
+  if (lists === "Bidded") {
+    variables = {
+      getProductsByUserIdUserId: props.userData.userId,
+      getProductsByUserIdFilter: "BIDDED",
+    };
+  }
+
+  const { data, loading, error, refetch } = useQuery(AUCTIONING_QUERY, {
+    ssr: false,
+    variables,
+  });
+
+  useEffect(() => {
+    if (loading === false && data) {
+      if (data.getProductsByUserId !== null) {
+        // console.log(data);
+        setProductsData(data.getProductsByUserId);
+      }
+      if (error) {
+        console.log(error);
+      }
+    }
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [lists]);
+
+  if (!productsData && !error) {
+    return <p>Loading....</p>;
+  }
+
+  const productsList = productsData.map((product) => {
     const productData = {
       img: "/images/items/keyboard.jpg",
       title: product.title,
@@ -37,6 +108,8 @@ function UserInfo(props) {
     };
     return <ItemCard item={productData} key={product.id} />;
   });
+
+  const joinedMonth = new Date(props.userData.join);
 
   const isOwner = authCtx.userId === props.userData.userId;
   return (
@@ -99,7 +172,12 @@ function UserInfo(props) {
         </div>
         <div className="info__joined">
           <div className="info__joined-header">Joined</div>
-          <div className="info__joined-date">April 2021</div>
+          <div className="info__joined-date">
+            {joinedMonth.toLocaleString("default", {
+              month: "long",
+              year: "numeric",
+            })}
+          </div>
         </div>
         <div className="info__popup">
           <PopupItem icon="/images/SVG/dots-three-horizontal.svg">
@@ -107,24 +185,62 @@ function UserInfo(props) {
           </PopupItem>
         </div>
         <div className="legal">
-          &copy; 2021 by <a href="#">N. Do San.</a> <br></br>All rights
+          &copy; 2021 by <a href="1">N. Do San.</a> <br></br>All rights
           reserved.
         </div>
       </div>
       <div className="auction-info">
         <nav className="auction-info__nav">
-          <li className="auction-info__nav-list auction-info__nav-list--actived">
-            Auctioning{" "}
-            <span className="reddot">{props.productsData.length}</span>
-          </li>
-          <li className="auction-info__nav-list ">
-            Auctioned <span className="reddot reddot--dark">{6}</span>
-          </li>
-          <li className="auction-info__nav-list ">
-            Bidded <span className="reddot reddot--dark">{0}</span>
-          </li>
+          {!lists || lists === "Auctioning" ? (
+            <Link href={`/users/${props.userData.userId}?lists=Auctioning`}>
+              <li className="auction-info__nav-list auction-info__nav-list--actived">
+                Auctioning <span className="reddot">{productsData.length}</span>
+              </li>
+            </Link>
+          ) : (
+            <Link href={`/users/${props.userData.userId}?lists=Auctioning`}>
+              <li className="auction-info__nav-list">
+                Auctioning{" "}
+                <span className="reddot reddot--dark">
+                  {props.auctionData.auctioning}
+                </span>
+              </li>
+            </Link>
+          )}
+          {lists === "Auctioned" ? (
+            <Link href={`/users/${props.userData.userId}?lists=Auctioned`}>
+              <li className="auction-info__nav-list auction-info__nav-list--actived">
+                Auctioned <span className="reddot">{productsData.length}</span>
+              </li>
+            </Link>
+          ) : (
+            <Link href={`/users/${props.userData.userId}?lists=Auctioned`}>
+              <li className="auction-info__nav-list ">
+                Auctioned{" "}
+                <span className="reddot reddot--dark">
+                  {props.auctionData.auctioned}
+                </span>
+              </li>
+            </Link>
+          )}
+          {lists === "Bidded" ? (
+            <Link href={`/users/${props.userData.userId}?lists=Bidded`}>
+              <li className="auction-info__nav-list auction-info__nav-list--actived">
+                Bidded <span className="reddot">{productsData.length}</span>
+              </li>
+            </Link>
+          ) : (
+            <Link href={`/users/${props.userData.userId}?lists=Bidded`}>
+              <li className="auction-info__nav-list ">
+                Bidded
+                <span className="reddot reddot--dark">
+                  {props.auctionData.bidded}
+                </span>
+              </li>
+            </Link>
+          )}
         </nav>
-        {isOwner && (
+        {isOwner && lists === "Aucitoning" && (
           <Link href="/users/add-item">
             <div className="auction-info__add-items">
               Click to add your items to the auction

@@ -844,6 +844,7 @@ body {
           flex-direction: column;
   padding: 2rem 2.5rem;
   line-height: 1;
+  row-gap: 0.5rem;
 }
 
 .item-card__detail-title:link, .item-card__detail-title:visited {
@@ -1426,12 +1427,14 @@ body {
 }
 
 .user-info .banner__profile-img {
-  border: 6px solid white;
-  border-radius: 100%;
+  background: white;
+  border-radius: 50%;
+  border: 0.6rem solid white;
   width: 17rem;
   height: 17rem;
   -o-object-fit: cover;
      object-fit: cover;
+  overflow: hidden;
 }
 
 .user-info .banner__btn {

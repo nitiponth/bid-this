@@ -15,19 +15,12 @@ const USER_QUERY = gql`
       profile
       cover
       desc
-      products {
-        id
-        title
-        seller {
-          username
-        }
-        desc
-        price {
-          initial
-          current
-        }
-        end
+      auctionCount {
+        auctioning
+        auctioned
+        bidded
       }
+      join
     }
   }
 `;
@@ -54,15 +47,18 @@ function UserInformationPage() {
     last: rawData.name.last,
     username: rawData.username,
     desc: rawData.desc ? rawData.desc : "",
-    profile: rawData.profile ? rawData.profile : "/images/users/no-profile.jpg",
+    profile: rawData.profile
+      ? rawData.profile
+      : "/images/users/no-profile-2.png",
     cover: rawData.cover ? rawData.cover : "",
+    join: rawData.join,
   };
 
-  const products = rawData.products;
+  const auction = rawData.auctionCount;
 
   return (
     <NoSideLayout>
-      <UserInfo userData={user} productsData={products} />
+      <UserInfo userData={user} auctionData={auction} />
     </NoSideLayout>
   );
 }

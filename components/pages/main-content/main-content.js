@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useQuery, gql, useSubscription } from "@apollo/client";
 import ItemCard from "./item_card";
 import ItemHero from "./item_hero";
+import { useEffect, useState } from "react";
 
 const DUMMY_ITEMS = [
   {
@@ -72,9 +73,9 @@ const DUMMY_ITEMS = [
   },
 ];
 
-const QUERY = gql`
+const PRODUCTS_QUERY = gql`
   query {
-    getProducts {
+    getActivedProducts {
       id
       title
       desc
@@ -91,23 +92,58 @@ const QUERY = gql`
   }
 `;
 
+const PRODUCTS_CHANGED_SUB = gql`
+  subscription {
+    productsChanged
+  }
+`;
+
 function MainContent() {
   const router = useRouter();
   const { cate } = router.query;
+  const [productsData, setProductData] = useState();
 
-  const { data, loading, error } = useQuery(QUERY);
+  const { data, loading, error, refetch, subscribeToMore } = useQuery(
+    PRODUCTS_QUERY,
+    {
+      ssr: false,
+      pollInterval: 10000,
+    }
+  );
 
-  if (loading) {
-    return <h2>Loading...</h2>;
+  useEffect(() => {
+    if (loading === false && data) {
+      if (data.getActivedProducts !== null) {
+        setProductData(data.getActivedProducts);
+      }
+      if (error) {
+        console.log(error);
+      }
+    }
+  });
+
+  useEffect(() => {
+    subscribeToMore({
+      document: PRODUCTS_CHANGED_SUB,
+
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        refetch();
+        return prev;
+      },
+    });
+  });
+
+  if (!productsData && !error) {
+    return <p>Loading....</p>;
   }
 
-  if (error) {
-    console.error(error);
-    return null;
-  }
-
-  const products = data.getProducts
-    .filter((product) => product.end > new Date().toLocaleString("en-US"))
+  const products = productsData
+    .filter(
+      (product) =>
+        product.end > new Date().toLocaleString("en-US") &&
+        product.start <= new Date().toDateString("en-Us")
+    )
     .map((product) => {
       return {
         key: product.id,

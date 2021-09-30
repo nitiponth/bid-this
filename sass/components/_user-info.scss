@@ -21,12 +21,16 @@
       position: absolute;
       bottom: -6.5rem;
       left: 5rem;
+      // background: white;
+
       &-img {
-        border: 6px solid white;
-        border-radius: 100%;
+        background: white;
+        border-radius: 50%;
+        border: 0.6rem solid white;
         width: 17rem;
         height: 17rem;
         object-fit: cover;
+        overflow: hidden;
       }
     }
 

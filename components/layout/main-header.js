@@ -21,13 +21,23 @@ const ME_QUERY = gql`
   }
 `;
 
+const WALLET_SUBSCRIPTION = gql`
+  subscription ($walletChangedUserId: ID!) {
+    walletChanged(userId: $walletChangedUserId)
+  }
+`;
+
 function MainHeader() {
   const authCtx = useContext(AuthContext);
 
   const [userData, setUserData] = useState();
-  const { data, loading, error, refetch } = useQuery(ME_QUERY, {
-    fetchPolicy: "network-only",
-  });
+  const { data, loading, error, refetch, subscribeToMore } = useQuery(
+    ME_QUERY,
+    {
+      fetchPolicy: "network-only",
+      ssr: false,
+    }
+  );
 
   useEffect(() => {
     if (loading === false && data) {
@@ -43,6 +53,27 @@ function MainHeader() {
   useEffect(() => {
     refetch();
   }, [authCtx.isLogin]);
+
+  useEffect(() => {
+    if (authCtx.userId) {
+      subscribeToMore({
+        document: WALLET_SUBSCRIPTION,
+        variables: { walletChangedUserId: authCtx.userId },
+
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          const wallet = subscriptionData.data.walletChanged;
+
+          return {
+            me: {
+              ...prev.me,
+              wallet: wallet,
+            },
+          };
+        },
+      });
+    }
+  });
 
   return (
     <Fragment>

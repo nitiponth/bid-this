@@ -26,9 +26,7 @@ export default function Home(props) {
       </Head>
       {/* <Backdrop show={showBackdrop}>{bidLayout && <BidItem />}</Backdrop> */}
       <Layout>
-        <ClientOnly>
-          <MainContent />
-        </ClientOnly>
+        <MainContent />
       </Layout>
     </Fragment>
   );

@@ -12,7 +12,7 @@ function ItemHero(props) {
     timeText = "END";
   }
   let auctionTextClass = "auction-text";
-  if (time.timerHours == 0 && time.timerMinutes <= 14) {
+  if (time.timerHours == 0 && time.timerMinutes <= 10) {
     auctionTextClass = "auction-text auction-text--red";
   }
 
