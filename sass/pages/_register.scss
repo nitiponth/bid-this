@@ -48,6 +48,11 @@
 
     font-size: 1.5rem;
     color: var(--color-grey-dark-3);
+
+    &--edit {
+      width: 100%;
+      background-color: var(--primary-yellow-light-1);
+    }
   }
 
   &__form {

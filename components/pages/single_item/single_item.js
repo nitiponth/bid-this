@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import useTimer from "../../../hooks/useTimer";
 import LayoutContext from "../../../store/layout-context";
 import ItemsDropdown from "../../dropdown/items-dropdown/items-dropdown";
@@ -7,19 +7,26 @@ import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
 import Slider from "../../slider/slider";
 
 import Bidder from "./bidder";
+import Lister from "./lister";
 
 function SingleItem(props) {
   const layoutCtx = useContext(LayoutContext);
 
-  const time = useTimer(props.item.endTime);
+  const countStart = useTimer(props.item.start);
+  const countEnd = useTimer(props.item.endTime);
+  const startTime = new Date(props.item.start);
   const endTime = new Date(props.item.endTime);
   const [isEnd, setIsEnd] = useState(false);
+  const [isStart, setIsStart] = useState(false);
 
   useEffect(() => {
     if (endTime < new Date()) {
       setIsEnd(true);
     }
-  }, [endTime]);
+    if (startTime <= new Date()) {
+      setIsStart(true);
+    }
+  }, [endTime, startTime]);
 
   const onPlaceBid = () => {
     layoutCtx.setAuth(true);
@@ -33,6 +40,12 @@ function SingleItem(props) {
   const bidders = bidData.map((bidder) => {
     return <Bidder info={bidder} />;
   });
+
+  const policy = props.item.policy.map((item, index) => (
+    <li className="item__desc-services--list" key={index}>
+      {item}
+    </li>
+  ));
 
   return (
     <div className="single-item">
@@ -62,58 +75,74 @@ function SingleItem(props) {
         <div className="item__desc">
           <label className="glabel">Description</label>
           <div className="item__desc-text">{props.item.desc}</div>
+          <label className="glabel">Condition</label>
+          <div className="item__desc-delivery">
+            <span className="item__desc-delivery--com">
+              {props.item.condition}
+            </span>
+          </div>
           <label className="glabel">Delivery</label>
           <div className="item__desc-delivery">
-            <span className="item__desc-delivery--com">{"dhl"}</span>
-            <span className="item__desc-delivery--price">({"120"}฿)</span>
+            <span className="item__desc-delivery--com">
+              {props.item.shipping}
+            </span>
           </div>
 
-          <label className="glabel">Services</label>
-          <ul className="item__desc-services">
-            <li className="item__desc-services--list">
-              7 days return to seller
-            </li>
-            <li className="item__desc-services--list">
-              1 Month Warranty by Seller
-            </li>
-          </ul>
+          <label className="glabel">Warranty Policy</label>
+          <ul className="item__desc-services">{policy}</ul>
         </div>
         <div className="item__auction">
           <div className="item__bidding">
             <div className="item__bidding-bid">
-              {!isEnd ? (
+              {props.item.current ? (
                 <label className="glabel">Current bid</label>
               ) : (
-                <label className="glabel">End Price</label>
+                <label className="glabel">Reserve Price</label>
               )}
               <div className="item__bidding-bid--price">
                 {props.item.resPrice} ฿
               </div>
             </div>
             <div className="item__bidding-time">
-              <label className="glabel">Auction ending in</label>
-              <div className="item__bidding-time-box">
-                <div className="item__bidding-time--text">
-                  {!isEnd ? `${time.timerHours}` : `-- `}h
-                </div>
-                <div className="item__bidding-time--text">
-                  {!isEnd ? `${time.timerMinutes}` : `-- `}m
-                </div>
-                <div className="item__bidding-time--text">
-                  {!isEnd ? `${time.timerSeconds}` : `-- `}s
-                </div>
-              </div>
+              {isStart ? (
+                <Fragment>
+                  <label className="glabel">Auction ending in</label>
+                  <div className="item__bidding-time-box">
+                    <div className="item__bidding-time--text">
+                      {!isEnd ? `${countEnd.timerHours}` : `-- `}h
+                    </div>
+                    <div className="item__bidding-time--text">
+                      {!isEnd ? `${countEnd.timerMinutes}` : `-- `}m
+                    </div>
+                    <div className="item__bidding-time--text">
+                      {!isEnd ? `${countEnd.timerSeconds}` : `-- `}s
+                    </div>
+                  </div>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <label className="glabel">Auction will start in</label>
+                  <div className="item__bidding-time-box">
+                    <div className="item__bidding-time--text">
+                      {countStart.timerHours}h
+                    </div>
+                    <div className="item__bidding-time--text">
+                      {countStart.timerMinutes}m
+                    </div>
+                    <div className="item__bidding-time--text">
+                      {countStart.timerSeconds}s
+                    </div>
+                  </div>
+                </Fragment>
+              )}
             </div>
             <div className="item__bidding-btn">
-              {!isEnd ? (
+              {isEnd && !isStart ? (
                 <a onClick={onPlaceBid} className="btn btn--single-item">
                   Place a bid
                 </a>
               ) : (
-                <a
-                  onClick={onPlaceBid}
-                  className="btn btn--single-item btn--disabled-place"
-                >
+                <a className="btn btn--single-item btn--disabled-place">
                   Place a bid
                 </a>
               )}
@@ -122,7 +151,15 @@ function SingleItem(props) {
 
           <label className="glabel glabel--title">Activity</label>
 
-          <div className="item__activity">{bidders}</div>
+          <div className="item__activity">
+            <Lister
+              username={props.item.seller}
+              resPrice={props.item.resPrice}
+              listTime={props.item.createdAt}
+              avatar={props.item.avatar}
+            />
+            {bidders}
+          </div>
         </div>
       </div>
     </div>

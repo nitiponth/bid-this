@@ -239,7 +239,7 @@ function EditProfile() {
     avatarThumbs = avatarFiles && (
       <div
         className="form__box-imagebox"
-        key={avatarFiles.url.substring(0, 64) || ""}
+        key={avatarFiles.url.substring(64) || ""}
       >
         <div className="form__box-imagebox-box">
           <img src={avatarFiles.url} className="form__box-imagebox-img" />

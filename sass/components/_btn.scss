@@ -43,7 +43,10 @@
 
   &--disabled-place {
     &:hover {
-      transform: translateY(0);
+      transform: translateY(0) !important;
+    }
+    &:active {
+      transform: translateY(0) !important;
     }
     cursor: not-allowed;
     background-color: var(--color-grey-light-4);

@@ -38,7 +38,7 @@ function Slider(props) {
             key={index}
           >
             {index === current && (
-              <img src={item.uri} alt={"img"} className="slider__img" />
+              <img src={item} alt={"img"} className="slider__img" />
             )}
           </div>
         );

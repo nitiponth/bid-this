@@ -240,7 +240,7 @@ function UserInfo(props) {
             </Link>
           )}
         </nav>
-        {isOwner && lists === "Aucitoning" && (
+        {isOwner && (lists === "Auctioning" || !lists) && (
           <Link href="/users/add-item">
             <div className="auction-info__add-items">
               Click to add your items to the auction

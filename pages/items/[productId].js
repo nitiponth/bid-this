@@ -11,6 +11,7 @@ const PRODUCT_QUERY = gql`
       id
       title
       desc
+      category
       price {
         initial
         current
@@ -18,7 +19,9 @@ const PRODUCT_QUERY = gql`
       seller {
         id
         username
+        profile
       }
+      start
       end
       bids {
         bidder {
@@ -27,6 +30,11 @@ const PRODUCT_QUERY = gql`
         bidPrice
         bidTime
       }
+      images
+      condition
+      shipping
+      policy
+      createdAt
     }
   }
 `;
@@ -90,23 +98,23 @@ function ProductPage() {
   }, [subscribeToMore, productId]);
 
   if (loading) return null;
-  if (error) return router.push("/404");
-  //   if (error) return `Error! ${error}`;
+  // if (error) return router.push("/404");
+  if (error) return `Error! ${error}`;
 
   const itemData = {
     title: data.getProductById.title,
-    images: [
-      { uri: "/images/items/keyboard.jpg" },
-      { uri: "/images/items/keyboard2.jpg" },
-      { uri: "/images/items/keyboard3.jpg" },
-      { uri: "/images/items/keyboard4.jpg" },
-    ],
+    images: data.getProductById.images,
     desc: data.getProductById.desc,
     seller: data.getProductById.seller.username,
-    resPrice: data.getProductById.price.current
-      ? data.getProductById.price.current
-      : data.getProductById.price.initial,
+    avatar: data.getProductById.seller.profile,
+    resPrice: data.getProductById.price.initial,
+    current: data.getProductById.price.current,
+    start: data.getProductById.start,
     endTime: data.getProductById.end,
+    shipping: data.getProductById.shipping,
+    condition: data.getProductById.condition,
+    policy: data.getProductById.policy,
+    createdAt: data.getProductById.createdAt,
   };
 
   const bidders = data.getProductById.bids;

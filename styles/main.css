@@ -7,6 +7,7 @@
   --color-grey-dark-2: #777;
   --color-grey-dark-3: #999;
   --primary-yellow: #f8cb71;
+  --primary-yellow-light-1: #ffedc8;
   --primary-yellow-dark-1: #fab325;
   --primary-yellow-dark-2: #ffc247;
 }
@@ -239,8 +240,13 @@ body {
 }
 
 .btn--disabled-place:hover {
-  -webkit-transform: translateY(0);
-          transform: translateY(0);
+  -webkit-transform: translateY(0) !important;
+          transform: translateY(0) !important;
+}
+
+.btn--disabled-place:active {
+  -webkit-transform: translateY(0) !important;
+          transform: translateY(0) !important;
 }
 
 .btn--w80 {
@@ -2829,6 +2835,11 @@ body {
   color: var(--color-grey-dark-3);
 }
 
+.register__errors--edit {
+  width: 100%;
+  background-color: var(--primary-yellow-light-1);
+}
+
 .register__form {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3141,7 +3152,6 @@ body {
 }
 
 .single-item .section__content .item__desc-delivery--com {
-  text-transform: uppercase;
   margin-right: 1rem;
 }
 
