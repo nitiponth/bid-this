@@ -98,6 +98,7 @@ function UserInfo(props) {
 
   const productsList = productsData.map((product) => {
     const productData = {
+      productId: product.id,
       img: "/images/items/keyboard.jpg",
       title: product.title,
       seller: product.seller.username,
@@ -111,7 +112,7 @@ function UserInfo(props) {
 
   const joinedMonth = new Date(props.userData.join);
 
-  const isOwner = authCtx.userId === props.userData.userId;
+  const isOwner = authCtx.user.id === props.userData.userId;
   return (
     <div className="user-info">
       <div

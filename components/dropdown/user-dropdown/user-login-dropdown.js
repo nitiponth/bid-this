@@ -17,7 +17,7 @@ function UserLoginDropdown(props) {
   const authCtx = useContext(AuthContext);
 
   const toProfilePage = () => {
-    router.push(`/users/${authCtx.userId}`);
+    router.push(`/users/${authCtx.user.id}`);
   };
   const toEditProfilePage = () => {
     router.push("/users/edit");
@@ -27,8 +27,8 @@ function UserLoginDropdown(props) {
     //support page
   };
 
-  const toLogoutHandler = () => {
-    authCtx.logout();
+  const toLogoutHandler = async () => {
+    await authCtx.logout();
     router.push("/");
     // router.reload();
   };

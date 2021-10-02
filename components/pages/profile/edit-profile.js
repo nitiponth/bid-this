@@ -4,8 +4,18 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useFormik } from "formik";
 
 import { useS3Upload } from "next-s3-upload";
+import S3 from "react-aws-s3";
 import Dropzone from "react-dropzone";
 import AuthContext from "../../../store/auth-context";
+
+const config = {
+  bucketName: "bid-this-storage",
+  dirName: "users" /* optional */,
+  region: "ap-southeast-1",
+  accessKeyId: "AKIAWPIBEHDSUZ2ZC4M5",
+  secretAccessKey: "Dan0LiAmla7xjO0QHuHKxwQTMPf0nhjenfLwZFCV",
+  // s3Url: "https:/your-custom-s3-url.com/" /* optional */,
+};
 
 const ME_QUERY = gql`
   query {
@@ -99,7 +109,7 @@ function EditProfile() {
   useEffect(() => {
     if (loading === false && data) {
       if (data.me !== null) {
-        console.log(data.me);
+        // console.log(data.me);
         setUserData(data.me);
         if (data.me.profile !== null) {
           setAvatarFiles({ url: data.me.profile });
@@ -212,13 +222,20 @@ function EditProfile() {
 
   // const [imageUrl, setImageUrl] = useState(initialImageUrl);
   const { uploadToS3 } = useS3Upload();
+  const S3Client = new S3(config);
   const [avatarFiles, setAvatarFiles] = useState();
 
   const [coverFiles, setCoverFiles] = useState();
   const [idCardFiles, setIdCardFiles] = useState();
   const [selfieFiles, setSelfieFiles] = useState();
 
-  async function avatarDeleteBtn() {
+  async function avatarDeleteBtn(filename) {
+    // S3Client.deleteFile("user3.jpg")
+    //   .then((res) => {
+    //     console.log(res);
+    //     setAvatarFiles();
+    //   })
+    //   .catch((err) => console.log(err));
     setAvatarFiles();
   }
 
@@ -249,8 +266,9 @@ function EditProfile() {
             {avatarFiles.url.substring(64) || ""}
           </div>
           <button
-            onClick={avatarDeleteBtn}
+            onClick={() => avatarDeleteBtn(avatarFiles.url.substring(64))}
             className="form__box-imagebox-delete"
+            type="button"
           >
             Delete
           </button>
@@ -270,6 +288,7 @@ function EditProfile() {
           <button
             onClick={coverDeleteBtn}
             className="form__box-imagebox-delete"
+            type="button"
           >
             Delete
           </button>
@@ -289,7 +308,12 @@ function EditProfile() {
           <div className="form__box-imagebox-filename">
             {idCardFiles.url ? idCardFiles.url.substring(0, 64) : ""}
           </div>
-          <button onClick={cardDeleteBtn} className="form__box-imagebox-delete">
+
+          <button
+            onClick={cardDeleteBtn}
+            className="form__box-imagebox-delete"
+            type="button"
+          >
             Delete
           </button>
         </aside>
@@ -310,6 +334,7 @@ function EditProfile() {
           <button
             onClick={selfieDeleteBtn}
             className="form__box-imagebox-delete"
+            type="button"
           >
             Delete
           </button>
@@ -449,6 +474,13 @@ function EditProfile() {
                   multiple={false}
                   onDrop={(acceptedFiles) => {
                     let file = acceptedFiles[0];
+                    // const filename = u
+                    // S3Client.uploadFile(file, file.name)
+                    //   .then((data) => {
+                    //     console.log(data);
+                    //     setAvatarFiles({ url: data.location, key: data.key });
+                    //   })
+                    //   .catch((e) => console.log(e));
                     uploadToS3(file)
                       .then((result) => {
                         setAvatarFiles({ url: result.url, key: result.key });

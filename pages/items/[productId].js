@@ -26,6 +26,7 @@ const PRODUCT_QUERY = gql`
       bids {
         bidder {
           username
+          profile
         }
         bidPrice
         bidTime
@@ -54,6 +55,7 @@ const BIDPLACED_SUB = gql`
           bidPrice
           bidder {
             username
+            profile
           }
           bidTime
         }

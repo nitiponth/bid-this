@@ -1,30 +1,26 @@
-import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import NoSideLayout from "../../components/layout/no-sidebar-layout/no-sidebar-layout";
 import AddProduct from "../../components/pages/profile/add-product";
 import AuthContext from "../../store/auth-context";
 
-const ME_CHECK = gql`
-  query {
-    me {
-      id
-    }
-  }
-`;
-
 function AddItem() {
   const router = useRouter();
+  const authCtx = useContext(AuthContext);
 
-  const { data, loading, error } = useQuery(ME_CHECK, {
-    ssr: false,
-  });
+  const [isLoad, setIsLoad] = useState(true);
 
   useEffect(() => {
-    if (loading === false && error) {
+    if (!authCtx.isLogin) {
       router.push("/");
+    } else {
+      setIsLoad(false);
     }
-  }, [data, loading]);
+  });
+
+  if (isLoad) {
+    return <div></div>; //show nothing or a loader
+  }
 
   return (
     <NoSideLayout height={"minheight"}>

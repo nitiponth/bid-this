@@ -3,6 +3,7 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { setContext } from "@apollo/client/link/context";
+import cookie from "cookie";
 
 const wsLink = process.browser
   ? new WebSocketLink({
@@ -33,17 +34,27 @@ const splitLink = process.browser
   : httpLink;
 
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("token");
-    // return the headers to the context so httpLink can read them
-    return {
-      headers: {
-        ...headers,
-        authorization: token ? `Bearer ${token}` : "",
-      },
-    };
+  let cookies;
+
+  //Server side
+  if (headers) {
+    cookies = cookie.parse(headers.cookie || "");
   }
+
+  //Client side
+  if (typeof window !== "undefined") {
+    cookies = cookie.parse(document.cookie || "");
+  }
+  // const token = localStorage.getItem("token");
+  const token = cookies && (cookies.token || "");
+
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
 });
 
 const client = new ApolloClient({

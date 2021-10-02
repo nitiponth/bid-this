@@ -29,12 +29,11 @@ const WALLET_SUBSCRIPTION = gql`
 
 function MainHeader() {
   const authCtx = useContext(AuthContext);
-
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState(authCtx.user);
   const { data, loading, error, refetch, subscribeToMore } = useQuery(
     ME_QUERY,
     {
-      fetchPolicy: "network-only",
+      fetchPolicy: "standby",
       ssr: false,
     }
   );
@@ -58,7 +57,7 @@ function MainHeader() {
     if (authCtx.userId) {
       subscribeToMore({
         document: WALLET_SUBSCRIPTION,
-        variables: { walletChangedUserId: authCtx.userId },
+        variables: { walletChangedUserId: authCtx.user.id },
 
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;

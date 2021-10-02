@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 
 function Slider(props) {
@@ -23,14 +23,18 @@ function Slider(props) {
 
   return (
     <div className="slider">
-      <FaArrowAltCircleLeft
-        className="slider__left-arrow"
-        onClick={prevSlide}
-      />
-      <FaArrowAltCircleRight
-        className="slider__right-arrow"
-        onClick={nextSlide}
-      />
+      {length !== 1 && (
+        <Fragment>
+          <FaArrowAltCircleLeft
+            className="slider__left-arrow"
+            onClick={prevSlide}
+          />
+          <FaArrowAltCircleRight
+            className="slider__right-arrow"
+            onClick={nextSlide}
+          />
+        </Fragment>
+      )}
       {items.map((item, index) => {
         return (
           <div

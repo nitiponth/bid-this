@@ -1,9 +1,16 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
+import Cookies from "js-cookie";
 
 const LOGIN_USER = gql`
   mutation ($loginEmail: String!, $loginPassword: String!) {
     login(email: $loginEmail, password: $loginPassword) {
+      user {
+        id
+        username
+        profile
+        wallet
+      }
       token
     }
   }
@@ -15,18 +22,10 @@ const LOGOUT_USER = gql`
   }
 `;
 
-const ME_QUERY = gql`
-  query {
-    me {
-      id
-    }
-  }
-`;
-
 const AuthContext = createContext({
   isLogin: false,
   token: "",
-  userId: "",
+  user: null,
   login: (token) => {},
   logout: () => {},
 });
@@ -35,33 +34,19 @@ export function AuthContextProvider(props) {
   const [login] = useMutation(LOGIN_USER);
   const [logout] = useMutation(LOGOUT_USER);
 
-  const [userId, setUserId] = useState();
-  const { data, loading, error, refetch } = useQuery(ME_QUERY, {
-    fetchPolicy: "network-only",
-  });
+  const [user, setUser] = useState(props.userData);
 
-  useEffect(() => {
-    if (loading === false && data) {
-      setUserId(data.me.id);
-    }
-    if (loading === false && error) {
-      setUserId();
-      localStorage.removeItem("token");
-    }
-  }, [loading, data]);
-
-  const userIsLoggedIn = !!userId;
+  const userIsLoggedIn = !!user;
 
   const logoutHandler = useCallback(async () => {
     try {
       const { data } = await logout();
       console.log(data.logout);
+      setUser();
+      Cookies.remove("token");
     } catch (e) {
       console.log(e.message);
     }
-    setUserId(null);
-    localStorage.removeItem("token");
-    refetch();
   }, []);
 
   const loginHandler = async (email, password) => {
@@ -72,10 +57,12 @@ export function AuthContextProvider(props) {
           loginPassword: password,
         },
       });
-      localStorage.setItem("token", data.login.token);
-
-      setUserId(data.login.userId);
-      refetch();
+      if (data) {
+        Cookies.set("token", data.login.token, {
+          expires: 1,
+        });
+        setUser(data.login.user);
+      }
     } catch (e) {
       alert(e.message);
       return false;
@@ -85,7 +72,7 @@ export function AuthContextProvider(props) {
   };
 
   const context = {
-    userId: userId,
+    user: user,
     isLogin: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,

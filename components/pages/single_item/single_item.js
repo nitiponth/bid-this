@@ -106,7 +106,12 @@ function SingleItem(props) {
             <div className="item__bidding-time">
               {isStart ? (
                 <Fragment>
-                  <label className="glabel">Auction ending in</label>
+                  {isEnd && (
+                    <label className="glabel">The auction has ended</label>
+                  )}
+                  {!isEnd && (
+                    <label className="glabel">Auction ending in</label>
+                  )}
                   <div className="item__bidding-time-box">
                     <div className="item__bidding-time--text">
                       {!isEnd ? `${countEnd.timerHours}` : `-- `}h
@@ -137,7 +142,7 @@ function SingleItem(props) {
               )}
             </div>
             <div className="item__bidding-btn">
-              {isEnd && !isStart ? (
+              {!isEnd && isStart ? (
                 <a onClick={onPlaceBid} className="btn btn--single-item">
                   Place a bid
                 </a>
@@ -152,13 +157,13 @@ function SingleItem(props) {
           <label className="glabel glabel--title">Activity</label>
 
           <div className="item__activity">
+            {bidders}
             <Lister
               username={props.item.seller}
               resPrice={props.item.resPrice}
               listTime={props.item.createdAt}
               avatar={props.item.avatar}
             />
-            {bidders}
           </div>
         </div>
       </div>

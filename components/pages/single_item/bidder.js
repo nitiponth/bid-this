@@ -5,7 +5,9 @@ function Bidder(props) {
         <a href="#">
           <div className="bid__profile-box">
             <img
-              src="/images/users/user1.jpg"
+              src={
+                props.info.bidder.profile || "/images/users/no-profile-2.png"
+              }
               alt={props.info.bidder.username}
               className="bid__profile-img"
             />
