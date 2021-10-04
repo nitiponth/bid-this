@@ -1,6 +1,7 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 const LOGIN_USER = gql`
   mutation ($loginEmail: String!, $loginPassword: String!) {
@@ -31,6 +32,7 @@ const AuthContext = createContext({
 });
 
 export function AuthContextProvider(props) {
+  const router = useRouter();
   const [login] = useMutation(LOGIN_USER);
   const [logout] = useMutation(LOGOUT_USER);
 
@@ -44,6 +46,7 @@ export function AuthContextProvider(props) {
       console.log(data.logout);
       setUser();
       Cookies.remove("token");
+      router.push("/");
     } catch (e) {
       console.log(e.message);
     }

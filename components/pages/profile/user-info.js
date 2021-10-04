@@ -111,8 +111,10 @@ function UserInfo(props) {
   });
 
   const joinedMonth = new Date(props.userData.join);
-
-  const isOwner = authCtx.user.id === props.userData.userId;
+  let isOwner = false;
+  if (authCtx.user) {
+    isOwner = authCtx.user.id === props.userData.userId;
+  }
   return (
     <div className="user-info">
       <div

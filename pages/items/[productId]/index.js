@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useQuery, gql } from "@apollo/client";
 
-import Layout from "../../components/layout/layout";
-import SingleItem from "../../components/pages/single_item/single_item";
+import Layout from "../../../components/layout/layout";
+import SingleItem from "../../../components/pages/single_item/single_item";
 
 const PRODUCT_QUERY = gql`
   query ($getProductByIdProductId: ID!) {
@@ -103,6 +103,7 @@ function ProductPage() {
   // if (error) return router.push("/404");
   if (error) return `Error! ${error}`;
 
+  console.log(data);
   const itemData = {
     title: data.getProductById.title,
     images: data.getProductById.images,

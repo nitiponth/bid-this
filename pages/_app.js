@@ -44,7 +44,7 @@ MyApp.getInitialProps = async ({ ctx }) => {
   }
 
   const { headers } = ctx.req;
-  console.log(headers.cookie);
+  // console.log(headers.cookie);
 
   const cookies = headers && cookie.parse(headers.cookie || "");
   const token = cookies && (cookies.token || "");
@@ -58,7 +58,7 @@ MyApp.getInitialProps = async ({ ctx }) => {
     body: JSON.stringify(QUERY_USER),
   });
 
-  console.log(response.ok);
+  // console.log(response.ok);
 
   if (response.ok) {
     const result = await response.json();

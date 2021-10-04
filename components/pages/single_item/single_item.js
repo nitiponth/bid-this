@@ -128,15 +128,23 @@ function SingleItem(props) {
                 <Fragment>
                   <label className="glabel">Auction will start in</label>
                   <div className="item__bidding-time-box">
+                    {countStart.timerDays > 0 && (
+                      <div className="item__bidding-time--text">
+                        {countStart.timerDays}d
+                      </div>
+                    )}
+
                     <div className="item__bidding-time--text">
                       {countStart.timerHours}h
                     </div>
                     <div className="item__bidding-time--text">
                       {countStart.timerMinutes}m
                     </div>
-                    <div className="item__bidding-time--text">
-                      {countStart.timerSeconds}s
-                    </div>
+                    {countStart.timerDays <= 0 && (
+                      <div className="item__bidding-time--text">
+                        {countStart.timerSeconds}s
+                      </div>
+                    )}
                   </div>
                 </Fragment>
               )}

@@ -2562,6 +2562,25 @@ body {
           box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
 }
 
+.uf-container .form-container .form__end-btn--disabled {
+  cursor: not-allowed;
+  background-color: var(--color-grey-light-4);
+}
+
+.uf-container .form-container .form__end-btn--disabled:hover {
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.uf-container .form-container .form__end-btn--disabled:active {
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
 .login {
   height: 100%;
   display: -webkit-box;

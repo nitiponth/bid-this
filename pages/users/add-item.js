@@ -19,7 +19,7 @@ function AddItem() {
   });
 
   if (isLoad) {
-    return <div></div>; //show nothing or a loader
+    return <div></div>;
   }
 
   return (
