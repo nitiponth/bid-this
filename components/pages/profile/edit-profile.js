@@ -9,11 +9,11 @@ import Dropzone from "react-dropzone";
 import AuthContext from "../../../store/auth-context";
 
 const config = {
-  bucketName: "bid-this-storage",
+  bucketName: process.env.S3_UPLOAD_BUCKET,
   dirName: "users" /* optional */,
-  region: "ap-southeast-1",
-  accessKeyId: "AKIAWPIBEHDSUZ2ZC4M5",
-  secretAccessKey: "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",
+  region: process.env.S3_UPLOAD_REGION,
+  accessKeyId: process.env.S3_UPLOAD_KEY,
+  secretAccessKey: process.env.S3_UPLOAD_SECRET,
   // s3Url: "https:/your-custom-s3-url.com/" /* optional */,
 };
 
