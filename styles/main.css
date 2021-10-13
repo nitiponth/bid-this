@@ -613,7 +613,7 @@ body {
   transition: all 0.2s;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-  z-index: 750;
+  z-index: 100;
 }
 
 .user-nav__user-box:hover {

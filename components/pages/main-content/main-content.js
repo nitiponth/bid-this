@@ -78,6 +78,7 @@ const PRODUCTS_QUERY = gql`
     getActivedProducts {
       id
       title
+      images
       desc
       start
       end
@@ -86,6 +87,7 @@ const PRODUCTS_QUERY = gql`
         current
       }
       seller {
+        id
         username
       }
     }
@@ -149,12 +151,14 @@ function MainContent() {
         key: product.id,
         productId: product.id,
         title: product.title,
-        img: "https://images.unsplash.com/photo-1587033411391-5d9e51cce126?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
+        img: product.images[0],
         desc: product.desc,
         price: product.price.initial,
         lastPrice: product.price.current,
+        start: product.start,
         endTime: product.end,
         seller: product.seller.username,
+        sellerId: product.seller.id,
       };
     });
 

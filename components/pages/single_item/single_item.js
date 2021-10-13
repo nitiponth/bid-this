@@ -10,8 +10,6 @@ import Bidder from "./bidder";
 import Lister from "./lister";
 
 function SingleItem(props) {
-  const layoutCtx = useContext(LayoutContext);
-
   const countStart = useTimer(props.item.start);
   const countEnd = useTimer(props.item.endTime);
   const startTime = new Date(props.item.start);
@@ -28,17 +26,12 @@ function SingleItem(props) {
     }
   }, [endTime, startTime]);
 
-  const onPlaceBid = () => {
-    layoutCtx.setAuth(true);
-    layoutCtx.setType("bid");
-  };
-
   const bidData = [...props.bidInfo].sort(
     (a, b) => new Date(b.bidTime) - new Date(a.bidTime)
   );
 
   const bidders = bidData.map((bidder) => {
-    return <Bidder info={bidder} />;
+    return <Bidder info={bidder} key={bidder.id || ""} />;
   });
 
   const policy = props.item.policy.map((item, index) => (
@@ -55,7 +48,7 @@ function SingleItem(props) {
       <div className="floatbox">
         <div className="floatbox--title">{props.item.title}</div>
         <div className="floatbox--seller">
-          <Link href="/users">
+          <Link href={`/users/${props.item.sellerId}`}>
             <a className="floatbox--seller--link">
               <span className="at-sign at-sign--md">@</span>
               {props.item.seller}
@@ -100,7 +93,8 @@ function SingleItem(props) {
                 <label className="glabel">Reserve Price</label>
               )}
               <div className="item__bidding-bid--price">
-                {props.item.resPrice} ฿
+                {props.item.current ? props.item.current : props.item.resPrice}{" "}
+                ฿
               </div>
             </div>
             <div className="item__bidding-time">
@@ -151,9 +145,9 @@ function SingleItem(props) {
             </div>
             <div className="item__bidding-btn">
               {!isEnd && isStart ? (
-                <a onClick={onPlaceBid} className="btn btn--single-item">
-                  Place a bid
-                </a>
+                <Link href={`/items/${props.item.productId}/bid`}>
+                  <a className="btn btn--single-item">Place a bid</a>
+                </Link>
               ) : (
                 <a className="btn btn--single-item btn--disabled-place">
                   Place a bid

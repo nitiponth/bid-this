@@ -13,6 +13,7 @@ const PRODUCT_QUERY = gql`
       desc
       category
       price {
+        bidOffer
         initial
         current
       }
@@ -24,6 +25,7 @@ const PRODUCT_QUERY = gql`
       start
       end
       bids {
+        id
         bidder {
           username
           profile
@@ -47,11 +49,13 @@ const BIDPLACED_SUB = gql`
         id
         title
         price {
+          bidOffer
           initial
           current
         }
         end
         bids {
+          id
           bidPrice
           bidder {
             username
@@ -103,11 +107,12 @@ function ProductPage() {
   // if (error) return router.push("/404");
   if (error) return `Error! ${error}`;
 
-  console.log(data);
   const itemData = {
+    productId: productId,
     title: data.getProductById.title,
     images: data.getProductById.images,
     desc: data.getProductById.desc,
+    sellerId: data.getProductById.seller.id,
     seller: data.getProductById.seller.username,
     avatar: data.getProductById.seller.profile,
     resPrice: data.getProductById.price.initial,

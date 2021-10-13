@@ -31,6 +31,7 @@ const AUCTIONING_QUERY = gql`
       id
       title
       desc
+      images
       seller {
         username
       }
@@ -99,7 +100,7 @@ function UserInfo(props) {
   const productsList = productsData.map((product) => {
     const productData = {
       productId: product.id,
-      img: "/images/items/keyboard.jpg",
+      img: product.images[0],
       title: product.title,
       seller: product.seller.username,
       desc: product.desc,

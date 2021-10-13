@@ -1,16 +1,35 @@
 import Link from "next/link";
-import { Fragment, useContext } from "react";
+import { useRouter } from "next/router";
+import { Fragment, useContext, useEffect, useState } from "react";
 import useTimer from "../../../hooks/useTimer";
-import LayoutContext from "../../../store/layout-context";
 
 function ItemHero(props) {
-  const layoutCtx = useContext(LayoutContext);
+  const router = useRouter();
+  const countStart = useTimer(props.item.start);
   const time = useTimer(props.item.endTime);
 
-  let timeText = `${time.timerHours}h ${time.timerMinutes}m ${time.timerSeconds}s`;
-  if (props.item.endTime < new Date().toLocaleString("en-Us")) {
-    timeText = "END";
+  const startTime = new Date(props.item.start);
+  const endTime = new Date(props.item.endTime);
+
+  const [isEnd, setIsEnd] = useState(false);
+  const [isStart, setIsStart] = useState(false);
+
+  useEffect(() => {
+    if (endTime < new Date()) {
+      setIsEnd(true);
+    }
+    if (startTime <= new Date()) {
+      setIsStart(true);
+    }
+  }, [endTime, startTime]);
+
+  let timeText = `${countStart.timerHours}h ${countStart.timerMinutes}m ${countStart.timerSeconds}s`;
+  if (isStart) {
+    if (!isEnd)
+      timeText = `${time.timerHours}h ${time.timerMinutes}m ${time.timerSeconds}s`;
+    else timeText = `--h --m --s`;
   }
+
   let auctionTextClass = "auction-text";
   if (time.timerHours == 0 && time.timerMinutes <= 10) {
     auctionTextClass = "auction-text auction-text--red";
@@ -22,8 +41,8 @@ function ItemHero(props) {
   }
 
   const onPlaceBid = () => {
-    layoutCtx.setAuth(true);
-    layoutCtx.setType("bid");
+    if (isStart) router.push(`/items/${props.item.productId}/bid`);
+    else router.push(`/items/${props.item.productId}`);
   };
 
   const link = `/items/${props.item.productId}`;
@@ -46,10 +65,12 @@ function ItemHero(props) {
         <Link href={link}>
           <a className="item-hero__detail-title">{props.item.title}</a>
         </Link>
-        <a href="#" className="item-hero__detail-seller">
-          <span className="at-sign">@</span>
-          {props.item.seller}
-        </a>
+        <Link href={`/users/${props.item.sellerId}`}>
+          <a className="item-hero__detail-seller">
+            <span className="at-sign">@</span>
+            {props.item.seller}
+          </a>
+        </Link>
         <div className="item-hero__detail-desc">{props.item.desc}</div>
         <div className="item-hero__detail-auction">
           <div className="item-hero__detail-auction-res">
@@ -71,14 +92,14 @@ function ItemHero(props) {
           </div>
           <div className="item-hero__detail-auction-time">
             <span className="item-hero__detail-auction-text">
-              Auction ending in
+              {isStart ? "Auction ending in" : "Auction will start in"}
             </span>
             <span className={auctionTextClass}>{timeText}</span>
           </div>
         </div>
 
         <a onClick={onPlaceBid} className="btn">
-          Place a bid
+          {isStart && !isEnd ? "Place a bid" : "Watch product"}
         </a>
 
         <div className="watchlists--hero">

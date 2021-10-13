@@ -54,21 +54,14 @@ function MainHeader() {
   }, [authCtx.isLogin]);
 
   useEffect(() => {
-    if (authCtx.userId) {
+    if (authCtx.user.id) {
       subscribeToMore({
         document: WALLET_SUBSCRIPTION,
         variables: { walletChangedUserId: authCtx.user.id },
 
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
-          const wallet = subscriptionData.data.walletChanged;
-
-          return {
-            me: {
-              ...prev.me,
-              wallet: wallet,
-            },
-          };
+          refetch();
         },
       });
     }
