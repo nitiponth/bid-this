@@ -140,27 +140,21 @@ function MainContent() {
     return <p>Loading....</p>;
   }
 
-  const products = productsData
-    .filter(
-      (product) =>
-        product.end > new Date().toLocaleString("en-US") &&
-        product.start <= new Date().toDateString("en-Us")
-    )
-    .map((product) => {
-      return {
-        key: product.id,
-        productId: product.id,
-        title: product.title,
-        img: product.images[0],
-        desc: product.desc,
-        price: product.price.initial,
-        lastPrice: product.price.current,
-        start: product.start,
-        endTime: product.end,
-        seller: product.seller.username,
-        sellerId: product.seller.id,
-      };
-    });
+  const products = productsData.map((product) => {
+    return {
+      key: product.id,
+      productId: product.id,
+      title: product.title,
+      img: product.images[0],
+      desc: product.desc,
+      price: product.price.initial,
+      lastPrice: product.price.current,
+      start: product.start,
+      endTime: product.end,
+      seller: product.seller.username,
+      sellerId: product.seller.id,
+    };
+  });
 
   let filteredItems = products;
 

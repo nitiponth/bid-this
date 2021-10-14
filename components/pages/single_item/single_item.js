@@ -1,21 +1,69 @@
 import Link from "next/link";
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import useTimer from "../../../hooks/useTimer";
-import LayoutContext from "../../../store/layout-context";
 import ItemsDropdown from "../../dropdown/items-dropdown/items-dropdown";
 import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
 import Slider from "../../slider/slider";
-
+import { FiTruck } from "react-icons/fi";
+import { BiPencil, BiSupport } from "react-icons/bi";
 import Bidder from "./bidder";
 import Lister from "./lister";
+import AuthContext from "../../../store/auth-context";
+import { gql, useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
+
+const UPDATE_TRACK = gql`
+  mutation ($productId: ID!, $track: String!) {
+    updateProductTrack(productId: $productId, track: $track) {
+      id
+      track
+      sentAt
+    }
+  }
+`;
+
+const CONFIRM_PRODUCT = gql`
+  mutation ($productId: ID!) {
+    confirmProduct(productId: $productId) {
+      id
+      status
+    }
+  }
+`;
 
 function SingleItem(props) {
+  const router = useRouter();
+
+  const authCtx = useContext(AuthContext);
   const countStart = useTimer(props.item.start);
   const countEnd = useTimer(props.item.endTime);
   const startTime = new Date(props.item.start);
   const endTime = new Date(props.item.endTime);
   const [isEnd, setIsEnd] = useState(false);
   const [isStart, setIsStart] = useState(false);
+  const [moreThanTwoWeek, setMoreThanTwoWeek] = useState(false);
+
+  const trackNumber = useRef(props.item.track);
+
+  const [updateProductTrack] = useMutation(UPDATE_TRACK);
+  const [confirmProduct] = useMutation(CONFIRM_PRODUCT);
+
+  const current = new Date();
+  // console.log(props.item.sentAt);
+  let twoWeekOfSent = null;
+  if (props.item.sentAt) {
+    twoWeekOfSent = new Date(props.item.sentAt);
+    // twoWeekOfSent.setMinutes(twoWeekOfSent.getMinutes() + 20);
+    twoWeekOfSent.setDate(twoWeekOfSent.getDate() + 14);
+    twoWeekOfSent.setHours(0, 0, 0, 0);
+    // console.log(twoWeekOfSent);
+  }
+
+  useEffect(() => {
+    if (twoWeekOfSent && current >= twoWeekOfSent) {
+      setMoreThanTwoWeek(true);
+    }
+  });
 
   useEffect(() => {
     if (endTime < new Date()) {
@@ -39,6 +87,120 @@ function SingleItem(props) {
       {item}
     </li>
   ));
+
+  const buyerId = props.item.buyer;
+
+  const onUpdateTrack = async () => {
+    const { data, error } = await updateProductTrack({
+      variables: {
+        productId: props.item.productId,
+        track: trackNumber.current.value,
+      },
+    });
+
+    if (data) {
+      console.log(data);
+      router.reload();
+    }
+    if (error) console.log(error);
+  };
+
+  const onConfirm = async () => {
+    const { data, error } = await confirmProduct({
+      variables: {
+        productId: props.item.productId,
+      },
+    });
+
+    if (data) {
+      console.log(data);
+      router.reload();
+    }
+    if (error) console.log(error);
+  };
+
+  let trackSection = null;
+  if (isEnd && authCtx.user.id === props.item.sellerId) {
+    //Seller
+    trackSection = (
+      <Fragment>
+        <label className="glabel">Tracking Number</label>
+        <div className="item__desc-track">
+          {props.item.status === "RECEIVED" && (
+            <input
+              disabled={true}
+              className="item__desc-track-input"
+              value={props.item.track}
+            />
+          )}
+          {props.item.status !== "RECEIVED" && (
+            <input
+              className="item__desc-track-input"
+              value={props.item.track}
+              ref={trackNumber}
+            />
+          )}
+
+          <div className="item__desc-btn-group">
+            {moreThanTwoWeek &&
+              props.item.status !==
+                "RECEIVED"(
+                  <button type="button" className="item__desc-track-confirm">
+                    Claim your Credits
+                  </button>
+                )}
+            {props.item.status !== "RECEIVED" && (
+              <button
+                type="button"
+                onClick={onUpdateTrack}
+                className="item__desc-track-submit"
+              >
+                {props.item.track ? <BiPencil /> : <FiTruck />}
+              </button>
+            )}
+          </div>
+        </div>
+      </Fragment>
+    );
+  } else if (isEnd && buyerId && authCtx.user.id === buyerId) {
+    //Buyer
+    trackSection = (
+      <Fragment>
+        <label className="glabel">Tracking Number</label>
+        <div className="item__desc-track">
+          <input
+            className="item__desc-track-input"
+            style={{ fontSize: "1.5rem", width: "80%" }}
+            disabled={true}
+            value={
+              props.item.track
+                ? props.item.track
+                : "The seller is preparing the parcel. "
+            }
+          />
+          <div className="item__desc-btn-group">
+            {props.item.track && props.item.status === "ACTIVED" && (
+              <button
+                type="button"
+                onClick={onConfirm}
+                className="item__desc-track-confirm"
+              >
+                Checked and Accepted
+              </button>
+            )}
+            {props.item.track && props.item.status === "RECEIVED" && (
+              <button type="button" className="item__desc-track-confirm">
+                Score this product
+              </button>
+            )}
+            <button type="button" className="item__desc-track-support">
+              <BiSupport />
+            </button>
+          </div>
+        </div>
+      </Fragment>
+    );
+  }
 
   return (
     <div className="single-item">
@@ -83,6 +245,8 @@ function SingleItem(props) {
 
           <label className="glabel">Warranty Policy</label>
           <ul className="item__desc-services">{policy}</ul>
+
+          {trackSection}
         </div>
         <div className="item__auction">
           <div className="item__bidding">

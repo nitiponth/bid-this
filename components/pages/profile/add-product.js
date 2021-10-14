@@ -213,16 +213,6 @@ function AddProduct() {
     const time = new Date(selectedDate);
     time.setSeconds(0, 0);
     const modifierValues = {
-      // category: $createProductCategory
-      // title: $createProductTitle
-      // condition: $createProductCondition
-      // desc: $createProductDesc
-      // start: $createProductStart
-      // initialPrice: $createProductInitialPrice
-      // bidOffer: $createProductBidOffer
-      // images: $createProductImages
-      // shipping: $createProductShipping
-      // policy: $createProductPolicy
       createProductCategory: selectedCate.toLocaleUpperCase(),
       createProductTitle: values.productName,
       createProductCondition: selectedCon,

@@ -72,9 +72,13 @@ function BidItem() {
         router.push(`/items/${data.getProductById.id}`);
       }
       if (data.getProductById.price.current) {
-        setBidPrice(data.getProductById.price.current + 1000);
+        setBidPrice(
+          data.getProductById.price.current + data.getProductById.price.bidOffer
+        );
       } else {
-        setBidPrice(data.getProductById.price.initial + 1000);
+        setBidPrice(
+          data.getProductById.price.initial + data.getProductById.price.bidOffer
+        );
       }
     }
 

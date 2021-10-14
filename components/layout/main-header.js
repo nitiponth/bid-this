@@ -54,7 +54,7 @@ function MainHeader() {
   }, [authCtx.isLogin]);
 
   useEffect(() => {
-    if (authCtx.user.id) {
+    if (authCtx.user && authCtx.user.id) {
       subscribeToMore({
         document: WALLET_SUBSCRIPTION,
         variables: { walletChangedUserId: authCtx.user.id },
