@@ -39,11 +39,18 @@ const PRODUCT_QUERY = gql`
       }
       buyer {
         id
+        username
       }
       images
       condition
       shipping
       policy
+      comment {
+        id
+        body
+        score
+        rImages
+      }
       createdAt
     }
   }
@@ -64,6 +71,7 @@ const BIDPLACED_SUB = gql`
         track
         buyer {
           id
+          username
         }
         bids {
           id
@@ -139,8 +147,14 @@ function ProductPage() {
     track: data.getProductById.track,
     sentAt: data.getProductById.sentAt,
     buyer: data.getProductById.buyer ? data.getProductById.buyer.id : null,
+    buyerName: data.getProductById.buyer
+      ? data.getProductById.buyer.username
+      : null,
     status: data.getProductById.status,
+    comment: data.getProductById.comment,
   };
+
+  console.log(itemData.buyerName);
 
   const bidders = data.getProductById.bids;
 

@@ -12,6 +12,12 @@ import AuthContext from "../../../store/auth-context";
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 
+import ReactStars from "react-rating-stars-component";
+
+import Backdrop from "../../layout/backdrop";
+import Dropzone from "react-dropzone";
+import { useS3Upload } from "next-s3-upload";
+
 const UPDATE_TRACK = gql`
   mutation ($productId: ID!, $track: String!) {
     updateProductTrack(productId: $productId, track: $track) {
@@ -31,8 +37,27 @@ const CONFIRM_PRODUCT = gql`
   }
 `;
 
+const CREATE_COMMENT = gql`
+  mutation (
+    $productId: ID!
+    $body: String!
+    $score: Float!
+    $rImages: [String]
+  ) {
+    createComment(
+      productId: $productId
+      body: $body
+      score: $score
+      rImages: $rImages
+    ) {
+      id
+    }
+  }
+`;
+
 function SingleItem(props) {
   const router = useRouter();
+  const { uploadToS3 } = useS3Upload();
 
   const authCtx = useContext(AuthContext);
   const countStart = useTimer(props.item.start);
@@ -42,11 +67,17 @@ function SingleItem(props) {
   const [isEnd, setIsEnd] = useState(false);
   const [isStart, setIsStart] = useState(false);
   const [moreThanTwoWeek, setMoreThanTwoWeek] = useState(false);
+  const [reviewImagesArray, setReviewImagesArray] = useState([]);
+  const [showReviewWindow, setShowReviewWindow] = useState(false);
+  const [productScore, setProductScore] = useState(5);
+  const textareContainer = useRef(null);
+  const backdropRef = useRef();
 
   const trackNumber = useRef(props.item.track);
 
   const [updateProductTrack] = useMutation(UPDATE_TRACK);
   const [confirmProduct] = useMutation(CONFIRM_PRODUCT);
+  const [createComment] = useMutation(CREATE_COMMENT);
 
   const current = new Date();
   // console.log(props.item.sentAt);
@@ -119,8 +150,70 @@ function SingleItem(props) {
     if (error) console.log(error);
   };
 
+  const onScoreClick = async () => {
+    setShowReviewWindow(true);
+  };
+
+  const ratingChanged = (newRating) => {
+    setProductScore(newRating);
+  };
+
+  const onComment = async () => {
+    // console.log("images: ", reviewImagesArray);
+    // console.log("score: ", productScore);
+    // console.log("review: ", textareContainer.current.value);
+    const body = textareContainer.current.value;
+
+    const { data, error } = await createComment({
+      variables: {
+        productId: props.item.productId,
+        body: body,
+        score: productScore,
+        rImages: reviewImagesArray,
+      },
+    });
+
+    if (data) {
+      setShowReviewWindow(false);
+      router.reload();
+    }
+
+    if (error) {
+      console.log(error);
+    }
+  };
+
+  let reviewSection = null;
+  if (isEnd && props.item.comment) {
+    console.log(props.item.comment);
+    reviewSection = (
+      <Fragment>
+        <label className="glabel">Product Review</label>
+        <div className="product-review">
+          <div className="image__section">
+            <Slider items={props.item.comment.rImages} configSize="small" />
+          </div>
+          <div className="body">{props.item.comment.body}</div>
+          <div className="rating">
+            <div className="rating__star">
+              <ReactStars
+                size={30}
+                value={props.item.comment.score}
+                edit={false}
+                color="#f8cb71"
+              />
+              <Link href={`/users/${props.item.buyer}`}>
+                <a className="rating__username">{props.item.buyerName}</a>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Fragment>
+    );
+  }
+
   let trackSection = null;
-  if (isEnd && authCtx.user.id === props.item.sellerId) {
+  if (isEnd && authCtx.user && authCtx.user.id === props.item.sellerId) {
     //Seller
     trackSection = (
       <Fragment>
@@ -162,7 +255,7 @@ function SingleItem(props) {
         </div>
       </Fragment>
     );
-  } else if (isEnd && buyerId && authCtx.user.id === buyerId) {
+  } else if (isEnd && buyerId && authCtx.user && authCtx.user.id === buyerId) {
     //Buyer
     trackSection = (
       <Fragment>
@@ -189,8 +282,12 @@ function SingleItem(props) {
               </button>
             )}
             {props.item.track && props.item.status === "RECEIVED" && (
-              <button type="button" className="item__desc-track-confirm">
-                Score this product
+              <button
+                type="button"
+                onClick={onScoreClick}
+                className="item__desc-track-confirm"
+              >
+                {props.item.comment ? "Edit Review" : "Score this product"}
               </button>
             )}
             <button type="button" className="item__desc-track-support">
@@ -202,138 +299,247 @@ function SingleItem(props) {
     );
   }
 
+  const productsThumbs = reviewImagesArray.map((url, index) => (
+    <div
+      className="floating__imagebox u-margin-bottom-extra-small"
+      key={url.substring(64) || ""}
+    >
+      <div className="floating__imagebox-box">
+        <img src={url} className="floating__imagebox-img" />
+      </div>
+      <aside className="floating__imagebox-aside">
+        <div className="floating__imagebox-filename">
+          {url.substring(64) || ""}
+        </div>
+        <button
+          onClick={() => imageDeleteBtn(url)}
+          className="floating__imagebox-delete"
+        >
+          Delete
+        </button>
+      </aside>
+    </div>
+  ));
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      if (
+        showReviewWindow &&
+        backdropRef.current &&
+        !backdropRef.current.contains(e.target)
+      ) {
+        setShowReviewWindow(false);
+      }
+    };
+
+    document.addEventListener("mousedown", checkIfClickedOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    };
+  }, [showReviewWindow]);
+
   return (
-    <div className="single-item">
-      <div className="section__img">
-        <Slider items={props.item.images} />
-      </div>
-      <div className="floatbox">
-        <div className="floatbox--title">{props.item.title}</div>
-        <div className="floatbox--seller">
-          <Link href={`/users/${props.item.sellerId}`}>
-            <a className="floatbox--seller--link">
-              <span className="at-sign at-sign--md">@</span>
-              {props.item.seller}
-            </a>
-          </Link>
-        </div>
-        <div className="floatbox--popup">
-          <PopupItem
-            icon="/images/SVG/dots-three-horizontal.svg"
-            style="floatbox--popup-img"
+    <Fragment>
+      <Backdrop show={showReviewWindow}>
+        <div className="floating" ref={backdropRef}>
+          <div className="floating__title">{props.item.title}</div>
+          <div className="floating__sub">
+            (Product ID: {props.item.productId})
+          </div>
+          {reviewImagesArray.length != 0 && (
+            <div className="u-margin-bottom-extra-small">{productsThumbs}</div>
+          )}
+          <Dropzone
+            multiple={true}
+            onDrop={async (acceptedFiles) => {
+              const urls = [];
+
+              let files = Array.from(acceptedFiles);
+
+              for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const { url } = await uploadToS3(file);
+                urls.push(url);
+              }
+              setReviewImagesArray((prev) => [...prev, ...urls]);
+            }}
+            accept={"image/jpeg, image/jpg, image/png"}
           >
-            <ItemsDropdown />
-          </PopupItem>
-        </div>
-      </div>
-      <div className="section__content">
-        <div className="item__desc">
-          <label className="glabel">Description</label>
-          <div className="item__desc-text">{props.item.desc}</div>
-          <label className="glabel">Condition</label>
-          <div className="item__desc-delivery">
-            <span className="item__desc-delivery--com">
-              {props.item.condition}
-            </span>
-          </div>
-          <label className="glabel">Delivery</label>
-          <div className="item__desc-delivery">
-            <span className="item__desc-delivery--com">
-              {props.item.shipping}
-            </span>
-          </div>
-
-          <label className="glabel">Warranty Policy</label>
-          <ul className="item__desc-services">{policy}</ul>
-
-          {trackSection}
-        </div>
-        <div className="item__auction">
-          <div className="item__bidding">
-            <div className="item__bidding-bid">
-              {props.item.current ? (
-                <label className="glabel">Current bid</label>
-              ) : (
-                <label className="glabel">Reserve Price</label>
-              )}
-              <div className="item__bidding-bid--price">
-                {props.item.current ? props.item.current : props.item.resPrice}{" "}
-                ฿
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps({ className: "floating__dropbox" })}>
+                <input {...getInputProps()} />
+                <p className="floating__dropbox-istext">
+                  Drag and drop an image here, or click to browse.
+                </p>
               </div>
-            </div>
-            <div className="item__bidding-time">
-              {isStart ? (
-                <Fragment>
-                  {isEnd && (
-                    <label className="glabel">The auction has ended</label>
-                  )}
-                  {!isEnd && (
-                    <label className="glabel">Auction ending in</label>
-                  )}
-                  <div className="item__bidding-time-box">
-                    <div className="item__bidding-time--text">
-                      {!isEnd ? `${countEnd.timerHours}` : `-- `}h
-                    </div>
-                    <div className="item__bidding-time--text">
-                      {!isEnd ? `${countEnd.timerMinutes}` : `-- `}m
-                    </div>
-                    <div className="item__bidding-time--text">
-                      {!isEnd ? `${countEnd.timerSeconds}` : `-- `}s
-                    </div>
-                  </div>
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <label className="glabel">Auction will start in</label>
-                  <div className="item__bidding-time-box">
-                    {countStart.timerDays > 0 && (
-                      <div className="item__bidding-time--text">
-                        {countStart.timerDays}d
-                      </div>
-                    )}
+            )}
+          </Dropzone>
 
-                    <div className="item__bidding-time--text">
-                      {countStart.timerHours}h
-                    </div>
-                    <div className="item__bidding-time--text">
-                      {countStart.timerMinutes}m
-                    </div>
-                    {countStart.timerDays <= 0 && (
-                      <div className="item__bidding-time--text">
-                        {countStart.timerSeconds}s
-                      </div>
-                    )}
-                  </div>
-                </Fragment>
-              )}
+          <div className="floating__scoring">
+            <div className="floating__scoring-star">
+              <ReactStars
+                count={5}
+                size={50}
+                onChange={ratingChanged}
+                emptyIcon={<i className="far fa-star"></i>}
+                fullIcon={<i className="fa fa-star"></i>}
+                activeColor="#f8cb71"
+              />
             </div>
-            <div className="item__bidding-btn">
-              {!isEnd && isStart ? (
-                <Link href={`/items/${props.item.productId}/bid`}>
-                  <a className="btn btn--single-item">Place a bid</a>
-                </Link>
-              ) : (
-                <a className="btn btn--single-item btn--disabled-place">
-                  Place a bid
-                </a>
-              )}
+            <div className="floating__scoring-desc">
+              Scoring your received product
             </div>
-          </div>
 
-          <label className="glabel glabel--title">Activity</label>
-
-          <div className="item__activity">
-            {bidders}
-            <Lister
-              username={props.item.seller}
-              resPrice={props.item.resPrice}
-              listTime={props.item.createdAt}
-              avatar={props.item.avatar}
+            <textarea
+              id="productDetails"
+              name="productDetails"
+              rows="5"
+              ref={textareContainer}
+              className="floating__textarea"
+              placeholder="Leave a comment on the product you received."
+              spellCheck="false"
             />
           </div>
+          <button type="button" onClick={onComment} className="floating__btn">
+            Leave a comment
+          </button>
+        </div>
+      </Backdrop>
+      <div className="single-item">
+        <div className="section__img">
+          <Slider items={props.item.images} />
+        </div>
+        <div className="floatbox">
+          <div className="floatbox--title">{props.item.title}</div>
+          <div className="floatbox--seller">
+            <Link href={`/users/${props.item.sellerId}`}>
+              <a className="floatbox--seller--link">
+                <span className="at-sign at-sign--md">@</span>
+                {props.item.seller}
+              </a>
+            </Link>
+          </div>
+          <div className="floatbox--popup">
+            <PopupItem
+              icon="/images/SVG/dots-three-horizontal.svg"
+              style="floatbox--popup-img"
+            >
+              <ItemsDropdown />
+            </PopupItem>
+          </div>
+        </div>
+        <div className="section__content">
+          <div className="item__desc">
+            <label className="glabel">Description</label>
+            <div className="item__desc-text">{props.item.desc}</div>
+            <label className="glabel">Condition</label>
+            <div className="item__desc-delivery">
+              <span className="item__desc-delivery--com">
+                {props.item.condition}
+              </span>
+            </div>
+            <label className="glabel">Delivery</label>
+            <div className="item__desc-delivery">
+              <span className="item__desc-delivery--com">
+                {props.item.shipping}
+              </span>
+            </div>
+
+            <label className="glabel">Warranty Policy</label>
+            <ul className="item__desc-services">{policy}</ul>
+            {reviewSection}
+            {trackSection}
+          </div>
+          <div className="item__auction">
+            <div className="item__bidding">
+              <div className="item__bidding-bid">
+                {props.item.current ? (
+                  <label className="glabel">Current bid</label>
+                ) : (
+                  <label className="glabel">Reserve Price</label>
+                )}
+                <div className="item__bidding-bid--price">
+                  {props.item.current
+                    ? props.item.current
+                    : props.item.resPrice}{" "}
+                  ฿
+                </div>
+              </div>
+              <div className="item__bidding-time">
+                {isStart ? (
+                  <Fragment>
+                    {isEnd && (
+                      <label className="glabel">The auction has ended</label>
+                    )}
+                    {!isEnd && (
+                      <label className="glabel">Auction ending in</label>
+                    )}
+                    <div className="item__bidding-time-box">
+                      <div className="item__bidding-time--text">
+                        {!isEnd ? `${countEnd.timerHours}` : `-- `}h
+                      </div>
+                      <div className="item__bidding-time--text">
+                        {!isEnd ? `${countEnd.timerMinutes}` : `-- `}m
+                      </div>
+                      <div className="item__bidding-time--text">
+                        {!isEnd ? `${countEnd.timerSeconds}` : `-- `}s
+                      </div>
+                    </div>
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <label className="glabel">Auction will start in</label>
+                    <div className="item__bidding-time-box">
+                      {countStart.timerDays > 0 && (
+                        <div className="item__bidding-time--text">
+                          {countStart.timerDays}d
+                        </div>
+                      )}
+
+                      <div className="item__bidding-time--text">
+                        {countStart.timerHours}h
+                      </div>
+                      <div className="item__bidding-time--text">
+                        {countStart.timerMinutes}m
+                      </div>
+                      {countStart.timerDays <= 0 && (
+                        <div className="item__bidding-time--text">
+                          {countStart.timerSeconds}s
+                        </div>
+                      )}
+                    </div>
+                  </Fragment>
+                )}
+              </div>
+              <div className="item__bidding-btn">
+                {!isEnd && isStart ? (
+                  <Link href={`/items/${props.item.productId}/bid`}>
+                    <a className="btn btn--single-item">Place a bid</a>
+                  </Link>
+                ) : (
+                  <a className="btn btn--single-item btn--disabled-place">
+                    Place a bid
+                  </a>
+                )}
+              </div>
+            </div>
+
+            <label className="glabel glabel--title">Activity</label>
+
+            <div className="item__activity">
+              {bidders}
+              <Lister
+                username={props.item.seller}
+                resPrice={props.item.resPrice}
+                listTime={props.item.createdAt}
+                avatar={props.item.avatar}
+              />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </Fragment>
   );
 }
 

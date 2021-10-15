@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 
 function Slider(props) {
-  const { items } = props;
+  const { items, configSize } = props;
 
   const [current, setCurrent] = useState(0);
   const length = items.length;
@@ -15,30 +15,53 @@ function Slider(props) {
     setCurrent(current === 0 ? length - 1 : current - 1);
   };
 
-  //   console.log(current);
-
   if (!Array.isArray(items) || items.length <= 0) {
     return <div className="glabel">Somethings went wrong!</div>;
   }
 
+  let slideClasses = "slide";
+  let sliderClasses = "slider";
+  if (configSize === "small") {
+    slideClasses = "slide slide--small";
+    sliderClasses = "slider slider--small";
+  }
+
   return (
-    <div className="slider">
+    <div className={sliderClasses}>
       {length !== 1 && (
         <Fragment>
-          <FaArrowAltCircleLeft
-            className="slider__left-arrow"
-            onClick={prevSlide}
-          />
-          <FaArrowAltCircleRight
-            className="slider__right-arrow"
-            onClick={nextSlide}
-          />
+          {configSize === "small" ? (
+            <FaArrowAltCircleLeft
+              className="slider__left-arrow"
+              style={{ fontSize: "2rem", left: "4rem" }}
+              onClick={prevSlide}
+            />
+          ) : (
+            <FaArrowAltCircleLeft
+              className="slider__left-arrow"
+              onClick={prevSlide}
+            />
+          )}
+          {configSize === "small" ? (
+            <FaArrowAltCircleRight
+              className="slider__right-arrow"
+              style={{ fontSize: "2rem", right: "4rem" }}
+              onClick={nextSlide}
+            />
+          ) : (
+            <FaArrowAltCircleRight
+              className="slider__right-arrow"
+              onClick={nextSlide}
+            />
+          )}
         </Fragment>
       )}
       {items.map((item, index) => {
         return (
           <div
-            className={index === current ? "slide active" : "slide"}
+            className={
+              index === current ? `${slideClasses} active` : slideClasses
+            }
             key={index}
           >
             {index === current && (
