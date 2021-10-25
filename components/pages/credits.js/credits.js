@@ -1,3 +1,6 @@
+import { gql, useQuery } from "@apollo/client";
+import { useContext, useEffect, useState } from "react";
+import Topup from "./topup";
 import Transaction from "./transaction";
 
 const DUMMY_TRANSACTIOCS = [
@@ -25,20 +28,50 @@ const DUMMY_TRANSACTIOCS = [
   },
 ];
 
+const CARDS_QUERY = gql`
+  query {
+    me {
+      wallet
+      cards {
+        id
+        cardInfo {
+          id
+          expiration_month
+          expiration_year
+          last_digits
+          brand
+        }
+      }
+    }
+  }
+`;
+
 function Credits() {
+  const [showTopup, setShowTopup] = useState(false);
+  const { data, error, loading } = useQuery(CARDS_QUERY, {
+    ssr: false,
+  });
+
   return (
     <div className="credits-container">
       <div className="credits">
         <h2 className="credits__title">Credits balance</h2>
         <h1 className="credits__balance">
-          {2000} <span className="credits__currency">฿ - baht</span>
+          {data && data.me && data.me.wallet.toLocaleString("en")}
+          <span className="credits__currency">฿ - baht</span>
         </h1>
         <div className="credits__btn-group">
-          <button className="credits__btn credits__btn--topup">Topup</button>
+          <button
+            className="credits__btn credits__btn--topup"
+            onClick={() => setShowTopup((prev) => !prev)}
+          >
+            Topup
+          </button>
           <button className="credits__btn credits__btn--withdraw">
             Withdraw
           </button>
         </div>
+        <Topup visible={showTopup} cards={data && data.me && data.me.cards} />
       </div>
       <div className="history">
         <h2 className="history__title">Transaction history</h2>

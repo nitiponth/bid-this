@@ -2323,22 +2323,15 @@ body {
   height: 100%;
   padding: 0 3rem 3rem 3rem;
   border-radius: 2rem;
-  overflow: hidden;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-rows: 45rem auto;
-      grid-template-rows: 45rem auto;
-  -ms-grid-columns: 1fr;
-      grid-template-columns: 1fr;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  overflow-x: hidden;
 }
 
 .credits {
   border-bottom: 1px solid var(--color-grey-light-3);
   background-color: var(--color-grey-light-1);
+  min-height: 40rem;
   padding: 0 3rem;
+  padding-bottom: 4rem;
   border-radius: 2rem;
   margin-top: 3rem;
   display: -webkit-box;
@@ -2351,6 +2344,160 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.credits .topup-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  margin-top: 3rem;
+  border-radius: 2rem;
+  width: 80%;
+}
+
+.credits .topup-container .topup__title {
+  font-size: 2rem;
+  font-style: italic;
+}
+
+.credits .topup-container .topup__select {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-column-gap: 1.5rem;
+          column-gap: 1.5rem;
+  margin: 1rem 0;
+  font-size: 1.6rem;
+  color: var(--color-grey-dark-1);
+}
+
+.credits .topup-container .topup__select__box {
+  margin-top: 2rem;
+  padding: 1rem 1.5rem;
+  -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+          box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+}
+
+.credits .topup-container .topup__select__box--selected {
+  background-color: var(--primary-yellow-dark-1);
+  color: white;
+}
+
+.credits .topup-container .topup__select__box:hover {
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+  cursor: pointer;
+}
+
+.credits .topup-container .topup__checkout {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-column-gap: 1rem;
+          column-gap: 1rem;
+  row-gap: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.credits .topup-container .topup__existCard {
+  width: 80%;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  margin-top: 1.5rem;
+  border-radius: 2rem;
+}
+
+.credits .topup-container .topup__existCard .existCard {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-size: 1.4rem;
+}
+
+.credits .topup-container .topup__existCard .existCard__left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.credits .topup-container .topup__existCard .existCard__left--line {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.credits .topup-container .topup__existCard .existCard__btn {
+  min-width: 10rem;
+  font-family: inherit;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  background-color: var(--primary-yellow);
+  border-radius: 1rem;
+  border: none;
+  font-size: 1.8;
+  color: white;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+}
+
+.credits .topup-container .topup__existCard .existCard__btn:hover {
+  background-color: var(--primary-yellow-dark-1);
+}
+
+.credits .topup-container .pay-btn {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  min-width: 20rem;
+  font-family: inherit;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  background-color: black;
+  border-radius: 1rem;
+  border: none;
+  font-size: 1.8;
+  color: white;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
 }
 
 .credits__title {
