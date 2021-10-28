@@ -2500,6 +2500,169 @@ body {
           box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
 }
 
+.credits .withdraw-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  margin-top: 3rem;
+  border-radius: 2rem;
+  width: 80%;
+}
+
+.credits .withdraw-container .withdraw__title {
+  font-size: 2rem;
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.credits .withdraw-container .withdraw__form {
+  height: 4rem;
+  font-family: inherit;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 2rem;
+  border-radius: 1rem;
+  padding: 1.5rem 0;
+  padding-right: 1.5rem;
+  background-color: var(--color-grey-light-3);
+  border: 1px solid var(--color-grey-light-3);
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  margin-bottom: 2rem;
+}
+
+.credits .withdraw-container .withdraw__form__input {
+  height: 4rem;
+  font-family: inherit;
+  color: inherit;
+  font-size: 1.6rem;
+  padding: 1.5rem 1.5rem;
+  margin-right: 0.75rem;
+  border-radius: 1rem;
+  background-color: #fff;
+  border: none;
+  width: 100%;
+  display: block;
+  text-align: right;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+  outline: none;
+  overflow: hidden;
+}
+
+.credits .withdraw-container .withdraw__form__input::-webkit-input-placeholder {
+  color: var(--color-grey-dark-3);
+}
+
+.credits .withdraw-container .withdraw__form input[type="number"]::-webkit-inner-spin-button,
+.credits .withdraw-container .withdraw__form input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.credits .withdraw-container .withdraw__bank {
+  width: 80%;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  margin-top: 1.5rem;
+  border-radius: 2rem;
+}
+
+.credits .withdraw-container .withdraw__bank .existAccount {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-size: 1.4rem;
+}
+
+.credits .withdraw-container .withdraw__bank .existAccount__left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.credits .withdraw-container .withdraw__bank .existAccount__digits {
+  letter-spacing: 3px;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+}
+
+.credits .withdraw-container .withdraw__bank .existAccount__brand, .credits .withdraw-container .withdraw__bank .existAccount__name {
+  width: 50%;
+}
+
+.credits .withdraw-container .withdraw__bank .existAccount__btn {
+  min-width: 10rem;
+  font-family: inherit;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  background-color: var(--primary-yellow);
+  border-radius: 1rem;
+  border: none;
+  font-size: 1.8;
+  color: white;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+}
+
+.credits .withdraw-container .withdraw__bank .existAccount__btn:hover {
+  background-color: var(--primary-yellow-dark-1);
+}
+
+.credits .withdraw-container .withdraw__bank .existAccount__btn--disabled {
+  background-color: var(--color-grey-light-4);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.credits .withdraw-container .withdraw__bank .existAccount__btn--disabled:hover {
+  background-color: var(--color-grey-light-4);
+  cursor: not-allowed;
+}
+
+.credits .withdraw-container .addAccount-btn {
+  margin-top: 2rem;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  min-width: 15rem;
+  font-family: inherit;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  background-color: black;
+  border-radius: 1rem;
+  border: none;
+  font-size: 1.8;
+  color: white;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+
 .credits__title {
   width: 100%;
   margin-top: 2rem;
@@ -2636,6 +2799,122 @@ body {
 
 .history__lists::-webkit-scrollbar {
   display: none;
+}
+
+.addAccount-container {
+  height: 50rem;
+  width: 50rem;
+  background-color: var(--color-grey-light-1);
+  border-radius: 2rem;
+  padding: 4rem 4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.addAccount-container .addAcc__title {
+  width: 100%;
+  text-align: center;
+  font-size: 3rem;
+  font-style: italic;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--color-grey-light-4);
+}
+
+.addAccount-container .addAcc__select-box {
+  width: 80%;
+  margin-bottom: 1rem;
+}
+
+.addAccount-container .addAcc__form {
+  width: 80%;
+}
+
+.addAccount-container .addAcc__form input[type="number"]::-webkit-inner-spin-button,
+.addAccount-container .addAcc__form input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.addAccount-container .addAcc__input {
+  height: 4rem;
+  font-family: inherit;
+  color: inherit;
+  font-size: 1.6rem;
+  padding: 1.5rem 2rem;
+  border-radius: 1rem;
+  background-color: #fff;
+  border: none;
+  display: block;
+  width: 100%;
+  outline: none;
+  margin-bottom: 2.5rem;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+  -webkit-box-shadow: 0 0rem 1rem rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.addAccount-container .addAcc__input::-webkit-input-placeholder {
+  color: var(--color-grey-dark-3);
+}
+
+.addAccount-container .addAcc__btn-group {
+  margin-top: 4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-column-gap: 1rem;
+          column-gap: 1rem;
+}
+
+.addAccount-container .addAcc__btn {
+  font-family: inherit;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1.8rem;
+  font-weight: 400;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.addAccount-container .addAcc__btn:hover {
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+  -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
+}
+
+.addAccount-container .addAcc__btn:active {
+  -webkit-transform: translateY(1px);
+          transform: translateY(1px);
+  -webkit-box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.addAccount-container .addAcc__btn--save {
+  background-color: var(--primary-yellow-dark-1);
+  color: var(--color-grey-light-1);
+}
+
+.addAccount-container .addAcc__btn--cancel {
+  background-color: var(--color-grey-dark-1);
+  color: var(--color-grey-light-1);
 }
 
 .uf-container {

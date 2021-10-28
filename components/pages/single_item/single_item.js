@@ -235,13 +235,11 @@ function SingleItem(props) {
           )}
 
           <div className="item__desc-btn-group">
-            {moreThanTwoWeek &&
-              props.item.status !==
-                "RECEIVED"(
-                  <button type="button" className="item__desc-track-confirm">
-                    Claim your Credits
-                  </button>
-                )}
+            {moreThanTwoWeek && props.item.status !== "RECEIVED" && (
+              <button type="button" className="item__desc-track-confirm">
+                Claim your Credits
+              </button>
+            )}
             {props.item.status !== "RECEIVED" && (
               <button
                 type="button"

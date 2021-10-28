@@ -1,7 +1,8 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import Topup from "./topup";
 import Transaction from "./transaction";
+import Withdraw from "./withdraw";
 
 const DUMMY_TRANSACTIOCS = [
   {
@@ -42,15 +43,35 @@ const CARDS_QUERY = gql`
           brand
         }
       }
+      bankAccounts {
+        id
+        bankInfo {
+          id
+          name
+          last_digits
+          brand
+          active
+        }
+      }
     }
+  }
+`;
+
+const UPDATE_REP = gql`
+  mutation {
+    updateRepActive
   }
 `;
 
 function Credits() {
   const [showTopup, setShowTopup] = useState(false);
-  const { data, error, loading } = useQuery(CARDS_QUERY, {
+  const [showWithdraw, setShowWithdraw] = useState(false);
+  const { data, error, loading, refetch } = useQuery(CARDS_QUERY, {
     ssr: false,
+    fetchPolicy: "network-only",
   });
+
+  const [updateRepActive] = useMutation(UPDATE_REP);
 
   return (
     <div className="credits-container">
@@ -63,15 +84,35 @@ function Credits() {
         <div className="credits__btn-group">
           <button
             className="credits__btn credits__btn--topup"
-            onClick={() => setShowTopup((prev) => !prev)}
+            onClick={() => {
+              setShowTopup((prev) => !prev);
+              refetch();
+              setShowWithdraw(false);
+            }}
           >
             Topup
           </button>
-          <button className="credits__btn credits__btn--withdraw">
+          <button
+            className="credits__btn credits__btn--withdraw"
+            onClick={async () => {
+              setShowWithdraw((prev) => !prev);
+              setShowTopup(false);
+              const { errors } = await updateRepActive();
+              refetch();
+              if (errors) {
+                console.log(errors);
+              }
+            }}
+          >
             Withdraw
           </button>
         </div>
         <Topup visible={showTopup} cards={data && data.me && data.me.cards} />
+        <Withdraw
+          visible={showWithdraw}
+          banks={data && data.me && data.me.bankAccounts}
+          refetch={refetch}
+        />
       </div>
       <div className="history">
         <h2 className="history__title">Transaction history</h2>

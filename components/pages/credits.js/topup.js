@@ -70,14 +70,25 @@ function Topup(props) {
           <div className="existCard__right">
             <button
               className="existCard__btn"
-              onClick={() => {
-                depositCredit({
+              onClick={async () => {
+                const con = confirm(
+                  `Deposite ${selected.toLocaleString(
+                    "En"
+                  )}฿ with **** **** **** ${card.cardInfo.last_digits}`
+                );
+                if (!con) {
+                  return;
+                }
+                await depositCredit({
                   variables: {
                     amount: selected,
                     token: null,
                     cardId: card.id,
                   },
                 });
+                alert(
+                  `Deposit ${selected.toLocaleString("En")}฿ successfully.`
+                );
               }}
             >
               Use this card
