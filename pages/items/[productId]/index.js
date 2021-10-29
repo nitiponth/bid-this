@@ -154,8 +154,6 @@ function ProductPage() {
     comment: data.getProductById.comment,
   };
 
-  console.log(itemData.buyerName);
-
   const bidders = data.getProductById.bids;
 
   return (

@@ -1,33 +1,9 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
+import { set } from "js-cookie";
 import { useContext, useEffect, useState } from "react";
 import Topup from "./topup";
-import Transaction from "./transaction";
+import Transactions from "./transactions";
 import Withdraw from "./withdraw";
-
-const DUMMY_TRANSACTIOCS = [
-  {
-    title: "Deposit credits",
-    value: 10000,
-    date: 1629699132000,
-  },
-  {
-    title: "Withdraw credits",
-    value: 3000,
-    date: 1629792017000,
-  },
-  {
-    title: "Pay for",
-    productName: "Keychrone",
-    productLink: "#",
-    value: 3000,
-    date: 1629982200000,
-  },
-  {
-    title: "Withdraw credits",
-    value: 2000,
-    date: 1629986411000,
-  },
-];
 
 const CARDS_QUERY = gql`
   query {
@@ -63,8 +39,28 @@ const UPDATE_REP = gql`
   }
 `;
 
+const UPDATE_GET_TRANS = gql`
+  mutation {
+    updateAndGetTransactions {
+      id
+      tranId
+      status
+      type
+      createdAt
+      amount
+      product {
+        id
+        title
+      }
+    }
+  }
+`;
+
 function Credits() {
   const [showTopup, setShowTopup] = useState(false);
+  const [showTrans, setShowTrans] = useState(false);
+  const [transactions, setTransactions] = useState([]);
+
   const [showWithdraw, setShowWithdraw] = useState(false);
   const { data, error, loading, refetch } = useQuery(CARDS_QUERY, {
     ssr: false,
@@ -72,6 +68,7 @@ function Credits() {
   });
 
   const [updateRepActive] = useMutation(UPDATE_REP);
+  const [updateAndGetTransactions] = useMutation(UPDATE_GET_TRANS);
 
   return (
     <div className="credits-container">
@@ -116,12 +113,19 @@ function Credits() {
       </div>
       <div className="history">
         <h2 className="history__title">Transaction history</h2>
-        <div className="history__lists">
-          <Transaction data={DUMMY_TRANSACTIOCS[3]} />
-          <Transaction data={DUMMY_TRANSACTIOCS[2]} />
-          <Transaction data={DUMMY_TRANSACTIOCS[1]} />
-          <Transaction data={DUMMY_TRANSACTIOCS[0]} />
-        </div>
+        <button
+          className="trans-btn"
+          onClick={async () => {
+            setShowTrans((prev) => !prev);
+            if (!showTrans) {
+              const { data } = await updateAndGetTransactions();
+              setTransactions(data.updateAndGetTransactions.reverse());
+            }
+          }}
+        >
+          {showTrans ? "Hide Transactions" : "Show Transactions"}
+        </button>
+        <Transactions visible={showTrans} trans={transactions} />
       </div>
     </div>
   );

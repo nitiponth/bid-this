@@ -25,7 +25,7 @@ function Lister(props) {
         </div>
       </div>
       <div className="bid__value">
-        <div>{props.resPrice} ฿</div>
+        <div>{props.resPrice.toLocaleString()} ฿</div>
         <div>&nbsp;</div>
       </div>
     </div>

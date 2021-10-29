@@ -52,13 +52,13 @@ function Withdraw(props) {
             });
 
             if (data) {
-              console.log(data);
+              amountRef.current.value = "";
               alert(
                 `Withdraw ${amount} successfully. waiting for banking process...`
               );
             }
             if (errors) {
-              console.log(data);
+              console.log(errors);
             }
           }}
         >

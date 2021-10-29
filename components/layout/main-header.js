@@ -109,7 +109,7 @@ function MainHeader() {
             <NavItem
               isLogin={true}
               user={userData.username}
-              credits={userData.wallet}
+              credits={userData.wallet.toLocaleString()}
               profile={
                 userData.profile
                   ? userData.profile

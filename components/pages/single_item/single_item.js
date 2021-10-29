@@ -122,6 +122,12 @@ function SingleItem(props) {
   const buyerId = props.item.buyer;
 
   const onUpdateTrack = async () => {
+    const con = confirm(
+      `Confirm track number — ${trackNumber.current.value} ?`
+    );
+    if (!con) {
+      return;
+    }
     const { data, error } = await updateProductTrack({
       variables: {
         productId: props.item.productId,
@@ -130,13 +136,19 @@ function SingleItem(props) {
     });
 
     if (data) {
-      console.log(data);
+      // console.log(data);
       router.reload();
     }
     if (error) console.log(error);
   };
 
   const onConfirm = async () => {
+    const con = confirm(
+      `Confirm that the product (${props.item.title}) has been received`
+    );
+    if (!con) {
+      return;
+    }
     const { data, error } = await confirmProduct({
       variables: {
         productId: props.item.productId,
@@ -144,7 +156,7 @@ function SingleItem(props) {
     });
 
     if (data) {
-      console.log(data);
+      // console.log(data);
       router.reload();
     }
     if (error) console.log(error);
@@ -185,7 +197,6 @@ function SingleItem(props) {
 
   let reviewSection = null;
   if (isEnd && props.item.comment) {
-    console.log(props.item.comment);
     reviewSection = (
       <Fragment>
         <label className="glabel">Product Review</label>
@@ -215,44 +226,46 @@ function SingleItem(props) {
   let trackSection = null;
   if (isEnd && authCtx.user && authCtx.user.id === props.item.sellerId) {
     //Seller
-    trackSection = (
-      <Fragment>
-        <label className="glabel">Tracking Number</label>
-        <div className="item__desc-track">
-          {props.item.status === "RECEIVED" && (
-            <input
-              disabled={true}
-              className="item__desc-track-input"
-              value={props.item.track}
-            />
-          )}
-          {props.item.status !== "RECEIVED" && (
-            <input
-              className="item__desc-track-input"
-              value={props.item.track}
-              ref={trackNumber}
-            />
-          )}
-
-          <div className="item__desc-btn-group">
-            {moreThanTwoWeek && props.item.status !== "RECEIVED" && (
-              <button type="button" className="item__desc-track-confirm">
-                Claim your Credits
-              </button>
+    if (props.item.buyer) {
+      trackSection = (
+        <Fragment>
+          <label className="glabel">Tracking Number</label>
+          <div className="item__desc-track">
+            {props.item.status === "RECEIVED" && (
+              <input
+                disabled={true}
+                className="item__desc-track-input"
+                value={props.item.track}
+              />
             )}
             {props.item.status !== "RECEIVED" && (
-              <button
-                type="button"
-                onClick={onUpdateTrack}
-                className="item__desc-track-submit"
-              >
-                {props.item.track ? <BiPencil /> : <FiTruck />}
-              </button>
+              <input
+                className="item__desc-track-input"
+                defaultValue={props.item.track ? props.item.track : ""}
+                ref={trackNumber}
+              />
             )}
+
+            <div className="item__desc-btn-group">
+              {moreThanTwoWeek && props.item.status !== "RECEIVED" && (
+                <button type="button" className="item__desc-track-confirm">
+                  Claim your Credits
+                </button>
+              )}
+              {props.item.status !== "RECEIVED" && (
+                <button
+                  type="button"
+                  onClick={onUpdateTrack}
+                  className="item__desc-track-submit"
+                >
+                  {props.item.track ? <BiPencil /> : <FiTruck />}
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-      </Fragment>
-    );
+        </Fragment>
+      );
+    }
   } else if (isEnd && buyerId && authCtx.user && authCtx.user.id === buyerId) {
     //Buyer
     trackSection = (
@@ -453,7 +466,9 @@ function SingleItem(props) {
             <div className="item__bidding">
               <div className="item__bidding-bid">
                 {props.item.current ? (
-                  <label className="glabel">Current bid</label>
+                  <label className="glabel">
+                    {isEnd ? "Ended bid" : "Current bid"}
+                  </label>
                 ) : (
                   <label className="glabel">Reserve Price</label>
                 )}
