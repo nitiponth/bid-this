@@ -1,4 +1,6 @@
-function Lister(props) {
+import React from "react";
+
+const Lister = (props) => {
   return (
     <div className="bidder">
       <div className="bid__profile">
@@ -30,6 +32,6 @@ function Lister(props) {
       </div>
     </div>
   );
-}
+};
 
 export default Lister;

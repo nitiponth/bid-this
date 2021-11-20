@@ -39,6 +39,7 @@ const AUCTIONING_QUERY = gql`
         initial
         current
       }
+      start
       end
     }
   }
@@ -106,6 +107,7 @@ function UserInfo(props) {
       desc: product.desc,
       price: product.price.initial,
       lastPrice: product.price.current,
+      start: product.start,
       endTime: product.end,
     };
     return <ItemCard item={productData} key={product.id} />;

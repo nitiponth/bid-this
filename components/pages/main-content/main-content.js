@@ -163,7 +163,9 @@ function MainContent() {
       <div className="main-content">
         {!cate && (
           <div className="main-content__hero">
-            <p style={{ textAlign: "center" }}>No product for auction</p>
+            <p style={{ justifyContent: "center", textAlign: "center" }}>
+              No product for auction
+            </p>
           </div>
         )}
       </div>
@@ -183,16 +185,18 @@ function MainContent() {
 
   let itemLists = filteredItems
     .slice(1, filteredItems.length)
-    .map((product) => <ItemCard item={product} />);
+    .map((product) => <ItemCard item={product} key={product.productId} />);
   if (cate) {
-    itemLists = filteredItems.map((product) => <ItemCard item={product} />);
+    itemLists = filteredItems.map((product) => (
+      <ItemCard item={product} key={product.productId} />
+    ));
   }
 
   return (
     <div className="main-content">
       {!cate && (
         <div className="main-content__hero">
-          <ItemHero item={filteredItems[0]} />
+          <ItemHero item={filteredItems[0]} key={filteredItems[0].key} />
         </div>
       )}
 

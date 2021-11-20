@@ -1,19 +1,37 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import Link from "next/dist/client/link";
 import useTimer from "../../../hooks/useTimer";
 
 function ItemCard(props) {
   const time = useTimer(props.item.endTime);
+  const countStart = useTimer(props.item.start);
 
-  let timeText = `${time.timerHours}h ${time.timerMinutes}m ${time.timerSeconds}s`;
-  if (props.item.endTime < new Date().toLocaleDateString("en-US")) {
-    timeText = "END";
+  const [isEnd, setIsEnd] = useState(false);
+  const [isStart, setIsStart] = useState(false);
+
+  const startTime = new Date(props.item.start);
+  const endTime = new Date(props.item.endTime);
+
+  useEffect(() => {
+    if (endTime < new Date()) {
+      setIsEnd(true);
+    }
+    if (startTime <= new Date()) {
+      setIsStart(true);
+    }
+  }, [endTime, startTime]);
+
+  let timeText = `${countStart.timerHours}h ${countStart.timerMinutes}m ${countStart.timerSeconds}s`;
+  if (isStart) {
+    if (!isEnd)
+      timeText = `${time.timerHours}h ${time.timerMinutes}m ${time.timerSeconds}s`;
+    else timeText = `--h --m --s`;
   }
 
   let auctionTextClass = "auction-text--card";
 
   if (time.timerHours == 0 && time.timerMinutes <= 14) {
-    auctionTextClass = "auction-text--card auction-text--card--red";
+    auctionTextClass = "auction-text--card";
   }
 
   const [isWatched, setIsWatched] = useState(props.item.watched);
@@ -59,7 +77,7 @@ function ItemCard(props) {
           <span className="at-sign">@</span>
           {props.item.seller}
         </a>
-        <div className="item-card__detail-desc">{props.item.desc}</div>
+        <p className="item-card__detail-desc">{props.item.desc}</p>
         <div className="item-card__detail-auction">
           <div className="item-card__detail-auction-res">
             {props.item.lastPrice ? (
@@ -68,7 +86,7 @@ function ItemCard(props) {
                   Current bid
                 </span>
                 <span className="auction-text--card">
-                  {props.item.lastPrice}฿
+                  {props.item.lastPrice.toLocaleString()}฿
                 </span>
               </Fragment>
             ) : (
@@ -76,13 +94,15 @@ function ItemCard(props) {
                 <span className="item-card__detail-auction-text">
                   Reserve bid
                 </span>
-                <span className="auction-text--card">{props.item.price}฿</span>
+                <span className="auction-text--card">
+                  {props.item.price.toLocaleString()}฿
+                </span>
               </Fragment>
             )}
           </div>
           <div className="item-card__detail-auction-time">
             <span className="item-card__detail-auction-text">
-              Auction ending in
+              {isStart ? "Auction ending in" : "AUCTION START IN"}
             </span>
             <span className={auctionTextClass}>{timeText}</span>
           </div>

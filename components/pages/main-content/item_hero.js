@@ -79,14 +79,18 @@ function ItemHero(props) {
                 <span className="item-hero__detail-auction-text">
                   Current bid
                 </span>
-                <span className="auction-text">{props.item.lastPrice}฿</span>
+                <span className="auction-text">
+                  {props.item.lastPrice.toLocaleString()}฿
+                </span>
               </Fragment>
             ) : (
               <Fragment>
                 <span className="item-hero__detail-auction-text">
                   Reserve bid
                 </span>
-                <span className="auction-text">{props.item.price}฿</span>
+                <span className="auction-text">
+                  {props.item.price.toLocaleString()}฿
+                </span>
               </Fragment>
             )}
           </div>

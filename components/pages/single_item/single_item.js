@@ -443,7 +443,7 @@ function SingleItem(props) {
         <div className="section__content">
           <div className="item__desc">
             <label className="glabel">Description</label>
-            <div className="item__desc-text">{props.item.desc}</div>
+            <p className="item__desc-text">{props.item.desc}</p>
             <label className="glabel">Condition</label>
             <div className="item__desc-delivery">
               <span className="item__desc-delivery--com">
@@ -474,8 +474,8 @@ function SingleItem(props) {
                 )}
                 <div className="item__bidding-bid--price">
                   {props.item.current
-                    ? props.item.current
-                    : props.item.resPrice}{" "}
+                    ? props.item.current.toLocaleString()
+                    : props.item.resPrice.toLocaleString()}{" "}
                   ฿
                 </div>
               </div>
