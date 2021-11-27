@@ -1992,10 +1992,13 @@ body {
           mask-image: url(/images/SVG/heart.svg);
 }
 
-.adminContainer {
-  width: 100vw;
+.adminPage {
+  width: 100%;
   height: 100vh;
-  background-color: #f7f7f7;
+  background-color: whitesmoke;
+}
+
+.adminContainer {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2003,23 +2006,29 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  background-color: wheat;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5rem;
 }
 
 .adminContainer .admin__body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
   height: 100%;
+  width: 100%;
 }
 
 .adminContainer .admin__header {
-  background-color: #fdebcb;
-  padding: 2rem 0;
+  width: 100%;
+  background-color: white;
+  -webkit-box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.15);
+  padding: 2rem 1rem;
   border-radius: 2rem;
   margin: 1rem;
   margin-bottom: 0.5rem;
@@ -2029,10 +2038,6 @@ body {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-}
-
-.adminContainer .admin__header .header {
-  background-color: antiquewhite;
 }
 
 .adminContainer .admin__header .header__left {
@@ -2075,9 +2080,13 @@ body {
 
 .adminContainer .adminContent {
   padding: 1rem 2rem;
-  margin: 1rem;
+  padding-bottom: 3rem;
+  margin-left: 1rem;
+  margin-top: 1rem;
   border-radius: 2rem;
-  background-color: #fdebcb;
+  background-color: white;
+  -webkit-box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.15);
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
@@ -2124,8 +2133,8 @@ body {
   height: 4rem;
   border: none;
   border-radius: 1rem;
-  -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
-          box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
   padding: 1rem 2rem;
   outline: none;
 }
@@ -2148,6 +2157,8 @@ body {
 }
 
 .adminContainer .adminContent .admin__content {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2155,32 +2166,168 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  background-color: #fff6e7;
-}
-
-.adminContainer .sidebarContainer {
-  width: 25%;
-  max-width: 300;
-  background-color: #fdebcb;
-  border-radius: 2rem;
   padding: 2rem 1rem;
-  margin: 1rem;
+  height: 65vh;
+  overflow-y: scroll;
 }
 
-.adminContainer .sidebarContainer .sidebar__item {
-  padding: 2rem 2rem;
-  font-size: 1.8rem;
-  background-color: var(--primary-yellow);
-  margin: 0 0.5rem;
-  margin-bottom: 1rem;
-  border-radius: 1rem;
-  color: var(--color-grey-light-1);
+.adminContainer .adminContent .admin__content::-webkit-scrollbar {
+  display: none;
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer {
+  padding: 1rem 0.5rem;
+  width: 100%;
+  min-height: 110px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-radius: 2rem;
+  background-color: white;
+  -webkit-box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.09);
+          box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.09);
+  margin-bottom: 1.5rem;
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer .left {
+  width: 15%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer .left__profile {
+  width: 80px;
+  border-radius: 2rem;
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer .body {
+  width: 40%;
+  height: 100%;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  color: var(--color-grey-dark-1);
+  font-weight: 400;
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer .body__userId {
+  margin-bottom: 5px;
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer .body__name, .adminContainer .adminContent .admin__content .userDataContainer .body__email {
+  font-size: 1.3rem;
+  color: var(--color-grey-dark-2);
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer .verification {
+  width: 25%;
+  height: 100%;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  color: var(--color-grey-dark-1);
+  font-weight: 400;
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer .verification__idCard, .adminContainer .adminContent .admin__content .userDataContainer .verification__photo, .adminContainer .adminContent .admin__content .userDataContainer .verification__status {
+  width: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-size: 1.3rem;
+  color: var(--color-grey-dark-2);
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer .verification__status {
+  width: 100%;
+  font-weight: 600;
+  -webkit-box-pack: stretch;
+      -ms-flex-pack: stretch;
+          justify-content: stretch;
+  margin-top: 0.5rem;
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer .buttonGroup {
+  width: 15%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer .buttonGroup__btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer .buttonGroup__btn:not(:last-child) {
+  margin-right: 2.5rem;
+}
+
+.adminContainer .adminContent .admin__content .userDataContainer .buttonGroup__btn:hover {
+  color: var(--primary-yellow);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.adminContainer .sidebarContainer {
+  width: 25%;
+  min-width: 150px;
+  max-width: 300px;
+  background-color: white;
+  -webkit-box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.15);
+  border-radius: 2rem;
+  padding: 2rem 1rem;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+
+.adminContainer .sidebarContainer .sidebar__item {
+  padding: 2rem 2rem;
+  font-size: 1.8rem;
+  background-color: var(--primary-yellow-light-1);
+  color: var(--primary-yellow-dark-1);
+  margin: 0 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   cursor: pointer;
   -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
           box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
@@ -2189,13 +2336,13 @@ body {
 }
 
 .adminContainer .sidebarContainer .sidebar__item:hover {
-  background-color: var(--primary-yellow-light-1);
-  color: var(--primary-yellow);
+  background-color: var(--primary-yellow);
+  color: var(--color-grey-light-1);
 }
 
 .adminContainer .sidebarContainer .sidebar__item--actived {
-  background-color: var(--primary-yellow-light-1);
-  color: var(--primary-yellow-dark-1);
+  background-color: var(--primary-yellow);
+  color: var(--color-grey-light-1);
 }
 
 .auth__layout {

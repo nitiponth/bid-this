@@ -9,11 +9,13 @@ import AdminReportManagement from "../../components/layout/admin/content/adminRe
 function Admin() {
   const { contentState } = useAdminStore();
   return (
-    <AdminLayout>
-      {contentState === "USER" && <AdminUserManagement />}
-      {contentState === "PRODUCT" && <AdminProductManagement />}
-      {contentState === "REPORT" && <AdminReportManagement />}
-    </AdminLayout>
+    <div className="adminPage">
+      <AdminLayout>
+        {contentState === "USER" && <AdminUserManagement />}
+        {contentState === "PRODUCT" && <AdminProductManagement />}
+        {contentState === "REPORT" && <AdminReportManagement />}
+      </AdminLayout>
+    </div>
   );
 }
 

@@ -22,7 +22,7 @@ function AdminSidebar() {
           setContentState("USER");
         }}
       >
-        User Management
+        User
       </div>
       <div
         className={
@@ -34,7 +34,7 @@ function AdminSidebar() {
           setContentState("PRODUCT");
         }}
       >
-        Product Management
+        Product
       </div>
       <div
         className={
@@ -46,7 +46,7 @@ function AdminSidebar() {
           setContentState("REPORT");
         }}
       >
-        Report Management
+        Report
       </div>
     </div>
   );
