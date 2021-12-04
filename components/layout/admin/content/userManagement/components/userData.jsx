@@ -1,7 +1,13 @@
+import Link from "next/link";
+import { observer } from "mobx-react-lite";
+import { useRouter } from "next/router";
 import { FaSearch, FaUserAlt } from "react-icons/fa";
+import { useAdminStore } from "../../../../../../store/admin-Content-Store";
 
 function UserData({ data }) {
-  // console.log(data);
+  const { changeState, defineUserId } = useAdminStore();
+
+  const router = useRouter();
 
   const name = data.name.first + " " + data.name.last;
 
@@ -49,15 +55,25 @@ function UserData({ data }) {
         </div>
       </div>
       <div className="buttonGroup">
-        <div className="buttonGroup__btn">
+        <div
+          className="buttonGroup__btn"
+          onClick={() => {
+            changeState("USER_DETAIL");
+            defineUserId(data.id);
+
+            router.push("/admin");
+          }}
+        >
           <FaSearch />
         </div>
-        <div className="buttonGroup__btn">
-          <FaUserAlt />
-        </div>
+        <Link href={`/users/${data.id}`}>
+          <a className="buttonGroup__btn">
+            <FaUserAlt />
+          </a>
+        </Link>
       </div>
     </div>
   );
 }
 
-export default UserData;
+export default observer(UserData);

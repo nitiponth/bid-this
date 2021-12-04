@@ -143,6 +143,12 @@
           display: none;
         }
 
+        .centered {
+          justify-self: center;
+          align-self: center;
+          font-size: 2rem;
+        }
+
         .userDataContainer {
           padding: 1rem 0.5rem;
           width: 100%;
@@ -229,6 +235,125 @@
 
               &:not(:last-child) {
                 margin-right: 2.5rem;
+              }
+
+              &:visited,
+              &:link {
+                color: var(--color-grey-dark-2);
+              }
+
+              &:hover {
+                color: var(--primary-yellow);
+                transition: all 0.2s;
+              }
+            }
+          }
+        }
+
+        .productDataContainer {
+          padding: 1rem 0rem;
+          width: 100%;
+          min-height: 110px;
+          max-height: 120px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-radius: 2rem;
+          background-color: white;
+          box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.09);
+
+          margin-bottom: 1.5rem;
+
+          .left {
+            width: 15%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 1rem;
+
+            &__image {
+              width: 90%;
+              min-width: 80px;
+              height: 95%;
+              min-height: 80px;
+              border-radius: 2rem;
+
+              object-fit: cover;
+            }
+          }
+
+          .body {
+            min-width: 220px;
+            height: 100%;
+            margin-left: 1rem;
+            font-size: 1.5rem;
+            color: var(--color-grey-dark-1);
+            font-weight: 400;
+
+            &__productId {
+              margin-bottom: 5px;
+            }
+            &__title,
+            &__seller,
+            &__category {
+              font-size: 1.3rem;
+              color: var(--color-grey-dark-2);
+
+              &:link,
+              &:visited {
+                text-decoration: none;
+              }
+            }
+          }
+
+          .auction {
+            min-width: 200px;
+            width: 30%;
+            height: 100%;
+            margin-left: 1rem;
+            // background: grey;
+            font-size: 1.5rem;
+            color: var(--color-grey-dark-1);
+            font-weight: 400;
+
+            &__title {
+              width: 100%;
+            }
+
+            &__start,
+            &__end,
+            &__status {
+              width: 100%;
+              display: flex;
+              // justify-content: space-between;
+              font-size: 1.3rem;
+              color: var(--color-grey-dark-2);
+            }
+          }
+
+          .buttonGroup {
+            min-width: 130px;
+            width: 15%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &__btn {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 1.8rem;
+
+              cursor: pointer;
+
+              &:not(:last-child) {
+                margin-right: 2.5rem;
+              }
+
+              &:visited,
+              &:link {
+                color: var(--color-grey-dark-2);
               }
 
               &:hover {

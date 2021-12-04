@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useAdminStore } from "../../../store/admin-Content-Store";
+import { useRouter } from "next/router";
 
 function AdminSidebar() {
   const [contentState, setContentState] = useState("USER");
   const { changeState } = useAdminStore();
 
-  useEffect(() => {
-    changeState(contentState);
-  }, [contentState]);
+  const router = useRouter();
 
   return (
     <div className="sidebarContainer">
@@ -20,6 +19,8 @@ function AdminSidebar() {
         }
         onClick={() => {
           setContentState("USER");
+          changeState("USER");
+          router.push("/admin");
         }}
       >
         User
@@ -32,6 +33,8 @@ function AdminSidebar() {
         }
         onClick={() => {
           setContentState("PRODUCT");
+          changeState("PRODUCT");
+          router.push("/admin");
         }}
       >
         Product
@@ -44,6 +47,8 @@ function AdminSidebar() {
         }
         onClick={() => {
           setContentState("REPORT");
+          changeState("REPORT");
+          router.push("/admin");
         }}
       >
         Report

@@ -3,6 +3,9 @@ import { makeAutoObservable, action, autorun, toJS } from "mobx";
 
 class AdminStore {
   contentState = "USER";
+  productId = null;
+  userId = null;
+  reportId = null;
 
   constructor() {
     makeAutoObservable(this, {
@@ -15,6 +18,18 @@ class AdminStore {
 
   changeState = (state) => {
     this.contentState = state;
+  };
+
+  defineUserId = (userId) => {
+    this.userId = userId;
+  };
+
+  defineProductId = (productId) => {
+    this.productId = productId;
+  };
+
+  defineProductId = (reportId) => {
+    this.productId = reportId;
   };
 }
 

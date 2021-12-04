@@ -2175,6 +2175,15 @@ body {
   display: none;
 }
 
+.adminContainer .adminContent .admin__content .centered {
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  font-size: 2rem;
+}
+
 .adminContainer .adminContent .admin__content .userDataContainer {
   padding: 1rem 0.5rem;
   width: 100%;
@@ -2292,7 +2301,144 @@ body {
   margin-right: 2.5rem;
 }
 
+.adminContainer .adminContent .admin__content .userDataContainer .buttonGroup__btn:visited, .adminContainer .adminContent .admin__content .userDataContainer .buttonGroup__btn:link {
+  color: var(--color-grey-dark-2);
+}
+
 .adminContainer .adminContent .admin__content .userDataContainer .buttonGroup__btn:hover {
+  color: var(--primary-yellow);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer {
+  padding: 1rem 0rem;
+  width: 100%;
+  min-height: 110px;
+  max-height: 120px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-radius: 2rem;
+  background-color: white;
+  -webkit-box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.09);
+          box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.09);
+  margin-bottom: 1.5rem;
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .left {
+  width: 15%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: 1rem;
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .left__image {
+  width: 90%;
+  min-width: 80px;
+  height: 95%;
+  min-height: 80px;
+  border-radius: 2rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .body {
+  min-width: 220px;
+  height: 100%;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  color: var(--color-grey-dark-1);
+  font-weight: 400;
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .body__productId {
+  margin-bottom: 5px;
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .body__title, .adminContainer .adminContent .admin__content .productDataContainer .body__seller, .adminContainer .adminContent .admin__content .productDataContainer .body__category {
+  font-size: 1.3rem;
+  color: var(--color-grey-dark-2);
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .body__title:link, .adminContainer .adminContent .admin__content .productDataContainer .body__title:visited, .adminContainer .adminContent .admin__content .productDataContainer .body__seller:link, .adminContainer .adminContent .admin__content .productDataContainer .body__seller:visited, .adminContainer .adminContent .admin__content .productDataContainer .body__category:link, .adminContainer .adminContent .admin__content .productDataContainer .body__category:visited {
+  text-decoration: none;
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .auction {
+  min-width: 200px;
+  width: 30%;
+  height: 100%;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  color: var(--color-grey-dark-1);
+  font-weight: 400;
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .auction__title {
+  width: 100%;
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .auction__start, .adminContainer .adminContent .admin__content .productDataContainer .auction__end, .adminContainer .adminContent .admin__content .productDataContainer .auction__status {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 1.3rem;
+  color: var(--color-grey-dark-2);
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .buttonGroup {
+  min-width: 130px;
+  width: 15%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .buttonGroup__btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .buttonGroup__btn:not(:last-child) {
+  margin-right: 2.5rem;
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .buttonGroup__btn:visited, .adminContainer .adminContent .admin__content .productDataContainer .buttonGroup__btn:link {
+  color: var(--color-grey-dark-2);
+}
+
+.adminContainer .adminContent .admin__content .productDataContainer .buttonGroup__btn:hover {
   color: var(--primary-yellow);
   -webkit-transition: all 0.2s;
   transition: all 0.2s;

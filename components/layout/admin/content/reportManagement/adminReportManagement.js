@@ -1,8 +1,8 @@
 import { useState } from "react";
-import SelectionBox from "../../../etc/selection/selection";
+import SelectionBox from "../../../../etc/selection/selection";
 
 const filterOptions = ["Sort by A", "Sort by B", "Sort by C", "Sort by D"];
-function AdminProductManagement() {
+function AdminReportManagement() {
   const [selectedFilter, setSelectedFilter] = useState("Select Filter");
   return (
     <div className="adminContent">
@@ -22,10 +22,10 @@ function AdminProductManagement() {
         </div>
       </div>
       <div className="admin__content">
-        <div>Product Management Page</div>
+        <div>Report Management Page</div>
       </div>
     </div>
   );
 }
 
-export default AdminProductManagement;
+export default AdminReportManagement;

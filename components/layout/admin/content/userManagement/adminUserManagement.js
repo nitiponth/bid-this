@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import SelectionBox from "../../../etc/selection/selection";
-import UserData from "./userComponent/userData";
+import UserData from "./components/userData";
+import SelectionBox from "../../../../etc/selection/selection";
 
 const filterOptions = ["Sort by A", "Sort by B", "Sort by C", "Sort by D"];
 
@@ -36,7 +36,7 @@ function AdminUserManagement() {
       setUsersData(data?.getUsers);
     }
     if (error) {
-      console.log("error! ", error);
+      console.log("Error: ", error);
     }
   }, [data]);
 
@@ -62,7 +62,7 @@ function AdminUserManagement() {
         </div>
       </div>
       <div className="admin__content">
-        {loading && <div>Loading...</div>}
+        {loading && <div className="centered">Loading...</div>}
         {usersData.length > 0 && usersList}
       </div>
     </div>
