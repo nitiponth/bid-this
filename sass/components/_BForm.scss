@@ -1,0 +1,93 @@
+.BForm {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  .BLabel {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--color-grey-dark-3);
+
+    margin-left: 0.5rem;
+  }
+
+  .BInput {
+    width: 45%;
+    border: 2px solid var(--color-grey-light-3);
+    font-family: inherit;
+    color: inherit;
+    font-size: 1.6rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    background-color: var(--color-grey-light-1);
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .BImage {
+    width: 90%;
+    height: 300px;
+    border: 2px solid var(--color-grey-light-3);
+    // background-color: var(--color-grey-light-3);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 1rem;
+    }
+  }
+
+  .BButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    border-radius: 100px;
+    background-color: #f8cb71;
+    padding: 1.25rem 2rem;
+
+    font-size: 1.4rem;
+
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    text-align: center;
+
+    transition: all 0.2s;
+
+    cursor: pointer;
+
+    &:link,
+    &:visited {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-decoration: none;
+      font-size: 1.25rem;
+      color: var(--color-grey-dark-2);
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(1px);
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    }
+
+    &--disabled {
+      background-color: var(--color-grey-light-4);
+
+      cursor: not-allowed;
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+}

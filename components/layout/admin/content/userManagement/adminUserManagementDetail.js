@@ -1,17 +1,31 @@
 import { gql, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
+import UserDetail from "./components/detail/userDetail";
 
 const GET_USER = gql`
   query ($userId: ID!) {
     getUserById(userId: $userId) {
       id
       email
+      name {
+        first
+        last
+      }
       username
+      phone
+      profile
       kyc {
         idCard
         photo
       }
       status
+      products {
+        id
+        title
+        status
+        start
+        end
+      }
     }
   }
 `;
@@ -45,9 +59,7 @@ function AdminUserDetial(props) {
   return (
     <div className="adminContent">
       <div className="admin__content">
-        {user?.id} {"\n"}
-        {user?.email} {"\n"}
-        {user?.username}
+        <UserDetail data={user} />
       </div>
     </div>
   );

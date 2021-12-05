@@ -126,6 +126,118 @@ body {
   padding-top: 12rem !important;
 }
 
+.BForm {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.BForm .BLabel {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--color-grey-dark-3);
+  margin-left: 0.5rem;
+}
+
+.BForm .BInput {
+  width: 45%;
+  border: 2px solid var(--color-grey-light-3);
+  font-family: inherit;
+  color: inherit;
+  font-size: 1.6rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  background-color: var(--color-grey-light-1);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.BForm .BImage {
+  width: 90%;
+  height: 300px;
+  border: 2px solid var(--color-grey-light-3);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.BForm .BImage__image {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 1rem;
+}
+
+.BForm .BButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 200px;
+  border-radius: 100px;
+  background-color: #f8cb71;
+  padding: 1.25rem 2rem;
+  font-size: 1.4rem;
+  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.BForm .BButton:link, .BForm .BButton:visited {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: 1.25rem;
+  color: var(--color-grey-dark-2);
+}
+
+.BForm .BButton:hover {
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+}
+
+.BForm .BButton:active {
+  -webkit-transform: translateY(1px);
+          transform: translateY(1px);
+  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.BForm .BButton--disabled {
+  background-color: var(--color-grey-light-4);
+  cursor: not-allowed;
+}
+
+.BForm .BButton--disabled:hover {
+  -webkit-transform: none;
+          transform: none;
+}
+
 .bidder {
   background-color: var(--color-grey-light-1);
   border-radius: 2rem;
@@ -2309,6 +2421,94 @@ body {
   color: var(--primary-yellow);
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
+}
+
+.adminContainer .adminContent .admin__content .detailContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border-radius: 2rem;
+  background-color: var(--color-grey-light-1);
+}
+
+.adminContainer .adminContent .admin__content .detailContainer .user__header {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  background-color: var(--color-grey-light-2);
+  border-radius: 2rem;
+  z-index: 10;
+}
+
+.adminContainer .adminContent .admin__content .detailContainer .user__header__profile {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  width: 170px;
+  height: 170px;
+  border-radius: 85px;
+  border: 5px solid white;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.adminContainer .adminContent .admin__content .detailContainer .user__body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-top: 10px;
+  overflow-y: scroll;
+}
+
+.adminContainer .adminContent .admin__content .detailContainer .user__body::-webkit-scrollbar {
+  display: none;
+}
+
+.adminContainer .adminContent .admin__content .detailContainer .user__body__title {
+  font-size: 2.5rem;
+  font-style: italic;
+  border-bottom: 2px solid var(--color-grey-light-3);
+  margin: 1rem 0;
+  margin-left: 0.5rem;
+}
+
+.adminContainer .adminContent .admin__content .detailContainer .user__body .auctionBox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100px;
+  width: 90%;
+  border: 2px solid var(--color-grey-light-3);
+  border-radius: 2rem;
+  margin-bottom: 1rem;
+}
+
+.adminContainer .adminContent .admin__content .detailContainer .user__body .auctionBox__count {
+  font-size: 5rem;
+  color: var(--primary-yellow);
+}
+
+.adminContainer .adminContent .admin__content .detailContainer .user__body .auctionBox__count--deactived {
+  color: var(--color-grey-light-4);
 }
 
 .adminContainer .adminContent .admin__content .productDataContainer {

@@ -20,7 +20,7 @@ let useClickOutside = (handler) => {
   return domNode;
 };
 
-function SelectionBox(props) {
+function DropdownBox(props) {
   const [isActive, setIsActive] = useState(false);
 
   let selectionStyle = "selection-btn ";
@@ -39,7 +39,7 @@ function SelectionBox(props) {
         onClick={(e) => setIsActive(!isActive)}
         ref={domNode}
       >
-        {props.selected}
+        {props.title}
         <span className="fas fa-caret-down">
           <FaCaretDown />
         </span>
@@ -48,14 +48,15 @@ function SelectionBox(props) {
           <div className="selection-content" style={{ marginBottom: "3rem" }}>
             {props.options.map((option) => (
               <div
-                key={option}
+                key={option.id}
                 onClick={(e) => {
-                  props.setSelected(option);
-                  setIsActive(false);
+                  //   props.setSelected(option);
+                  //   setIsActive(false);
+                  props.onSelected(option.id);
                 }}
                 className="selection-item"
               >
-                {option}
+                {option.title}
               </div>
             ))}
           </div>
@@ -65,4 +66,4 @@ function SelectionBox(props) {
   );
 }
 
-export default SelectionBox;
+export default DropdownBox;
