@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 
-function Slider(props) {
+function BCarousel(props) {
   const { items, configSize } = props;
 
   const [current, setCurrent] = useState(0);
@@ -74,4 +74,4 @@ function Slider(props) {
   );
 }
 
-export default Slider;
+export default BCarousel;

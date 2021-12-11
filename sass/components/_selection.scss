@@ -30,6 +30,10 @@
       outline: none;
       box-shadow: 0 0 0 2px var(--primary-yellow);
     }
+
+    &--disabled {
+      cursor: not-allowed;
+    }
   }
 
   &-content {

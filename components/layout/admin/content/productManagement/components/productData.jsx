@@ -1,9 +1,15 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { FaSearch, FaBox } from "react-icons/fa";
+import { useAdminStore } from "../../../../../../store/admin-Content-Store";
 
 function ProductData(props) {
   const { id, title, images, seller, price, category, start, end, status } =
     props.data;
+
+  const { changeState, defineProductId } = useAdminStore();
+
+  const router = useRouter();
 
   let productStauts = status;
   if (new Date(end) < new Date() && status === "ACTIVED") {
@@ -39,12 +45,18 @@ function ProductData(props) {
           </span>
         </div>
       </div>
-      <div className="buttonGroup">
-        <Link href={"/admin/"}>
-          <a className="buttonGroup__btn">
-            <FaSearch />
-          </a>
-        </Link>
+      <div
+        className="buttonGroup"
+        onClick={() => {
+          changeState("PRODUCT_DETAIL");
+          defineProductId(id);
+
+          router.push("/admin");
+        }}
+      >
+        <div className="buttonGroup__btn">
+          <FaSearch />
+        </div>
         <Link href={`/items/${id}`}>
           <a className="buttonGroup__btn">
             <FaBox />

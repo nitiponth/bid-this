@@ -3,7 +3,7 @@ import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import useTimer from "../../../hooks/useTimer";
 import ItemsDropdown from "../../dropdown/items-dropdown/items-dropdown";
 import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
-import Slider from "../../slider/slider";
+import BCarousel from "../../molecules/bCarousel/bCarousel";
 import { FiTruck } from "react-icons/fi";
 import { BiPencil, BiSupport } from "react-icons/bi";
 import Bidder from "./bidder";
@@ -202,7 +202,7 @@ function SingleItem(props) {
         <label className="glabel">Product Review</label>
         <div className="product-review">
           <div className="image__section">
-            <Slider items={props.item.comment.rImages} configSize="small" />
+            <BCarousel items={props.item.comment.rImages} configSize="small" />
           </div>
           <div className="body">{props.item.comment.body}</div>
           <div className="rating">
@@ -419,7 +419,7 @@ function SingleItem(props) {
       </Backdrop>
       <div className="single-item">
         <div className="section__img">
-          <Slider items={props.item.images} />
+          <BCarousel items={props.item.images} />
         </div>
         <div className="floatbox">
           <div className="floatbox--title">{props.item.title}</div>

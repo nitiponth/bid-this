@@ -1,7 +1,8 @@
 function BButton({ title, disabled, containerStyles, onClick }) {
-  let styles = "BButton BButton--disabled";
+  let styles = "BButton";
+
   if (disabled) {
-    styles = "BButton";
+    styles = "BButton BButton--disabled";
   }
 
   return (
@@ -9,7 +10,7 @@ function BButton({ title, disabled, containerStyles, onClick }) {
       className={styles}
       style={containerStyles}
       onClick={() => {
-        if (!disabled) return;
+        if (disabled) return;
 
         onClick();
       }}

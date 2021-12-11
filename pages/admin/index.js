@@ -6,9 +6,10 @@ import AdminUserManagement from "../../components/layout/admin/content/userManag
 import AdminProductManagement from "../../components/layout/admin/content/productManagement/adminProductManagement";
 import AdminReportManagement from "../../components/layout/admin/content/reportManagement/adminReportManagement";
 import AdminUserDetial from "../../components/layout/admin/content/userManagement/adminUserManagementDetail";
+import AdminProductDetail from "../../components/layout/admin/content/productManagement/detail/adminProductDetail";
 
 function Admin() {
-  const { contentState, userId } = useAdminStore();
+  const { contentState, userId, productId } = useAdminStore();
   return (
     <div className="adminPage">
       <AdminLayout>
@@ -16,6 +17,9 @@ function Admin() {
         {contentState === "PRODUCT" && <AdminProductManagement />}
         {contentState === "REPORT" && <AdminReportManagement />}
         {contentState === "USER_DETAIL" && <AdminUserDetial userId={userId} />}
+        {contentState === "PRODUCT_DETAIL" && (
+          <AdminProductDetail productId={productId} />
+        )}
       </AdminLayout>
     </div>
   );

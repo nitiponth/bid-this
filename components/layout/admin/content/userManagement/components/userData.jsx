@@ -39,7 +39,7 @@ function UserData({ data }) {
       </div>
       <div className="body">
         <div className="body__userId">{data.id}</div>
-        <div className="body__name">🧑‍🤝‍🧑 {name}</div>
+        <div className="body__name">🧑‍🤝‍🧑 {`${name} (${data.username})`}</div>
         <div className="body__email">📧 {data.email}</div>
       </div>
       <div className="verification">

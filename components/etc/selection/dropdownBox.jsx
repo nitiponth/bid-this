@@ -27,6 +27,9 @@ function DropdownBox(props) {
   if (isActive) {
     selectionStyle = "selection-btn selection-btn--active";
   }
+  if (props.disabled) {
+    selectionStyle = "selection-btn selection-btn--disabled";
+  }
 
   let domNode = useClickOutside(() => {
     setIsActive(false);
@@ -36,7 +39,10 @@ function DropdownBox(props) {
     <div className="selection">
       <div
         className={selectionStyle}
-        onClick={(e) => setIsActive(!isActive)}
+        onClick={(e) => {
+          if (props.disabled) return;
+          setIsActive(!isActive);
+        }}
         ref={domNode}
       >
         {props.title}
@@ -50,8 +56,6 @@ function DropdownBox(props) {
               <div
                 key={option.id}
                 onClick={(e) => {
-                  //   props.setSelected(option);
-                  //   setIsActive(false);
                   props.onSelected(option.id);
                 }}
                 className="selection-item"

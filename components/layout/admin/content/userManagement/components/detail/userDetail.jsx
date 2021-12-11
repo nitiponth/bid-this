@@ -1,28 +1,48 @@
 import { useEffect, useState } from "react";
 import SelectionBox from "../../../../../../etc/selection/selection";
 import AuctionBox from "../auctionBox";
-import BButton from "../BButton/bButton";
-import BForm from "../BForm/bForm";
+import BButton from "../../../../../../atoms/BButton/bButton";
+import BForm from "../../../../../../atoms/BForm/bForm";
 import BImage from "../BImage/bImage";
-import BInput from "../BInput/bInput";
+import BInput from "../../../../../../atoms/BInput/bInput";
+import { gql, useMutation } from "@apollo/client";
 
 const authenticationOptions = ["GUEST", "AUTHEN", "FULLAUTHEN", "BANNED"];
 
+const CHANGE_STATUS = gql`
+  mutation ($userId: ID!, $newStatus: String!) {
+    adminChangeUserStatus(userId: $userId, newStatus: $newStatus) {
+      id
+      username
+      status
+    }
+  }
+`;
+
 function UserDetail(props) {
-  const [currentStatus, setCurrentStatus] = useState(data?.status);
-  const [selectedAuthen, setSelectedAuthen] = useState(data?.status);
+  const [currentStatus, setCurrentStatus] = useState();
+  const [selectedAuthen, setSelectedAuthen] = useState();
   const [canConfirm, setCanConfirm] = useState(false);
   const [onGoingProducts, setOnGoingProducts] = useState([]);
   const [deactivedProducts, setDeactivedProducts] = useState([]);
   const { data } = props;
 
+  const [adminChangeUserStatus] = useMutation(CHANGE_STATUS);
+
   useEffect(() => {
     if (data) {
       setSelectedAuthen(data.status);
+      setCurrentStatus(data.status);
 
       const onGoingProductsList = data.products.filter((product) => {
         if (product.status === "ACTIVED") {
-          return new Date().toLocaleString("en-US") < product.end;
+          // console.log(product.title);
+          // console.log(new Date().toISOString());
+          // console.log("end", new Date(product.end).toISOString());
+          // console.log(
+          //   new Date().toISOString() < new Date(product.end).toISOString()
+          // );
+          return new Date().toISOString() < new Date(product.end).toISOString();
         }
       });
       setOnGoingProducts(onGoingProductsList);
@@ -60,6 +80,24 @@ function UserDetail(props) {
       title: product.title,
     };
   });
+
+  const changeStatusHandler = async () => {
+    setCurrentStatus(selectedAuthen);
+    console.log(`change status to ${selectedAuthen}`);
+
+    const result = await adminChangeUserStatus({
+      variables: {
+        userId: data?.id,
+        newStatus: selectedAuthen,
+      },
+    });
+
+    if (result.data) {
+      console.log(result.data);
+    } else if (result.errors) {
+      console.error(result.errors);
+    }
+  };
 
   return (
     <div className="detailContainer">
@@ -132,11 +170,8 @@ function UserDetail(props) {
             </div>
             <BButton
               title="Comfirm"
-              disabled={canConfirm}
-              onClick={() => {
-                setCurrentStatus(selectedAuthen);
-                console.log(`change status to ${selectedAuthen}`);
-              }}
+              disabled={!canConfirm}
+              onClick={changeStatusHandler}
               containerStyles={{ width: "100px" }}
             />
           </div>
@@ -161,6 +196,7 @@ function UserDetail(props) {
               amount={data?.products.length - onGoingProducts.length}
             />
           </div>
+          <div style={{ padding: "4rem" }} />
         </BForm>
       </div>
     </div>
