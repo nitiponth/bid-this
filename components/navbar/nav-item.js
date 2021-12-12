@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
+import { BsBookmarkFill } from "react-icons/bs";
 
 let useClickOutside = (handler) => {
   let domNode = useRef();
@@ -28,10 +29,11 @@ function NavItem(props) {
 
   let component = (
     <Fragment>
-      <img src={props.icon} alt="icon" className="user-nav__icon" />
-      {props.notification && (
+      {/* <img src={props.icon} alt="icon" className="user-nav__icon" /> */}
+      <BsBookmarkFill size={22} color="#f8cb71" className="user-nav__icon" />
+      {props.notification !== 0 ? (
         <span className="user-nav__notification">{props.notification}</span>
-      )}
+      ) : null}
     </Fragment>
   );
 

@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useMemo, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 
 import Link from "next/link";
@@ -100,7 +100,7 @@ function MainHeader() {
           Shipping
         </a>
         <div className="user-nav__icon-box">
-          <NavItem icon="/images/SVG/auction.svg" notification={2}>
+          <NavItem icon="/images/SVG/bookmark.svg" notification={0}>
             <AuctionDropdown />
           </NavItem>
         </div>

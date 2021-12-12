@@ -3,6 +3,7 @@ import { useQuery, gql, useSubscription } from "@apollo/client";
 import ItemCard from "./item_card";
 import ItemHero from "./item_hero";
 import { useEffect, useState } from "react";
+import next from "next";
 
 const DUMMY_ITEMS = [
   {
@@ -140,30 +141,48 @@ function MainContent() {
     return <p>Loading....</p>;
   }
 
-  const products = productsData.map((product) => {
-    return {
-      key: product.id,
-      productId: product.id,
-      title: product.title,
-      img: product.images[0],
-      desc: product.desc,
-      price: product.price.initial,
-      lastPrice: product.price.current,
-      start: product.start,
-      endTime: product.end,
-      seller: product.seller.username,
-      sellerId: product.seller.id,
-    };
-  });
+  const products = productsData
+    .map((product) => {
+      return {
+        key: product.id,
+        productId: product.id,
+        title: product.title,
+        img: product.images[0],
+        desc: product.desc,
+        price: product.price.initial,
+        lastPrice: product.price.current,
+        start: product.start,
+        endTime: product.end,
+        seller: product.seller.username,
+        sellerId: product.seller.id,
+      };
+    })
+    .filter((product) => {
+      const ONE_DAY = 24 * 60 * 60 * 1000;
+      const startT = new Date(product.start);
+      return startT - new Date() < ONE_DAY;
+    });
 
-  let filteredItems = products;
+  let filteredItems = products.reverse();
+
+  // useEffect(() => {
+  //   filteredItems = products.filter((product) => {
+
+  //   });
+  // }, [products]);
 
   if (filteredItems.length === 0) {
     return (
       <div className="main-content">
         {!cate && (
           <div className="main-content__hero">
-            <p style={{ justifyContent: "center", textAlign: "center" }}>
+            <p
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               No product for auction
             </p>
           </div>

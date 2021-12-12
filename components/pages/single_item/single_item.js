@@ -436,7 +436,7 @@ function SingleItem(props) {
               icon="/images/SVG/dots-three-horizontal.svg"
               style="floatbox--popup-img"
             >
-              <ItemsDropdown />
+              <ItemsDropdown productId={props.item.productId} isEnd={isEnd} />
             </PopupItem>
           </div>
         </div>

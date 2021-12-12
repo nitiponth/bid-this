@@ -2,6 +2,7 @@ import { createContext, useState, useCallback, useEffect } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { useWatchlistStore } from "./watchlist-store";
 
 const LOGIN_USER = gql`
   mutation ($loginEmail: String!, $loginPassword: String!) {
@@ -11,6 +12,9 @@ const LOGIN_USER = gql`
         username
         profile
         wallet
+        watchlists {
+          id
+        }
       }
       token
     }
@@ -35,6 +39,7 @@ export function AuthContextProvider(props) {
   const router = useRouter();
   const [login] = useMutation(LOGIN_USER);
   const [logout] = useMutation(LOGOUT_USER);
+  const { initialWatchlist, clearWatchlist } = useWatchlistStore();
 
   const [user, setUser] = useState(props.userData);
 
@@ -46,6 +51,7 @@ export function AuthContextProvider(props) {
       console.log(data.logout);
       setUser();
       Cookies.remove("token");
+      clearWatchlist();
       router.push("/");
     } catch (e) {
       console.log(e.message);
@@ -65,6 +71,10 @@ export function AuthContextProvider(props) {
           expires: 1,
         });
         setUser(data.login.user);
+        const watchedArr = data.login.user.watchlists.map((watched) => {
+          return watched.id;
+        });
+        initialWatchlist(data.login.user.id, watchedArr);
       }
     } catch (e) {
       alert(e.message);

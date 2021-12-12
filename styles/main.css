@@ -949,11 +949,13 @@ body {
 }
 
 .user-nav__icon {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
 }
 
 .user-nav__icon:hover {
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
   -webkit-transform: scale(1.2);
           transform: scale(1.2);
 }
@@ -2169,6 +2171,10 @@ body {
 .adminContainer .admin__header .header__left__logo {
   width: 13rem;
   height: "auto";
+}
+
+.adminContainer .admin__header .header__left__logo:hover {
+  cursor: pointer;
 }
 
 .adminContainer .admin__header .header__right {

@@ -1,19 +1,84 @@
-import { Fragment } from "react";
-import { HiFlag, HiOutlineHeart } from "react-icons/hi";
+import { Fragment, useEffect, useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+
+import { HiFlag, HiOutlineHeart, HiHeart } from "react-icons/hi";
+import { useWatchlistStore } from "../../../store/watchlist-store";
 import UserDropdownItem from "../user-dropdown/user-dropdown-item";
 
-function ItemsDropdown() {
+const ADD_TO_WATHCLIST = gql`
+  mutation ($watchedArr: [ID]!) {
+    addToWatchlists(watchedArr: $watchedArr) {
+      watchlists {
+        id
+      }
+    }
+  }
+`;
+
+function ItemsDropdown({ productId, isEnd }) {
+  const [addToWatchlists] = useMutation(ADD_TO_WATHCLIST);
+
+  const { toggleProductWatched, watchlist } = useWatchlistStore();
+  const [isWatched, setIsWatched] = useState(false);
+
+  useEffect(() => {
+    if (!productId) {
+      return;
+    }
+
+    const idx = watchlist.slice().indexOf(productId);
+    if (idx === -1) {
+      setIsWatched(false);
+    } else {
+      setIsWatched(true);
+    }
+  }, [watchlist.slice()]);
+
+  const watchClickedHandler = async () => {
+    toggleProductWatched(productId);
+    const { data, errors } = await addToWatchlists({
+      variables: {
+        watchedArr: watchlist.slice(),
+      },
+    });
+    if (data) {
+      // console.log(data);
+    } else {
+      console.log(errors);
+    }
+  };
+
+  const watchlistComp = (
+    <>
+      {!isWatched && (
+        <UserDropdownItem
+          leftIcon={<HiOutlineHeart />}
+          onClickHandler={watchClickedHandler}
+        >
+          Add to watchlist
+        </UserDropdownItem>
+      )}
+      {isWatched && (
+        <UserDropdownItem
+          leftIcon={<HiHeart color="#fa6363" />}
+          onClickHandler={watchClickedHandler}
+        >
+          Remove from watchlist
+        </UserDropdownItem>
+      )}
+    </>
+  );
+
   return (
     <Fragment>
       <div className="user-dropdown user-dropdown--items">
-        <UserDropdownItem leftIcon={<HiOutlineHeart />}>
-          Add to watchlists
-        </UserDropdownItem>
+        {!isEnd && watchlistComp}
+
         {/* <UserDropdownItem leftIcon="images/SVG/heart-outlined.svg">
           Remove from watchlists
         </UserDropdownItem> */}
-        <UserDropdownItem leftIcon={<HiFlag />} style="red">
-          <span style={{ color: "#E85B51" }}>Report</span>
+        <UserDropdownItem leftIcon={<HiFlag color="#999" />}>
+          <span>Report</span>
         </UserDropdownItem>
       </div>
     </Fragment>

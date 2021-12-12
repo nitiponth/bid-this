@@ -1,10 +1,29 @@
+import { useEffect, useState } from "react";
 import useTimer from "../../../hooks/useTimer";
 
-function AuctionDropdownItem(props) {
-  const time = useTimer(props.auctionTime);
+function AuctionDropdownItem({
+  id,
+  onClick,
+  start,
+  end,
+  price,
+  image,
+  children,
+}) {
+  const startTime = useTimer(start);
+  const endTime = useTimer(end);
+  const [isStart, setIsStart] = useState(false);
+
+  useEffect(() => {
+    if (new Date().toISOString() >= new Date(start).toISOString()) {
+      setIsStart(true);
+    } else {
+      setIsStart(false);
+    }
+  }, [startTime]);
 
   let auctionTextClass = "auction__time";
-  if (time.timerHours == 0 && time.timerMinutes <= 14) {
+  if (endTime.timerHours == 0 && endTime.timerMinutes <= 14) {
     auctionTextClass = "auction__time auction__time--red";
   }
 
@@ -12,20 +31,22 @@ function AuctionDropdownItem(props) {
     <a
       href="#"
       className="user-dropdown-item user-dropdown-item--auction"
-      onClick={props.onClickHandler}
+      onClick={onClick}
     >
-      {props.auctionImg && (
-        <span className="icon-button icon-button--left">
-          <img src={props.auctionImg} className="auction__img" />
-        </span>
-      )}
-      {props.children}
-      {props.auctionTime && (
+      <span className="icon-button icon-button--left">
+        <img src={image} className="auction__img" />
+      </span>
+
+      {children}
+      {endTime && (
         <span className="icon-button icon-button--right">
+          <p style={{ marginBottom: "0.5rem", textAlign: "right" }}>
+            {isStart ? "Ending in" : "Starting in"}
+          </p>
           <div className={auctionTextClass}>
-            {time.timerComplete ||
-              `${time.timerHours}h ${time.timerMinutes}m ${time.timerSeconds}s`}
-            {time.timerComplete && "END"}
+            {isStart
+              ? `${endTime.timerHours}h ${endTime.timerMinutes}m ${endTime.timerSeconds}s`
+              : `${startTime.timerHours}h ${startTime.timerMinutes}m ${startTime.timerSeconds}s`}
           </div>
         </span>
       )}

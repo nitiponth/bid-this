@@ -132,10 +132,11 @@
   }
 
   &__icon {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
 
     &:hover {
+      transition: all 0.25s;
       transform: scale(1.2);
     }
   }

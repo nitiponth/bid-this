@@ -42,6 +42,10 @@
           &__logo {
             width: 13rem;
             height: "auto";
+
+            &:hover {
+              cursor: pointer;
+            }
           }
         }
 

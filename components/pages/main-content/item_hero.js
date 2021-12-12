@@ -1,9 +1,25 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useContext, useEffect, useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+
 import useTimer from "../../../hooks/useTimer";
+import { useWatchlistStore } from "../../../store/watchlist-store";
+
+const ADD_TO_WATHCLIST = gql`
+  mutation ($watchedArr: [ID]!) {
+    addToWatchlists(watchedArr: $watchedArr) {
+      watchlists {
+        id
+      }
+    }
+  }
+`;
 
 function ItemHero(props) {
+  const [addToWatchlists] = useMutation(ADD_TO_WATHCLIST);
+
+  const { toggleProductWatched, watchlist } = useWatchlistStore();
   const router = useRouter();
   const countStart = useTimer(props.item.start);
   const time = useTimer(props.item.endTime);
@@ -13,6 +29,7 @@ function ItemHero(props) {
 
   const [isEnd, setIsEnd] = useState(false);
   const [isStart, setIsStart] = useState(false);
+  const [isWatched, setIsWatched] = useState(false);
 
   useEffect(() => {
     if (endTime < new Date()) {
@@ -35,9 +52,39 @@ function ItemHero(props) {
     auctionTextClass = "auction-text auction-text--red";
   }
 
+  useEffect(() => {
+    if (!props.item.productId) {
+      return;
+    }
+    if (!watchlist) {
+      return;
+    }
+
+    const idx = watchlist?.slice().indexOf(props.item.productId);
+    if (idx === -1) {
+      setIsWatched(false);
+    } else {
+      setIsWatched(true);
+    }
+  }, [watchlist.slice()]);
+
+  const watchClickedHandler = async () => {
+    toggleProductWatched(props.item.productId);
+    const { data, errors } = await addToWatchlists({
+      variables: {
+        watchedArr: watchlist.slice(),
+      },
+    });
+    if (data) {
+      // console.log(data);
+    } else {
+      console.log(errors);
+    }
+  };
+
   let watchlistsClass = "watchlists__icon";
-  if (props.item.watched) {
-    watchlistsClass = "watch__icon--red";
+  if (isWatched) {
+    watchlistsClass = "watchlists__icon watch__icon--red";
   }
 
   const onPlaceBid = () => {
@@ -112,7 +159,8 @@ function ItemHero(props) {
               src="/images/SVG/heart-outlined.svg"
               alt="bookmark img"
               className={watchlistsClass}
-            ></img>
+              onClick={watchClickedHandler}
+            />
           </div>
         </div>
       </div>

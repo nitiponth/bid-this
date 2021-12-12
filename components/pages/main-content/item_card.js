@@ -1,8 +1,24 @@
 import { Fragment, useState, useEffect } from "react";
 import Link from "next/dist/client/link";
 import useTimer from "../../../hooks/useTimer";
+import { useWatchlistStore } from "../../../store/watchlist-store";
+import { observer } from "mobx-react-lite";
+import { gql, useMutation } from "@apollo/client";
+
+const ADD_TO_WATHCLIST = gql`
+  mutation ($watchedArr: [ID]!) {
+    addToWatchlists(watchedArr: $watchedArr) {
+      watchlists {
+        id
+      }
+    }
+  }
+`;
 
 function ItemCard(props) {
+  const [addToWatchlists] = useMutation(ADD_TO_WATHCLIST);
+
+  const { watchlist, toggleProductWatched } = useWatchlistStore();
   const time = useTimer(props.item.endTime);
   const countStart = useTimer(props.item.start);
 
@@ -16,10 +32,13 @@ function ItemCard(props) {
     if (endTime < new Date()) {
       setIsEnd(true);
     }
-    if (startTime <= new Date()) {
+
+    if (new Date(startTime).toISOString() <= new Date().toISOString()) {
       setIsStart(true);
     }
   }, [endTime, startTime]);
+
+  // console.log(isStart);
 
   let timeText = `${countStart.timerHours}h ${countStart.timerMinutes}m ${countStart.timerSeconds}s`;
   if (isStart) {
@@ -34,11 +53,38 @@ function ItemCard(props) {
     auctionTextClass = "auction-text--card";
   }
 
-  const [isWatched, setIsWatched] = useState(props.item.watched);
+  const [isWatched, setIsWatched] = useState(false);
+
+  useEffect(() => {
+    if (!props.item.productId) {
+      return;
+    }
+
+    const idx = watchlist?.slice().indexOf(props.item.productId);
+    if (idx === -1) {
+      setIsWatched(false);
+    } else {
+      setIsWatched(true);
+    }
+  }, [watchlist.slice()]);
+
+  const watchClickedHandler = async () => {
+    toggleProductWatched(props.item.productId);
+    const { data, errors } = await addToWatchlists({
+      variables: {
+        watchedArr: watchlist.slice(),
+      },
+    });
+    if (data) {
+      // console.log(data);
+    } else {
+      console.log(errors);
+    }
+  };
 
   let watchlistsClass = "watchlists__icon";
-  if (props.item.watched) {
-    watchlistsClass = "watch__icon--red";
+  if (isWatched) {
+    watchlistsClass = "watchlists__icon watch__icon--red";
   }
 
   const link = `/items/${props.item.productId}`;
@@ -51,7 +97,7 @@ function ItemCard(props) {
             src="/images/SVG/heart-outlined.svg"
             alt="bookmark img"
             className={watchlistsClass}
-            onClick={() => setIsWatched(!isWatched)}
+            onClick={watchClickedHandler}
           />
         </div>
       </div>
@@ -119,4 +165,4 @@ function ItemCard(props) {
   );
 }
 
-export default ItemCard;
+export default observer(ItemCard);

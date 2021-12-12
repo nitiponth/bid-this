@@ -9,6 +9,8 @@ import cookie from "cookie";
 import client from "../apollo-client";
 
 import "../styles/main.css";
+import { useWatchlistStore } from "../store/watchlist-store";
+import { useEffect } from "react";
 
 const QUERY_USER = {
   query: `
@@ -18,12 +20,27 @@ const QUERY_USER = {
         username
         wallet
         profile
+        watchlists {
+          id
+        }
       }
     }
   `,
 };
 
 function MyApp({ Component, pageProps, user }) {
+  const { initialWatchlist } = useWatchlistStore();
+
+  useEffect(() => {
+    if (!user?.watchlists) {
+      return;
+    }
+    const watchedArr = user.watchlists.map((watch) => {
+      return watch.id;
+    });
+    initialWatchlist(user.id, watchedArr);
+  }, [user]);
+
   return (
     <ApolloProvider client={client}>
       <AuthContextProvider userData={user}>

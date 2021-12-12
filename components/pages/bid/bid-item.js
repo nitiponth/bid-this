@@ -42,6 +42,7 @@ const PLACE_BID = gql`
 function BidItem() {
   const authCtx = useContext(AuthContext);
   const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const productId = router.asPath.split("/")[2];
 
@@ -66,10 +67,13 @@ function BidItem() {
     if (data && !loading) {
       const current = new Date();
       if (
-        data.getProductById.start > current.toLocaleString("en-US") ||
-        data.getProductById.end < current.toLocaleString("en-US")
+        new Date(data.getProductById.start).toISOString() >
+          new Date(current).toISOString() ||
+        new Date(data.getProductById.end).toISOString() <
+          new Date(current).toISOString()
       ) {
         router.push(`/items/${data.getProductById.id}`);
+        return;
       }
       if (data.getProductById.price.current) {
         setBidPrice(
@@ -80,6 +84,7 @@ function BidItem() {
           data.getProductById.price.initial + data.getProductById.price.bidOffer
         );
       }
+      setIsLoading(false);
     }
 
     if (error && !loading) {
@@ -140,6 +145,23 @@ function BidItem() {
       router.push(`/items/${productId}`);
     } else console.log("bid placed!", error);
   };
+
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          height: "100vh",
+          width: "100vw",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "whitesmoke",
+        }}
+      >
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="bid-item">
