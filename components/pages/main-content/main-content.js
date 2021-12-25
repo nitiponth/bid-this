@@ -157,10 +157,18 @@ function MainContent() {
         sellerId: product.seller.id,
       };
     })
-    .filter((product) => {
-      const ONE_DAY = 24 * 60 * 60 * 1000;
-      const startT = new Date(product.start);
-      return startT - new Date() < ONE_DAY;
+    .sort((a, b) => {
+      //End first come first
+      let fa = new Date(a.endTime);
+      let fb = new Date(b.endTime);
+
+      if (fa > fb) {
+        return -1;
+      }
+      if (fa < fb) {
+        return 1;
+      }
+      return 0;
     });
 
   let filteredItems = products.reverse();

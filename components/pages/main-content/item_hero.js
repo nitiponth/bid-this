@@ -42,7 +42,12 @@ function ItemHero(props) {
     }
   }, [endTime, startTime]);
 
-  let timeText = `${countStart.timerHours}h ${countStart.timerMinutes}m ${countStart.timerSeconds}s`;
+  let timeText = ` ${countStart.timerHours}h ${countStart.timerMinutes}m ${countStart.timerSeconds}s`;
+
+  if (countStart.timerDays > 0) {
+    timeText = `${countStart.timerDays}d ${countStart.timerHours}h ${countStart.timerMinutes}m`;
+  }
+
   if (isStart) {
     if (!isEnd)
       timeText = `${time.timerHours}h ${time.timerMinutes}m ${time.timerSeconds}s`;
