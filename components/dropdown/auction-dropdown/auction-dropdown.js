@@ -94,7 +94,9 @@ function AuctionDropdown(props) {
 
   return (
     <Fragment>
-      <div className="user-dropdown user-dropdown--auction">{compList}</div>
+      {compList.length > 0 && (
+        <div className="user-dropdown user-dropdown--auction">{compList}</div>
+      )}
     </Fragment>
   );
 }

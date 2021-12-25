@@ -1,9 +1,11 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useContext } from "react";
 import Link from "next/dist/client/link";
 import useTimer from "../../../hooks/useTimer";
 import { useWatchlistStore } from "../../../store/watchlist-store";
 import { observer } from "mobx-react-lite";
 import { gql, useMutation } from "@apollo/client";
+import AuthContext from "../../../store/auth-context";
+import { useRouter } from "next/router";
 
 const ADD_TO_WATHCLIST = gql`
   mutation ($watchedArr: [ID]!) {
@@ -16,6 +18,8 @@ const ADD_TO_WATHCLIST = gql`
 `;
 
 function ItemCard(props) {
+  const router = useRouter();
+  const authCtx = useContext(AuthContext);
   const [addToWatchlists] = useMutation(ADD_TO_WATHCLIST);
 
   const { watchlist, toggleProductWatched } = useWatchlistStore();
@@ -86,21 +90,35 @@ function ItemCard(props) {
   if (isWatched) {
     watchlistsClass = "watchlists__icon watch__icon--red";
   }
+  const onPlaceBid = () => {
+    if (!authCtx.isLogin) {
+      router.push(`/items/${props.item.productId}`);
+      return;
+    }
+
+    if (isStart) {
+      router.push(`/items/${props.item.productId}/bid`);
+    } else {
+      router.push(`/items/${props.item.productId}`);
+    }
+  };
 
   const link = `/items/${props.item.productId}`;
 
   return (
     <div className="item-card">
-      <div className="watchlists--card">
-        <div className="watch__icon-box">
-          <img
-            src="/images/SVG/heart-outlined.svg"
-            alt="bookmark img"
-            className={watchlistsClass}
-            onClick={watchClickedHandler}
-          />
+      {authCtx.isLogin && (
+        <div className="watchlists--card">
+          <div className="watch__icon-box">
+            <img
+              src="/images/SVG/heart-outlined.svg"
+              alt="bookmark img"
+              className={watchlistsClass}
+              onClick={watchClickedHandler}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className="item-card__img-box">
         <Link href={link}>
           <a>
@@ -153,7 +171,8 @@ function ItemCard(props) {
             <span className={auctionTextClass}>{timeText}</span>
           </div>
         </div>
-        <a href="#" className="btn--card">
+
+        <a onClick={onPlaceBid} className="btn--card">
           <img
             src="/images/ios-icon/magnifying-glass-tilted-left.png"
             alt="Clothing"

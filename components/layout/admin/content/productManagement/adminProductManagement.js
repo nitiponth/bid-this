@@ -67,7 +67,7 @@ function AdminProductManagement() {
   }, [userSearchInput, productsData]);
 
   useEffect(() => {
-    const items = [...sortedList];
+    const items = [...productsData];
     if (selectedFilter === "Product ID") {
       setSortedList(items);
       return;

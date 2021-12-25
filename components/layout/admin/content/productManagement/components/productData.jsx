@@ -45,16 +45,16 @@ function ProductData(props) {
           </span>
         </div>
       </div>
-      <div
-        className="buttonGroup"
-        onClick={() => {
-          changeState("PRODUCT_DETAIL");
-          defineProductId(id);
+      <div className="buttonGroup">
+        <div
+          className="buttonGroup__btn"
+          onClick={() => {
+            changeState("PRODUCT_DETAIL");
+            defineProductId(id);
 
-          router.push("/admin");
-        }}
-      >
-        <div className="buttonGroup__btn">
+            router.push("/admin");
+          }}
+        >
           <FaSearch />
         </div>
         <Link href={`/items/${id}`}>

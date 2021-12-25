@@ -37,6 +37,14 @@ function NavItem(props) {
     </Fragment>
   );
 
+  if (props.type === "login") {
+    component = (
+      <Fragment>
+        <img src={props.icon} alt="icon" className="user-nav__icon" />
+      </Fragment>
+    );
+  }
+
   if (props.isLogin) {
     component = (
       <Fragment>

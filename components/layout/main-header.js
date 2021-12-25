@@ -100,7 +100,11 @@ function MainHeader() {
           Shipping
         </a>
         <div className="user-nav__icon-box">
-          <NavItem icon="/images/SVG/bookmark.svg" notification={0}>
+          <NavItem
+            icon="/images/SVG/bookmark.svg"
+            notification={0}
+            type="bookmark"
+          >
             <AuctionDropdown />
           </NavItem>
         </div>
@@ -121,7 +125,7 @@ function MainHeader() {
           </div>
         ) : (
           <div className="user-nav__icon-box">
-            <NavItem icon="/images/SVG/user.svg">
+            <NavItem icon="/images/SVG/user.svg" type="login">
               <UserDropdown />
             </NavItem>
           </div>

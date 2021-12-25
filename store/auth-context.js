@@ -15,6 +15,7 @@ const LOGIN_USER = gql`
         watchlists {
           id
         }
+        role
       }
       token
     }

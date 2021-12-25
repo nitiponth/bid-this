@@ -431,14 +431,16 @@ function SingleItem(props) {
               </a>
             </Link>
           </div>
-          <div className="floatbox--popup">
-            <PopupItem
-              icon="/images/SVG/dots-three-horizontal.svg"
-              style="floatbox--popup-img"
-            >
-              <ItemsDropdown productId={props.item.productId} isEnd={isEnd} />
-            </PopupItem>
-          </div>
+          {authCtx.isLogin && (
+            <div className="floatbox--popup">
+              <PopupItem
+                icon="/images/SVG/dots-three-horizontal.svg"
+                style="floatbox--popup-img"
+              >
+                <ItemsDropdown productId={props.item.productId} isEnd={isEnd} />
+              </PopupItem>
+            </div>
+          )}
         </div>
         <div className="section__content">
           <div className="item__desc">

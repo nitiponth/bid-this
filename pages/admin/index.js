@@ -7,20 +7,49 @@ import AdminProductManagement from "../../components/layout/admin/content/produc
 import AdminReportManagement from "../../components/layout/admin/content/reportManagement/adminReportManagement";
 import AdminUserDetial from "../../components/layout/admin/content/userManagement/adminUserManagementDetail";
 import AdminProductDetail from "../../components/layout/admin/content/productManagement/detail/adminProductDetail";
+import { useContext, useEffect } from "react";
+import AuthContext from "../../store/auth-context";
+import { useRouter } from "next/router";
 
 function Admin() {
+  const router = useRouter();
+
   const { contentState, userId, productId } = useAdminStore();
+  const authCtx = useContext(AuthContext);
+
+  const { isLogin, user } = authCtx;
+  useEffect(() => {
+    if (!isLogin || user.role !== "ADMIN") {
+      router.push("/");
+    }
+  }, [isLogin, user]);
   return (
     <div className="adminPage">
-      <AdminLayout>
-        {contentState === "USER" && <AdminUserManagement />}
-        {contentState === "PRODUCT" && <AdminProductManagement />}
-        {contentState === "REPORT" && <AdminReportManagement />}
-        {contentState === "USER_DETAIL" && <AdminUserDetial userId={userId} />}
-        {contentState === "PRODUCT_DETAIL" && (
-          <AdminProductDetail productId={productId} />
-        )}
-      </AdminLayout>
+      {authCtx.isLogin ? (
+        <AdminLayout>
+          {contentState === "USER" && <AdminUserManagement />}
+          {contentState === "PRODUCT" && <AdminProductManagement />}
+          {contentState === "REPORT" && <AdminReportManagement />}
+          {contentState === "USER_DETAIL" && (
+            <AdminUserDetial userId={userId} />
+          )}
+          {contentState === "PRODUCT_DETAIL" && (
+            <AdminProductDetail productId={productId} />
+          )}
+        </AdminLayout>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          Loading...
+        </div>
+      )}
     </div>
   );
 }

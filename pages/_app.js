@@ -23,6 +23,7 @@ const QUERY_USER = {
         watchlists {
           id
         }
+        role
       }
     }
   `,
