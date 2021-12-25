@@ -3,6 +3,12 @@ import { gql, useMutation } from "@apollo/client";
 import Backdrop from "../../layout/backdrop";
 import AddAccountForm from "./addAccountForm";
 
+import waitingImage from "../../../public/images/SILY/Saly-1.png";
+import successImage from "../../../public/images/SILY/Saly-22.png";
+import failedImage from "../../../public/images/SILY/Saly-12.png";
+import BConfirm from "../../atoms/BConfirm/BConfirm";
+import BModalCard from "../../atoms/BModalCard/BModalCard";
+
 const WITHDRAW = gql`
   mutation ($bankId: String!, $amount: Int!) {
     withdrawCredit(bankId: $bankId, amount: $amount) {
@@ -19,9 +25,53 @@ function Withdraw(props) {
   const [withdrawCredit] = useMutation(WITHDRAW);
   const amountRef = useRef();
 
+  const [selectedAccount, setSelectedAccount] = useState(null);
+
+  const [activeConfirmModal, setActiveConfirmModal] = useState(false);
+  const [confirmBody, setConfirmBody] = useState("");
+
+  const [activeWaitingModal, setActiveWaitingModal] = useState(false);
+  const [waitingText, setWaitingText] = useState("Process is ongoing...");
+  const [waitingImg, setWaitingImg] = useState(waitingImage);
+
   if (!props.visible) {
     return null;
   }
+
+  const withdrawHandler = async () => {
+    const amount = +amountRef.current.value;
+    if (amount < 50) {
+      return;
+    }
+
+    if (!selectedAccount) {
+      return;
+    }
+
+    setActiveConfirmModal(false);
+    setActiveWaitingModal(true);
+
+    const { data, errors } = await withdrawCredit({
+      variables: {
+        amount,
+        bankId: selectedAccount.id,
+      },
+    });
+
+    if (data) {
+      setWaitingText(
+        `Withdraw ${amount} successfully. Waiting for banking process...`
+      );
+      setWaitingImg(successImage);
+      amountRef.current.value = "";
+    } else if (errors) {
+      setWaitingText(`Withdraw failed. Please contact admin`);
+      setWaitingImg(failedImage);
+      console.log(errors);
+    }
+
+    setSelectedAccount(null);
+  };
 
   let existAccount = "";
   if (props.banks && props.banks.length > 0) {
@@ -31,35 +81,16 @@ function Withdraw(props) {
           className="existAccount__btn"
           onClick={async () => {
             const amount = +amountRef.current.value;
-            if (amount < 30) {
+            if (amount < 50) {
               return;
             }
-
-            const con = confirm(
-              `Withdraw ${amount}฿ to *****${
+            setConfirmBody(
+              `Withdraw ${amount} ฿ to *****${
                 account.bankInfo.last_digits
               } (${account.bankInfo.brand.toUpperCase()})`
             );
-
-            if (!con) {
-              return;
-            }
-            const { data, errors } = await withdrawCredit({
-              variables: {
-                amount,
-                bankId: account.id,
-              },
-            });
-
-            if (data) {
-              amountRef.current.value = "";
-              alert(
-                `Withdraw ${amount} successfully. waiting for banking process...`
-              );
-            }
-            if (errors) {
-              console.log(errors);
-            }
+            setSelectedAccount(account);
+            setActiveConfirmModal(true);
           }}
         >
           Withdraw to this account
@@ -93,6 +124,26 @@ function Withdraw(props) {
   }
   return (
     <div className="withdraw-container">
+      <BConfirm
+        active={activeConfirmModal}
+        onClose={() => setActiveConfirmModal(false)}
+        onConfirm={() => {
+          withdrawHandler();
+        }}
+        title={"Withdraw Credit"}
+        body={confirmBody}
+      />
+      <BModalCard
+        active={activeWaitingModal}
+        canClose={true}
+        title={waitingText}
+        cardImage={waitingImg}
+        onClose={() => {
+          setActiveWaitingModal(false);
+          setWaitingText("Process is ongoing...");
+          setWaitingImg(waitingImage);
+        }}
+      />
       <div className="withdraw__title">Enter amount of withdraw</div>
       <div className="withdraw__form">
         <input

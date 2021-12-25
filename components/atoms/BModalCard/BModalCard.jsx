@@ -4,7 +4,14 @@ import { IoCloseSharp } from "react-icons/io5";
 import Backdrop from "../../layout/backdrop";
 import img from "../../../public/images/SILY/Saly-23.png";
 
-function BModalCard({ active, canClose, onClose, title, subtitle }) {
+function BModalCard({
+  active,
+  canClose,
+  onClose,
+  title,
+  subtitle,
+  cardImage = img,
+}) {
   return (
     <Backdrop show={active} onClose={onClose}>
       <div
@@ -36,20 +43,29 @@ function BModalCard({ active, canClose, onClose, title, subtitle }) {
             <IoCloseSharp />
           </div>
         )}
-        <Image src={img} width={"250px"} height={"250px"} />
-        <div style={{ fontSize: "2rem", color: "black", marginTop: "2rem" }}>
-          {title}
-        </div>
+        <Image src={cardImage} width={"200px"} height={"200px"} />
         <div
           style={{
-            fontSize: "1.5rem",
-            marginTop: "1rem",
-            marginBottom: "2rem",
+            fontSize: "2rem",
+            color: "black",
+            marginTop: "5rem",
             textAlign: "center",
           }}
         >
-          {subtitle}
+          {title}
         </div>
+        {subtitle && (
+          <div
+            style={{
+              fontSize: "1.5rem",
+              marginTop: "1rem",
+              marginBottom: "2rem",
+              textAlign: "center",
+            }}
+          >
+            {subtitle}
+          </div>
+        )}
       </div>
     </Backdrop>
   );

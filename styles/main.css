@@ -126,6 +126,64 @@ body {
   padding-top: 12rem !important;
 }
 
+.BConfirm {
+  background-color: white;
+  width: 350px;
+  min-height: 200px;
+  border-radius: 2rem;
+}
+
+.BConfirm__title {
+  text-align: center;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  font-size: 2rem;
+  font-style: italic;
+  border-bottom: 1px solid var(--color-grey-light-4);
+  color: var(--color-grey-dark-1);
+}
+
+.BConfirm__subtitle {
+  text-align: center;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--color-grey-dark-1);
+}
+
+.BConfirm__cancel, .BConfirm__confirm {
+  font-size: 1.5rem;
+  background-color: var(--color-grey-dark-1);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+}
+
+.BConfirm__cancel:hover, .BConfirm__confirm:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.BConfirm__cancel:active, .BConfirm__confirm:active {
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  -webkit-transform: translateY(1px);
+          transform: translateY(1px);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.BConfirm__confirm {
+  background-color: var(--primary-yellow-dark-1);
+  color: var(--color-grey-light-1);
+}
+
 .BForm {
   display: -webkit-box;
   display: -ms-flexbox;

@@ -2,6 +2,12 @@ import { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import CheckoutWithCreditCard from "../../checkout/checkoutWithCreditCard";
 import CheckoutWithInternetBanking from "../../checkout/CheckoutWithInternetBanking";
+import BConfirm from "../../atoms/BConfirm/BConfirm";
+import BModalCard from "../../atoms/BModalCard/BModalCard";
+
+import waitingImage from "../../../public/images/SILY/Saly-1.png";
+import successImage from "../../../public/images/SILY/Saly-22.png";
+import failedImage from "../../../public/images/SILY/Saly-12.png";
 
 const DEPOSIT_MUTATION = gql`
   mutation ($amount: Int!, $token: String, $cardId: String) {
@@ -15,6 +21,12 @@ const DEPOSIT_MUTATION = gql`
 `;
 
 function Topup(props) {
+  const [activeConfirmModal, setActiveConfirmModal] = useState(false);
+  const [confirmBody, setConfirmBody] = useState("");
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [activeWaitingModal, setActiveWaitingModal] = useState(false);
+  const [waitingText, setWaitingText] = useState("Process is ongoing...");
+  const [waitingImg, setWaitingImg] = useState(waitingImage);
   const [depositCredit, { loading, error }] = useMutation(DEPOSIT_MUTATION);
   const [selected, setSelected] = useState(100);
   const amounts = [100, 300, 500, 1000, 3000, 5000, 10000];
@@ -44,6 +56,32 @@ function Topup(props) {
     );
   });
 
+  const topupConfirmHandler = async () => {
+    if (!selectedCard) {
+      return;
+    }
+
+    setActiveConfirmModal(false);
+    setActiveWaitingModal(true);
+
+    const result = await depositCredit({
+      variables: {
+        amount: selected,
+        token: null,
+        cardId: selectedCard.id,
+      },
+    });
+
+    if (result.data) {
+      setWaitingText(`Deposit ${selected.toLocaleString("En")}฿ successfully.`);
+      setWaitingImg(successImage);
+    } else if (result.errors) {
+      setWaitingText(`Payment failed. Please contact admin`);
+      setWaitingImg(failedImage);
+    }
+    setSelectedCard(null);
+  };
+
   let existCards = "";
   let creditBtnText = "Pay with Credit Card";
 
@@ -70,25 +108,14 @@ function Topup(props) {
           <div className="existCard__right">
             <button
               className="existCard__btn"
-              onClick={async () => {
-                const con = confirm(
+              onClick={() => {
+                setConfirmBody(
                   `Deposite ${selected.toLocaleString(
                     "En"
                   )}฿ with **** **** **** ${card.cardInfo.last_digits}`
                 );
-                if (!con) {
-                  return;
-                }
-                await depositCredit({
-                  variables: {
-                    amount: selected,
-                    token: null,
-                    cardId: card.id,
-                  },
-                });
-                alert(
-                  `Deposit ${selected.toLocaleString("En")}฿ successfully.`
-                );
+                setSelectedCard(card);
+                setActiveConfirmModal(true);
               }}
             >
               Use this card
@@ -100,18 +127,44 @@ function Topup(props) {
   }
 
   const checkoutHandler = async (token, amount) => {
-    const result = depositCredit({
+    setActiveWaitingModal(true);
+    const result = await depositCredit({
       variables: {
         amount,
         token,
       },
     });
-
-    console.log("result: ", result);
+    if (result.data) {
+      setWaitingText(`Deposit ${selected.toLocaleString("En")}฿ successfully.`);
+      setWaitingImg(successImage);
+    } else if (result.errors) {
+      setWaitingText(`Payment failed. Please contact admin`);
+      setWaitingImg(failedImage);
+    }
   };
 
   return (
     <div className="topup-container">
+      <BConfirm
+        active={activeConfirmModal}
+        onClose={() => setActiveConfirmModal(false)}
+        onConfirm={() => {
+          topupConfirmHandler();
+        }}
+        title={"Deposit Credit"}
+        body={confirmBody}
+      />
+      <BModalCard
+        active={activeWaitingModal}
+        canClose={true}
+        title={waitingText}
+        cardImage={waitingImg}
+        onClose={() => {
+          setActiveWaitingModal(false);
+          setWaitingText("Process is ongoing...");
+          setWaitingImg(waitingImage);
+        }}
+      />
       <div className="topup__title">Select your Topup amounts</div>
       <div className="topup__select">{listsOfAmout}</div>
       <div className="topup__checkout">
@@ -120,7 +173,7 @@ function Topup(props) {
           amount={selected}
           checkout={checkoutHandler}
         />
-        <CheckoutWithInternetBanking amount={selected} />
+        {/* <CheckoutWithInternetBanking amount={selected} /> */}
       </div>
       {existCards}
     </div>
