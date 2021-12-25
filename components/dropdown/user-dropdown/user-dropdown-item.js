@@ -5,7 +5,7 @@ function UserDropdownItem(props) {
   }
 
   return (
-    <a href="#" className="user-dropdown-item" onClick={props.onClickHandler}>
+    <a className="user-dropdown-item" onClick={props.onClickHandler}>
       {props.leftProfile && (
         <span className="icon-button icon-button--left">
           <img src={props.leftProfile} className="icon-button-profile" />

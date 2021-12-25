@@ -59,6 +59,8 @@ function SingleItem(props) {
   const router = useRouter();
   const { uploadToS3 } = useS3Upload();
 
+  const [activeWaitingModal, setActiveWaitingModal] = useState(false);
+
   const authCtx = useContext(AuthContext);
   const countStart = useTimer(props.item.start);
   const countEnd = useTimer(props.item.endTime);
@@ -66,6 +68,7 @@ function SingleItem(props) {
   const endTime = new Date(props.item.endTime);
   const [isEnd, setIsEnd] = useState(false);
   const [isStart, setIsStart] = useState(false);
+  const [canEdit, setCanEdit] = useState(false);
   const [moreThanTwoWeek, setMoreThanTwoWeek] = useState(false);
   const [reviewImagesArray, setReviewImagesArray] = useState([]);
   const [showReviewWindow, setShowReviewWindow] = useState(false);
@@ -104,6 +107,25 @@ function SingleItem(props) {
       setIsStart(true);
     }
   }, [endTime, startTime]);
+
+  useEffect(() => {
+    if (!authCtx.user) {
+      setCanEdit(false);
+      return;
+    }
+    if (props.item.sellerId !== authCtx.user.id) {
+      setCanEdit(false);
+      return;
+    }
+
+    if (countStart.timerDays > 0) {
+      setCanEdit(true);
+    } else if (countStart.timerHours > 0) {
+      setCanEdit(true);
+    } else {
+      setCanEdit(false);
+    }
+  }, [countStart]);
 
   const bidData = [...props.bidInfo].sort(
     (a, b) => new Date(b.bidTime) - new Date(a.bidTime)
@@ -364,6 +386,7 @@ function SingleItem(props) {
           <Dropzone
             multiple={true}
             onDrop={async (acceptedFiles) => {
+              setActiveWaitingModal(true);
               const urls = [];
 
               let files = Array.from(acceptedFiles);
@@ -374,8 +397,9 @@ function SingleItem(props) {
                 urls.push(url);
               }
               setReviewImagesArray((prev) => [...prev, ...urls]);
+              setActiveWaitingModal(false);
             }}
-            accept={"image/jpeg, image/jpg, image/png"}
+            accept={"./jpg, ./png"}
           >
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps({ className: "floating__dropbox" })}>
@@ -437,7 +461,11 @@ function SingleItem(props) {
                 icon="/images/SVG/dots-three-horizontal.svg"
                 style="floatbox--popup-img"
               >
-                <ItemsDropdown productId={props.item.productId} isEnd={isEnd} />
+                <ItemsDropdown
+                  productId={props.item.productId}
+                  isEnd={isEnd}
+                  canEdit={canEdit}
+                />
               </PopupItem>
             </div>
           )}

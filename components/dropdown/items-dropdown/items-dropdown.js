@@ -1,9 +1,10 @@
 import { Fragment, useEffect, useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 
-import { HiFlag, HiOutlineHeart, HiHeart } from "react-icons/hi";
+import { HiFlag, HiOutlineHeart, HiHeart, HiPencil } from "react-icons/hi";
 import { useWatchlistStore } from "../../../store/watchlist-store";
 import UserDropdownItem from "../user-dropdown/user-dropdown-item";
+import { useRouter } from "next/router";
 
 const ADD_TO_WATHCLIST = gql`
   mutation ($watchedArr: [ID]!) {
@@ -15,7 +16,8 @@ const ADD_TO_WATHCLIST = gql`
   }
 `;
 
-function ItemsDropdown({ productId, isEnd }) {
+function ItemsDropdown({ productId, isEnd, canEdit }) {
+  const router = useRouter();
   const [addToWatchlists] = useMutation(ADD_TO_WATHCLIST);
 
   const { toggleProductWatched, watchlist } = useWatchlistStore();
@@ -73,10 +75,16 @@ function ItemsDropdown({ productId, isEnd }) {
     <Fragment>
       <div className="user-dropdown user-dropdown--items">
         {!isEnd && watchlistComp}
-
-        {/* <UserDropdownItem leftIcon="images/SVG/heart-outlined.svg">
-          Remove from watchlists
-        </UserDropdownItem> */}
+        {canEdit && (
+          <UserDropdownItem
+            leftIcon={<HiPencil color="#999" />}
+            onClickHandler={() => {
+              router.push(`/items/${productId}/edit`);
+            }}
+          >
+            <span>Edit</span>
+          </UserDropdownItem>
+        )}
         <UserDropdownItem leftIcon={<HiFlag color="#999" />}>
           <span>Report</span>
         </UserDropdownItem>
