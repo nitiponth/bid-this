@@ -38,8 +38,11 @@ const CREATE_PRODUCT = gql`
   }
 `;
 import "react-datetime/css/react-datetime.css";
+import BWaiting from "../../atoms/BWaiting/BWaiting";
 function AddProduct() {
   const router = useRouter();
+  const [activeWaitingModal, setActiveWatingModal] = useState(false);
+
   const { uploadToS3 } = useS3Upload();
   const [createProduct] = useMutation(CREATE_PRODUCT);
   const [imagesArray, setImagesArray] = useState([]);
@@ -267,188 +270,198 @@ function AddProduct() {
   ));
 
   return (
-    <div className="uf-container">
-      <h1 className="title">Add your Product</h1>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="form-container">
-          {hasError && (
-            <div className="register__errors register__errors--edit">
-              {hasError}
+    <>
+      <BWaiting
+        active={activeWaitingModal}
+        canClose={false}
+        onClose={() => {}}
+      />
+      <div className="uf-container">
+        <h1 className="title">Add your Product</h1>
+        <form onSubmit={formik.handleSubmit}>
+          <div className="form-container">
+            {hasError && (
+              <div className="register__errors register__errors--edit">
+                {hasError}
+              </div>
+            )}
+
+            <div className="form__box">
+              <div className="form__box-title">Enter Product details.</div>
+              <div className="form__box-input">
+                <div className="input__form">
+                  <label htmlFor="name" className="glabel glabel--form">
+                    Category
+                  </label>
+                  <SelectionBox
+                    options={categoryOptions}
+                    selected={selectedCate}
+                    setSelected={setSelectedCate}
+                  />
+                  <label htmlFor="productName" className="glabel glabel--form">
+                    Product name
+                  </label>
+                  <input
+                    id="productName"
+                    name="productName"
+                    type="text"
+                    required={true}
+                    placeholder="Product name"
+                    className="input__form-input"
+                    value={formik.values.productName}
+                    onChange={formik.handleChange}
+                  />
+
+                  <label htmlFor="condition" className="glabel glabel--form">
+                    Product Condition
+                  </label>
+                  <SelectionBox
+                    options={conditionOptions}
+                    selected={selectedCon}
+                    setSelected={setSelectedCon}
+                  />
+                  <label
+                    htmlFor="productDetails"
+                    className="glabel glabel--form u-margin-top-small u-margin-bottom-extra-small"
+                  >
+                    Product details
+                  </label>
+                  <div className="form__box-input">
+                    <textarea
+                      id="productDetails"
+                      name="productDetails"
+                      rows="5"
+                      className="input__form-textarea"
+                      placeholder="Enter a description about your product"
+                      spellCheck="false"
+                      value={formik.values.productDetails}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
-
-          <div className="form__box">
-            <div className="form__box-title">Enter Product details.</div>
-            <div className="form__box-input">
-              <div className="input__form">
-                <label htmlFor="name" className="glabel glabel--form">
-                  Category
+            <div className="form__box">
+              <div className="form__box-title">Enter Auction Information</div>
+              <div className="form__box-input">
+                <label htmlFor="datePicker" className="glabel glabel--form">
+                  Auction Time
                 </label>
-                <SelectionBox
-                  options={categoryOptions}
-                  selected={selectedCate}
-                  setSelected={setSelectedCate}
+                <Datetime
+                  inputProps={{ className: "datetime" }}
+                  value={selectedDate}
+                  onChange={(newValue) => setSelectedDate(newValue)}
+                  timeFormat="HH:mm"
+                  timeConstraints={{
+                    hours: { min: 0, max: 23 },
+                    minutes: { min: 0, max: 59 },
+                  }}
                 />
-                <label htmlFor="productName" className="glabel glabel--form">
-                  Product name
+                <label htmlFor="reservePrice" className="glabel glabel--form">
+                  Reserve price
                 </label>
-                <input
-                  id="productName"
-                  name="productName"
-                  type="text"
-                  required={true}
-                  placeholder="Product name"
-                  className="input__form-input"
-                  value={formik.values.productName}
-                  onChange={formik.handleChange}
-                />
-
-                <label htmlFor="condition" className="glabel glabel--form">
-                  Product Condition
+                <div className="input__form-box u-margin-bottom-small">
+                  ฿
+                  <input
+                    id="reservePrice"
+                    type="number"
+                    placeholder="Reserve price (included delivery fee)"
+                    className="input__form-input input__form-input--username"
+                    value={formik.values.reservePrice}
+                    onChange={formik.handleChange}
+                  />
+                </div>
+                <label htmlFor="bidOffer" className="glabel glabel--form">
+                  Bid Offer
                 </label>
-                <SelectionBox
-                  options={conditionOptions}
-                  selected={selectedCon}
-                  setSelected={setSelectedCon}
-                />
-                <label
-                  htmlFor="productDetails"
-                  className="glabel glabel--form u-margin-top-small u-margin-bottom-extra-small"
-                >
-                  Product details
-                </label>
-                <div className="form__box-input">
-                  <textarea
-                    id="productDetails"
-                    name="productDetails"
-                    rows="5"
-                    className="input__form-textarea"
-                    placeholder="Enter a description about your product"
-                    spellCheck="false"
-                    value={formik.values.productDetails}
+                <div className="input__form-box u-margin-bottom-small">
+                  <BiPlus />
+                  <input
+                    id="bidOffer"
+                    type="number"
+                    placeholder="Bid offer"
+                    className="input__form-input input__form-input--username"
+                    value={formik.values.bidOffer}
                     onChange={formik.handleChange}
                   />
                 </div>
               </div>
             </div>
-          </div>
-          <div className="form__box">
-            <div className="form__box-title">Enter Auction Information</div>
-            <div className="form__box-input">
-              <label htmlFor="datePicker" className="glabel glabel--form">
-                Auction Time
-              </label>
-              <Datetime
-                inputProps={{ className: "datetime" }}
-                value={selectedDate}
-                onChange={(newValue) => setSelectedDate(newValue)}
-                timeFormat="HH:mm"
-                timeConstraints={{
-                  hours: { min: 0, max: 23 },
-                  minutes: { min: 0, max: 59 },
-                }}
-              />
-              <label htmlFor="reservePrice" className="glabel glabel--form">
-                Reserve price
-              </label>
-              <div className="input__form-box u-margin-bottom-small">
-                ฿
-                <input
-                  id="reservePrice"
-                  type="number"
-                  placeholder="Reserve price (included delivery fee)"
-                  className="input__form-input input__form-input--username"
-                  value={formik.values.reservePrice}
-                  onChange={formik.handleChange}
-                />
-              </div>
-              <label htmlFor="bidOffer" className="glabel glabel--form">
-                Bid Offer
-              </label>
-              <div className="input__form-box u-margin-bottom-small">
-                <BiPlus />
-                <input
-                  id="bidOffer"
-                  type="number"
-                  placeholder="Bid offer"
-                  className="input__form-input input__form-input--username"
-                  value={formik.values.bidOffer}
-                  onChange={formik.handleChange}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="form__box">
-            <div className="form__box-title">
-              Upload products images
-              <div className="form__box-subtitle">
-                Recommended size: 1000x1000px. JPG, JPEG or PNG. 10MB max size.
-              </div>
-            </div>
-            <div className="form__box-input">
-              {imagesArray.length != 0 && (
-                <div className="u-margin-bottom-extra-small">
-                  {productsThumbs}
+            <div className="form__box">
+              <div className="form__box-title">
+                Upload products images
+                <div className="form__box-subtitle">
+                  Recommended size: 1000x1000px. JPG or PNG.
                 </div>
-              )}
-              <Dropzone
-                multiple={true}
-                onDrop={async (acceptedFiles) => {
-                  const urls = [];
-
-                  let files = Array.from(acceptedFiles);
-
-                  for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const { url } = await uploadToS3(file);
-                    urls.push(url);
-                  }
-
-                  setImagesArray((prev) => [...prev, ...urls]);
-                }}
-                accept={"image/jpeg, image/jpg, image/png"}
-              >
-                {({ getRootProps, getInputProps }) => (
-                  <div {...getRootProps({ className: "form__box-dropbox" })}>
-                    <input {...getInputProps()} />
-                    <p className="input__form-istext">
-                      Drag and drop an image here, or click to browse.
-                    </p>
+              </div>
+              <div className="form__box-input">
+                {imagesArray.length != 0 && (
+                  <div className="u-margin-bottom-extra-small">
+                    {productsThumbs}
                   </div>
                 )}
-              </Dropzone>
-            </div>
-          </div>
-          <div className="form__box">
-            <div className="form__box-title">Enter Shipping Information</div>
-            <div className="form__box-input">
-              <div className="input__form">
-                <label htmlFor="name" className="glabel glabel--form">
-                  Shipping Company
-                </label>
-                <SelectionBox
-                  options={shippingOptions}
-                  selected={selectedShip}
-                  setSelected={setSelectedShip}
-                />
-                {selectedShip === "Others" && (
-                  <Fragment>
-                    <label htmlFor="OthersShip" className="glabel glabel--form">
-                      Company name
-                    </label>
-                    <input
-                      id="otherShip"
-                      name="otherShip"
-                      type="text"
-                      placeholder="Shipping Company"
-                      className="input__form-input"
-                      value={formik.values.otherShip}
-                      onChange={formik.handleChange}
-                    />
-                  </Fragment>
-                )}
+                <Dropzone
+                  multiple={true}
+                  onDrop={async (acceptedFiles) => {
+                    const urls = [];
+                    setActiveWatingModal(true);
+                    let files = Array.from(acceptedFiles);
 
-                {/* <label htmlFor="shipCost" className="glabel glabel--form">
+                    for (let i = 0; i < files.length; i++) {
+                      const file = files[i];
+                      const { url } = await uploadToS3(file);
+                      urls.push(url);
+                    }
+                    setActiveWatingModal(false);
+
+                    setImagesArray((prev) => [...prev, ...urls]);
+                  }}
+                  accept={"./jpg, ./png"}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps({ className: "form__box-dropbox" })}>
+                      <input {...getInputProps()} />
+                      <p className="input__form-istext">
+                        Drag and drop an image here, or click to browse.
+                      </p>
+                    </div>
+                  )}
+                </Dropzone>
+              </div>
+            </div>
+            <div className="form__box">
+              <div className="form__box-title">Enter Shipping Information</div>
+              <div className="form__box-input">
+                <div className="input__form">
+                  <label htmlFor="name" className="glabel glabel--form">
+                    Shipping Company
+                  </label>
+                  <SelectionBox
+                    options={shippingOptions}
+                    selected={selectedShip}
+                    setSelected={setSelectedShip}
+                  />
+                  {selectedShip === "Others" && (
+                    <Fragment>
+                      <label
+                        htmlFor="OthersShip"
+                        className="glabel glabel--form"
+                      >
+                        Company name
+                      </label>
+                      <input
+                        id="otherShip"
+                        name="otherShip"
+                        type="text"
+                        placeholder="Shipping Company"
+                        className="input__form-input"
+                        value={formik.values.otherShip}
+                        onChange={formik.handleChange}
+                      />
+                    </Fragment>
+                  )}
+
+                  {/* <label htmlFor="shipCost" className="glabel glabel--form">
                   Shipping Cost
                 </label>
                 <div className="input__form-box u-margin-bottom-small">
@@ -462,70 +475,71 @@ function AddProduct() {
                     onChange={formik.handleChange}
                   />
                 </div> */}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="form__box">
-            <div className="form__box-title">After-sales Warranty</div>
-            <div className="form__box-input">
-              <div className="input__form">
-                <label htmlFor="name" className="glabel glabel--form">
-                  Warranty Policy
-                </label>
-                <div id="policy-checkbox">
-                  <div
-                    role="group"
-                    aria-labelledby="policy-checkbox"
-                    className="checkbox"
-                  >
-                    <FormikProvider value={formik}>
-                      <label className="checkbox__item">
-                        <Field
-                          name="policy"
-                          type="checkbox"
-                          value="7 days return to seller"
-                          className="checkbox__box"
-                        />
-                        7 days return to seller
-                      </label>
-                      <label className="checkbox__item">
-                        <Field
-                          name="policy"
-                          type="checkbox"
-                          value="15 days warranty by seller"
-                          className="checkbox__box"
-                        />
-                        15 days warranty by seller
-                      </label>
-                    </FormikProvider>
-                    <label
-                      htmlFor="othersPolicy"
-                      className="glabel glabel--form u-margin-top-small "
+            <div className="form__box">
+              <div className="form__box-title">After-sales Warranty</div>
+              <div className="form__box-input">
+                <div className="input__form">
+                  <label htmlFor="name" className="glabel glabel--form">
+                    Warranty Policy
+                  </label>
+                  <div id="policy-checkbox">
+                    <div
+                      role="group"
+                      aria-labelledby="policy-checkbox"
+                      className="checkbox"
                     >
-                      Others Warranty Policy
-                    </label>
-                    <input
-                      id="customPolicy"
-                      name="customPolicy"
-                      type="text"
-                      placeholder="Warranty Policy"
-                      className="input__form-input"
-                      value={formik.values.customPolicy}
-                      onChange={formik.handleChange}
-                    />
+                      <FormikProvider value={formik}>
+                        <label className="checkbox__item">
+                          <Field
+                            name="policy"
+                            type="checkbox"
+                            value="7 days return to seller"
+                            className="checkbox__box"
+                          />
+                          7 days return to seller
+                        </label>
+                        <label className="checkbox__item">
+                          <Field
+                            name="policy"
+                            type="checkbox"
+                            value="15 days warranty by seller"
+                            className="checkbox__box"
+                          />
+                          15 days warranty by seller
+                        </label>
+                      </FormikProvider>
+                      <label
+                        htmlFor="othersPolicy"
+                        className="glabel glabel--form u-margin-top-small "
+                      >
+                        Others Warranty Policy
+                      </label>
+                      <input
+                        id="customPolicy"
+                        name="customPolicy"
+                        type="text"
+                        placeholder="Warranty Policy"
+                        className="input__form-input"
+                        value={formik.values.customPolicy}
+                        onChange={formik.handleChange}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div className="form__end u-padding-top-medium">
+              <button type="submit" className="form__end-btn">
+                Post Product
+              </button>
+            </div>
           </div>
-          <div className="form__end u-padding-top-medium">
-            <button type="submit" className="form__end-btn">
-              Post Product
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 }
 

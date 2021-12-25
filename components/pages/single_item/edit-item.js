@@ -10,6 +10,7 @@ import Datetime from "react-datetime";
 import AuthContext from "../../../store/auth-context";
 
 import "react-datetime/css/react-datetime.css";
+import BWaiting from "../../atoms/BWaiting/BWaiting";
 
 const PRODUCT_QUERY = gql`
   query ($getProductByIdProductId: ID!) {
@@ -69,6 +70,9 @@ function EditItem({ prodId }) {
   const authCtx = useContext(AuthContext);
   const router = useRouter();
   const { uploadToS3 } = useS3Upload();
+
+  const [activeWaitingModal, setActiveWatingModal] = useState(false);
+
   const { data, loading, error } = useQuery(PRODUCT_QUERY, {
     ssr: false,
     variables: {
@@ -371,6 +375,11 @@ function EditItem({ prodId }) {
 
   return (
     <div className="uf-container">
+      <BWaiting
+        active={activeWaitingModal}
+        onClose={() => {}}
+        canClose={false}
+      />
       <h1 className="title">Editing at {data && data.getProductById.title}</h1>
       <form onSubmit={formik.handleSubmit}>
         <div className="form-container">
@@ -485,7 +494,7 @@ function EditItem({ prodId }) {
             <div className="form__box-title">
               Upload products images
               <div className="form__box-subtitle">
-                Recommended size: 1000x1000px. JPG, JPEG or PNG. 10MB max size.
+                Recommended size: 1000x1000px. JPG or PNG.
               </div>
             </div>
             <div className="form__box-input">
@@ -497,6 +506,7 @@ function EditItem({ prodId }) {
               <Dropzone
                 multiple={true}
                 onDrop={async (acceptedFiles) => {
+                  setActiveWatingModal(true);
                   const urls = [];
 
                   let files = Array.from(acceptedFiles);
@@ -508,8 +518,9 @@ function EditItem({ prodId }) {
                   }
 
                   setImagesArray((prev) => [...prev, ...urls]);
+                  setActiveWatingModal(false);
                 }}
-                accept={"image/jpeg, image/jpg, image/png"}
+                accept={".jpg, .png"}
               >
                 {({ getRootProps, getInputProps }) => (
                   <div {...getRootProps({ className: "form__box-dropbox" })}>

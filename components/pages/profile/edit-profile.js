@@ -4,18 +4,9 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useFormik } from "formik";
 
 import { useS3Upload } from "next-s3-upload";
-import S3 from "react-aws-s3";
 import Dropzone from "react-dropzone";
 import AuthContext from "../../../store/auth-context";
-
-const config = {
-  bucketName: process.env.S3_UPLOAD_BUCKET,
-  dirName: "users" /* optional */,
-  region: process.env.S3_UPLOAD_REGION,
-  accessKeyId: process.env.S3_UPLOAD_KEY,
-  secretAccessKey: process.env.S3_UPLOAD_SECRET,
-  // s3Url: "https:/your-custom-s3-url.com/" /* optional */,
-};
+import BWaiting from "../../atoms/BWaiting/BWaiting";
 
 const ME_QUERY = gql`
   query {
@@ -82,6 +73,8 @@ const USER_UPDATED = gql`
 function EditProfile() {
   const router = useRouter();
   const authCtx = useContext(AuthContext);
+
+  const [activeWaitingModal, setActiveWatingModal] = useState(false);
 
   const [userData, setUserData] = useState();
   const [hasError, setHasError] = useState();
@@ -204,8 +197,8 @@ function EditProfile() {
       const { data } = await updateUser({
         variables: modifierValues,
       });
-      console.log(data);
-      router.push(`/users/${authCtx.userId}`);
+      // console.log(data);
+      router.push(`/users/${authCtx.user.id}`);
     } catch (e) {
       setHasError(e.message);
       console.log(e);
@@ -222,7 +215,6 @@ function EditProfile() {
 
   // const [imageUrl, setImageUrl] = useState(initialImageUrl);
   const { uploadToS3 } = useS3Upload();
-  const S3Client = new S3(config);
   const [avatarFiles, setAvatarFiles] = useState();
 
   const [coverFiles, setCoverFiles] = useState();
@@ -344,235 +336,157 @@ function EditProfile() {
   }
 
   return (
-    <div className="uf-container">
-      <h1 className="title">Edit your Profile</h1>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="form-container">
-          <div className="form__box">
-            <div className="form__box-title">Enter your details.</div>
-            <div className="form__box-input">
-              <div className="input__form">
-                <label htmlFor="name" className="glabel glabel--form">
-                  Name
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  onChange={formik.handleChange}
-                  value={formik.values.name}
-                  placeholder="Firstname"
-                  className="input__form-input"
-                />
-                <label htmlFor="name" className="glabel glabel--form">
-                  Lastname
-                </label>
-                <input
-                  id="lastname"
-                  name="lastname"
-                  type="text"
-                  onChange={formik.handleChange}
-                  value={formik.values.lastname}
-                  placeholder="Lastname"
-                  className="input__form-input"
-                />
-                <label htmlFor="username" className="glabel glabel--form">
-                  Username
-                </label>
-                <div className="input__form-box ">
-                  @
+    <>
+      <BWaiting
+        active={activeWaitingModal}
+        canClose={false}
+        onClose={() => {}}
+      />
+      <div className="uf-container">
+        <h1 className="title">Edit your Profile</h1>
+        <form onSubmit={formik.handleSubmit}>
+          <div className="form-container">
+            <div className="form__box">
+              <div className="form__box-title">Enter your details.</div>
+              <div className="form__box-input">
+                <div className="input__form">
+                  <label htmlFor="name" className="glabel glabel--form">
+                    Name
+                  </label>
                   <input
-                    id="username"
-                    name="username"
+                    id="name"
+                    name="name"
                     type="text"
                     onChange={formik.handleChange}
-                    value={formik.values.username}
-                    placeholder="Username"
-                    className="input__form-input input__form-input--username"
+                    value={formik.values.name}
+                    placeholder="Firstname"
+                    className="input__form-input"
                   />
+                  <label htmlFor="name" className="glabel glabel--form">
+                    Lastname
+                  </label>
+                  <input
+                    id="lastname"
+                    name="lastname"
+                    type="text"
+                    onChange={formik.handleChange}
+                    value={formik.values.lastname}
+                    placeholder="Lastname"
+                    className="input__form-input"
+                  />
+                  <label htmlFor="username" className="glabel glabel--form">
+                    Username
+                  </label>
+                  <div className="input__form-box ">
+                    @
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      onChange={formik.handleChange}
+                      value={formik.values.username}
+                      placeholder="Username"
+                      className="input__form-input input__form-input--username"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="form__box">
-            <div className="form__box-title">Enter your delivery address.</div>
-            <div className="form__box-input">
-              <label htmlFor="address" className="glabel glabel--form">
-                Address
-              </label>
-              <input
-                id="address"
-                type="text"
-                name="address"
-                onChange={formik.handleChange}
-                value={formik.values.address}
-                placeholder="Address (line 1)"
-                className="input__form-input"
-              />
-              {/* <input
+            <div className="form__box">
+              <div className="form__box-title">
+                Enter your delivery address.
+              </div>
+              <div className="form__box-input">
+                <label htmlFor="address" className="glabel glabel--form">
+                  Address
+                </label>
+                <input
+                  id="address"
+                  type="text"
+                  name="address"
+                  onChange={formik.handleChange}
+                  value={formik.values.address}
+                  placeholder="Address (line 1)"
+                  className="input__form-input"
+                />
+                {/* <input
                 id="address"
                 type="text"
                 placeholder="Address (line 2)"
                 className="input__form-input"
               /> */}
-              <div className="input__form--twocol">
-                <div className="input__form--twocol-col">
-                  <input
-                    id="province"
-                    name="province"
-                    onChange={formik.handleChange}
-                    value={formik.values.province}
-                    type="text"
-                    placeholder="Province"
-                    className="input__form-input"
-                  />
-                </div>
+                <div className="input__form--twocol">
+                  <div className="input__form--twocol-col">
+                    <input
+                      id="province"
+                      name="province"
+                      onChange={formik.handleChange}
+                      value={formik.values.province}
+                      type="text"
+                      placeholder="Province"
+                      className="input__form-input"
+                    />
+                  </div>
 
-                <div className="input__form--twocol-col">
-                  <input
-                    id="postcode"
-                    name="postcode"
-                    onChange={formik.handleChange}
-                    value={formik.values.postcode}
-                    type="number"
-                    placeholder="Postcode"
-                    className="input__form-input"
-                  />
+                  <div className="input__form--twocol-col">
+                    <input
+                      id="postcode"
+                      name="postcode"
+                      onChange={formik.handleChange}
+                      value={formik.values.postcode}
+                      type="number"
+                      placeholder="Postcode"
+                      className="input__form-input"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="form__box">
-            <div className="form__box-title">
-              Add a short description about yourself.
-            </div>
-            <div className="form__box-input">
-              <textarea
-                id="desc"
-                name="desc"
-                rows="10"
-                onChange={formik.handleChange}
-                value={formik.values.desc}
-                className="input__form-textarea"
-                placeholder="Enter a short description about yourself"
-                spellCheck="false"
-              />
-            </div>
-          </div>
-          <div className="form__box">
-            <div className="form__box-title">
-              Upload a profile image.
-              <div className="form__box-subtitle">
-                Recommended size: 1000x1000px. JPG, JPEG or PNG. 10MB max size.
+            <div className="form__box">
+              <div className="form__box-title">
+                Add a short description about yourself.
+              </div>
+              <div className="form__box-input">
+                <textarea
+                  id="desc"
+                  name="desc"
+                  rows="10"
+                  onChange={formik.handleChange}
+                  value={formik.values.desc}
+                  className="input__form-textarea"
+                  placeholder="Enter a short description about yourself"
+                  spellCheck="false"
+                />
               </div>
             </div>
-            <div className="form__box-input">
-              {avatarFiles ? (
-                <div>{avatarThumbs}</div>
-              ) : (
-                <Dropzone
-                  multiple={false}
-                  onDrop={(acceptedFiles) => {
-                    let file = acceptedFiles[0];
-                    // const filename = u
-                    // S3Client.uploadFile(file, file.name)
-                    //   .then((data) => {
-                    //     console.log(data);
-                    //     setAvatarFiles({ url: data.location, key: data.key });
-                    //   })
-                    //   .catch((e) => console.log(e));
-                    uploadToS3(file)
-                      .then((result) => {
-                        setAvatarFiles({ url: result.url, key: result.key });
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  }}
-                  accept={"image/jpeg, image/jpg, image/png"}
-                >
-                  {({ getRootProps, getInputProps }) => (
-                    <div {...getRootProps({ className: "form__box-dropbox" })}>
-                      <input {...getInputProps()} />
-                      <p className="input__form-istext">
-                        Drag and drop an image here, or click to browse.
-                      </p>
-                    </div>
-                  )}
-                </Dropzone>
-              )}
-            </div>
-          </div>
-          <div className="form__box">
-            <div className="form__box-title">
-              Upload a cover image
-              <div className="form__box-subtitle">
-                Recommended size: 1500x500px. JPG, JPEG or PNG. 10MB max size.
+            <div className="form__box">
+              <div className="form__box-title">
+                Upload a profile image.
+                <div className="form__box-subtitle">
+                  Recommended size: 1000x1000px. JPG or PNG.
+                </div>
               </div>
-            </div>
-            <div className="form__box-input">
-              {coverFiles ? (
-                <div>{coverThumbs}</div>
-              ) : (
-                <Dropzone
-                  multiple={false}
-                  onDrop={(acceptedFiles) => {
-                    let file = acceptedFiles[0];
-                    uploadToS3(file)
-                      .then((result) => {
-                        setCoverFiles({ url: result.url, key: result.key });
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  }}
-                  accept={"image/jpeg, image/jpg, image/png"}
-                >
-                  {({ getRootProps, getInputProps }) => (
-                    <div {...getRootProps({ className: "form__box-dropbox" })}>
-                      <input {...getInputProps()} />
-                      <p className="input__form-istext">
-                        Drag and drop an image here, or click to browse.
-                      </p>
-                    </div>
-                  )}
-                </Dropzone>
-              )}
-            </div>
-          </div>
-          <div className="form__box">
-            <div className="form__box-title">
-              Verify your profile
-              <img
-                src="/images/ios-icon/check.png"
-                alt="verify mark"
-                className="form__box-mark"
-              />
-              <div className="form__box-subtitle">
-                Show the BidThis community that your profile is authentic.
-              </div>
-            </div>
-            <div className="form__box-input">
-              <div className="form__box-title form__box-title--sm">
-                KYC Verification
-              </div>
-              <div className="form__box-dropzone">
-                {idCardFiles ? (
-                  <div>{cardThumbs}</div>
+              <div className="form__box-input">
+                {avatarFiles ? (
+                  <div>{avatarThumbs}</div>
                 ) : (
                   <Dropzone
                     multiple={false}
                     onDrop={(acceptedFiles) => {
+                      setActiveWatingModal(true);
                       let file = acceptedFiles[0];
                       uploadToS3(file)
                         .then((result) => {
-                          setIdCardFiles({ url: result.url, key: result.key });
+                          setAvatarFiles({ url: result.url, key: result.key });
                         })
                         .catch((err) => {
                           console.log(err);
+                        })
+                        .finally(() => {
+                          setActiveWatingModal(false);
                         });
                     }}
-                    accept={"image/jpeg, image/jpg, image/png"}
+                    accept={".png, .jpg"}
                   >
                     {({ getRootProps, getInputProps }) => (
                       <div
@@ -580,30 +494,42 @@ function EditProfile() {
                       >
                         <input {...getInputProps()} />
                         <p className="input__form-istext">
-                          Place a photo of your ID card here.
+                          Drag and drop an image here, or click to browse.
                         </p>
                       </div>
                     )}
                   </Dropzone>
                 )}
               </div>
-              <div className="form__box-dropzone">
-                {selfieFiles ? (
-                  <div>{selfThumbs}</div>
+            </div>
+            <div className="form__box">
+              <div className="form__box-title">
+                Upload a cover image
+                <div className="form__box-subtitle">
+                  Recommended size: 1500x500px. JPG or PNG.
+                </div>
+              </div>
+              <div className="form__box-input">
+                {coverFiles ? (
+                  <div>{coverThumbs}</div>
                 ) : (
                   <Dropzone
                     multiple={false}
                     onDrop={(acceptedFiles) => {
+                      setActiveWatingModal(true);
                       let file = acceptedFiles[0];
                       uploadToS3(file)
                         .then((result) => {
-                          setSelfieFiles({ url: result.url, key: result.key });
+                          setCoverFiles({ url: result.url, key: result.key });
                         })
                         .catch((err) => {
                           console.log(err);
+                        })
+                        .finally(() => {
+                          setActiveWatingModal(false);
                         });
                     }}
-                    accept={"image/jpeg, image/jpg, image/png"}
+                    accept={".png, .jpg"}
                   >
                     {({ getRootProps, getInputProps }) => (
                       <div
@@ -611,32 +537,122 @@ function EditProfile() {
                       >
                         <input {...getInputProps()} />
                         <p className="input__form-istext">
-                          Place a photo of yourself along with your ID card
-                          here.
+                          Drag and drop an image here, or click to browse.
                         </p>
                       </div>
                     )}
                   </Dropzone>
                 )}
               </div>
-              <div className="form__box-title form__box-title--sm u-margin-bottom-small u-padding-top-tiny">
-                Email Verification
+            </div>
+            <div className="form__box">
+              <div className="form__box-title">
+                Verify your profile
+                <img
+                  src="/images/ios-icon/check.png"
+                  alt="verify mark"
+                  className="form__box-mark"
+                />
+                <div className="form__box-subtitle">
+                  Show the BidThis community that your profile is authentic.
+                </div>
               </div>
-              <div className="input__form-request">
-                <button type="button" className="input__form-request-btn">
-                  Request New Email Verification.
-                </button>
+              <div className="form__box-input">
+                <div className="form__box-title form__box-title--sm">
+                  KYC Verification
+                </div>
+                <div className="form__box-dropzone">
+                  {idCardFiles ? (
+                    <div>{cardThumbs}</div>
+                  ) : (
+                    <Dropzone
+                      multiple={false}
+                      onDrop={(acceptedFiles) => {
+                        setActiveWatingModal(true);
+                        let file = acceptedFiles[0];
+                        uploadToS3(file)
+                          .then((result) => {
+                            setIdCardFiles({
+                              url: result.url,
+                              key: result.key,
+                            });
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                          })
+                          .finally(() => {
+                            setActiveWatingModal(false);
+                          });
+                      }}
+                      accept={".png, .jpg"}
+                    >
+                      {({ getRootProps, getInputProps }) => (
+                        <div
+                          {...getRootProps({ className: "form__box-dropbox" })}
+                        >
+                          <input {...getInputProps()} />
+                          <p className="input__form-istext">
+                            Place a photo of your ID card here.
+                          </p>
+                        </div>
+                      )}
+                    </Dropzone>
+                  )}
+                </div>
+                <div className="form__box-dropzone">
+                  {selfieFiles ? (
+                    <div>{selfThumbs}</div>
+                  ) : (
+                    <Dropzone
+                      multiple={false}
+                      onDrop={(acceptedFiles) => {
+                        let file = acceptedFiles[0];
+                        uploadToS3(file)
+                          .then((result) => {
+                            setSelfieFiles({
+                              url: result.url,
+                              key: result.key,
+                            });
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                          });
+                      }}
+                      accept={".png, .jpg"}
+                    >
+                      {({ getRootProps, getInputProps }) => (
+                        <div
+                          {...getRootProps({ className: "form__box-dropbox" })}
+                        >
+                          <input {...getInputProps()} />
+                          <p className="input__form-istext">
+                            Place a photo of yourself along with your ID card
+                            here.
+                          </p>
+                        </div>
+                      )}
+                    </Dropzone>
+                  )}
+                </div>
+                <div className="form__box-title form__box-title--sm u-margin-bottom-small u-padding-top-tiny">
+                  Email Verification
+                </div>
+                <div className="input__form-request">
+                  <button type="button" className="input__form-request-btn">
+                    Request New Email Verification.
+                  </button>
+                </div>
               </div>
             </div>
+            <div className="form__end u-padding-top-medium">
+              <button type="submit" className="form__end-btn">
+                Save Changes
+              </button>
+            </div>
           </div>
-          <div className="form__end u-padding-top-medium">
-            <button type="submit" className="form__end-btn">
-              Save Changes
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 }
 

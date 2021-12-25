@@ -1,5 +1,11 @@
-function Backdrop(props) {
-  return props.show ? <div className="backdrop">{props.children}</div> : "";
+function Backdrop({ show, onClose, children }) {
+  return show ? (
+    <div className="backdrop" onClick={onClose}>
+      {children}
+    </div>
+  ) : (
+    ""
+  );
 }
 
 export default Backdrop;
