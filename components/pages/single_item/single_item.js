@@ -574,6 +574,7 @@ function SingleItem(props) {
               {bidders}
               <Lister
                 username={props.item.seller}
+                userId={props.item.sellerId}
                 resPrice={props.item.resPrice}
                 listTime={props.item.createdAt}
                 avatar={props.item.avatar}

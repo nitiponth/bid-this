@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/dist/client/link";
 
 const Lister = (props) => {
   return (
@@ -17,9 +18,9 @@ const Lister = (props) => {
       <div className="bid__text">
         <div className="bid__text-info">
           Listed by
-          <a href="#" className="bid__text-info--name">
-            @{props.username}
-          </a>
+          <Link href={`/users/${props.userId}`}>
+            <a className="bid__text-info--name">@{props.username}</a>
+          </Link>
         </div>
         <div className="bid__text-time">
           {new Date(props.listTime).toLocaleDateString()} at{" "}
