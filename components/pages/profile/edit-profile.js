@@ -7,6 +7,7 @@ import { useS3Upload } from "next-s3-upload";
 import Dropzone from "react-dropzone";
 import AuthContext from "../../../store/auth-context";
 import BWaiting from "../../atoms/BWaiting/BWaiting";
+import BModalCard from "../../atoms/BModalCard/BModalCard";
 
 const ME_QUERY = gql`
   query {
@@ -75,6 +76,7 @@ function EditProfile() {
   const authCtx = useContext(AuthContext);
 
   const [activeWaitingModal, setActiveWatingModal] = useState(false);
+  const [activeErrorModal, setActiveErrorModal] = useState(false);
 
   const [userData, setUserData] = useState();
   const [hasError, setHasError] = useState();
@@ -166,6 +168,20 @@ function EditProfile() {
       values.photo = "";
     }
 
+    if (values.name.trim() === "" || values.lastname.trim() === "") {
+      setHasError(
+        "Name, Lastname is required, please check your infomation agian."
+      );
+      setActiveErrorModal(true);
+      return;
+    }
+
+    if (values.username.trim() === "") {
+      setHasError("Username is required. please check your infomation agian.");
+      setActiveErrorModal(true);
+      return;
+    }
+
     try {
       const modifierValues = {
         updateUserFirst:
@@ -194,13 +210,15 @@ function EditProfile() {
         values.username = null;
       }
 
-      const { data } = await updateUser({
+      // const { data } = await updateUser({
+      await updateUser({
         variables: modifierValues,
       });
       // console.log(data);
       router.push(`/users/${authCtx.user.id}`);
     } catch (e) {
       setHasError(e.message);
+      setActiveErrorModal(true);
       console.log(e);
     }
   };
@@ -213,7 +231,6 @@ function EditProfile() {
     enableReinitialize: true,
   });
 
-  // const [imageUrl, setImageUrl] = useState(initialImageUrl);
   const { uploadToS3 } = useS3Upload();
   const [avatarFiles, setAvatarFiles] = useState();
 
@@ -222,12 +239,6 @@ function EditProfile() {
   const [selfieFiles, setSelfieFiles] = useState();
 
   async function avatarDeleteBtn(filename) {
-    // S3Client.deleteFile("user3.jpg")
-    //   .then((res) => {
-    //     console.log(res);
-    //     setAvatarFiles();
-    //   })
-    //   .catch((err) => console.log(err));
     setAvatarFiles();
   }
 
@@ -341,6 +352,14 @@ function EditProfile() {
         active={activeWaitingModal}
         canClose={false}
         onClose={() => {}}
+      />
+      <BModalCard
+        active={activeErrorModal}
+        canClose={true}
+        onClose={() => setActiveErrorModal(false)}
+        title="Something went wrong"
+        subtitle={hasError}
+        // modalImage={}
       />
       <div className="uf-container">
         <h1 className="title">Edit your Profile</h1>

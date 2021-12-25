@@ -419,6 +419,10 @@ body {
   width: 2.5rem;
 }
 
+.close-btn:hover {
+  cursor: pointer;
+}
+
 .popup__btn {
   width: -webkit-min-content;
   width: -moz-min-content;
