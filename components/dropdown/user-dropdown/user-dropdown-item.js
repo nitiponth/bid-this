@@ -1,25 +1,32 @@
-function UserDropdownItem(props) {
+function UserDropdownItem({
+  onClickHandler,
+  leftProfile,
+  leftIcon,
+  children,
+  rightIcon,
+  style,
+}) {
   let addStyle = "";
-  if (props.style === "red") {
+  if (style === "red") {
     addStyle = "icon-button--red";
   }
 
   return (
-    <a className="user-dropdown-item" onClick={props.onClickHandler}>
-      {props.leftProfile && (
+    <a className="user-dropdown-item" onClick={onClickHandler}>
+      {leftProfile && (
         <span className="icon-button icon-button--left">
-          <img src={props.leftProfile} className="icon-button-profile" />
+          <img src={leftProfile} className="icon-button-profile" />
         </span>
       )}
-      {props.leftIcon && (
+      {leftIcon && (
         <span className="icon-button icon-button--left">
-          <div className={`icon-button-img ${addStyle}`}>{props.leftIcon}</div>
+          <div className={`icon-button-img ${addStyle}`}>{leftIcon}</div>
         </span>
       )}
-      {props.children}
-      {props.rightIcon && (
+      {children}
+      {rightIcon && (
         <span className="icon-button icon-button--right">
-          <div className={`icon-button-img ${addStyle}`}>{props.rightIcon}</div>
+          <div className={`icon-button-img ${addStyle}`}>{rightIcon}</div>
         </span>
       )}
     </a>

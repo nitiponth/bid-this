@@ -5,22 +5,9 @@ import { useContext, useState, useEffect } from "react";
 import AuthContext from "../../../store/auth-context";
 import PopupDropdown from "../../dropdown/profile-dropdown/profile-dropdown";
 import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
+import BReportUser from "../../molecules/BReport/bReportUser";
 
 import ItemCard from "../main-content/item_card";
-
-// const DUMMY_ITEMS = [
-//   {
-//     img: "/images/items/keyboard.jpg",
-//     title: "Keychron",
-//     seller: "piterpasma",
-//     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis lorem neque, et rhoncus ex ornare sit amet. Nam posuere rhoncus purus, malesuada interdum orci molestie efficitur. Sed at dui elit. Suspendisse ultrices justo et ante varius pretium. Maecenas non.",
-//     resPrice: 1990,
-//     endTime: 1630060200000,
-//     category: "electronics",
-
-//     watched: true,
-//   },
-// ];
 
 const AUCTIONING_QUERY = gql`
   query ($getProductsByUserIdUserId: ID!, $getProductsByUserIdFilter: String) {
@@ -50,6 +37,8 @@ function UserInfo(props) {
   const router = useRouter();
   const { lists } = router.query;
   const [userVerify, setUserVerify] = useState(false);
+
+  const [activeReportModal, setActiveReportModal] = useState(false);
 
   const [productsData, setProductsData] = useState();
 
@@ -120,6 +109,10 @@ function UserInfo(props) {
   }
   return (
     <div className="user-info">
+      <BReportUser
+        active={activeReportModal}
+        onClose={() => setActiveReportModal(false)}
+      />
       <div
         className="banner"
         style={{
@@ -187,7 +180,7 @@ function UserInfo(props) {
         </div>
         <div className="info__popup">
           <PopupItem icon="/images/SVG/dots-three-horizontal.svg">
-            <PopupDropdown />
+            <PopupDropdown setActiveReportModal={setActiveReportModal} />
           </PopupItem>
         </div>
         <div className="legal">
