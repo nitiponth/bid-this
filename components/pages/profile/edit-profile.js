@@ -625,6 +625,8 @@ function EditProfile() {
                     <Dropzone
                       multiple={false}
                       onDrop={(acceptedFiles) => {
+                        setActiveWatingModal(true);
+
                         let file = acceptedFiles[0];
                         uploadToS3(file)
                           .then((result) => {
@@ -635,6 +637,9 @@ function EditProfile() {
                           })
                           .catch((err) => {
                             console.log(err);
+                          })
+                          .finally(() => {
+                            setActiveWatingModal(false);
                           });
                       }}
                       accept={".png, .jpg"}
