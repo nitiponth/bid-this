@@ -2,7 +2,7 @@ import Backdrop from "../../layout/backdrop";
 
 function BConfirm({ active, onClose, onConfirm, title, body }) {
   return (
-    <Backdrop show={active}>
+    <Backdrop show={active} onClose={onClose}>
       <div className="BConfirm">
         <div className="BConfirm__title">{title}</div>
         <div className="BConfirm__subtitle">{body}</div>

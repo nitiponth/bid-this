@@ -1,30 +1,24 @@
 import { useEffect, useRef } from "react";
 
 function Backdrop({ show, onClose, children }) {
-  // const modalRef = useRef(null);
+  const modalRef = useRef();
 
-  // useEffect(() => {
-  //   const listener = (event) => {
-  //     console.log(modalRef.current.contains(event.target));
-  //     console.log(event.target);
-  //     if (
-  //       show &&
-  //       modalRef.current &&
-  //       !modalRef.current.contains(event.target)
-  //     ) {
-  //       onClose();
-  //     }
-  //   };
+  const listener = (event) => {
+    if (modalRef.current === event.target) {
+      onClose();
+    }
+  };
 
-  //   document.addEventListener("mousedown", listener);
+  useEffect(() => {
+    document.addEventListener("mousedown", listener);
 
-  //   return () => {
-  //     document.removeEventListener("mousedown", listener);
-  //   };
-  // }, [show]);
+    return () => {
+      document.removeEventListener("mousedown", listener);
+    };
+  }, [show, modalRef, onClose]);
 
   return show ? (
-    <div className="backdrop" onClose={onClose}>
+    <div className="backdrop" onClose={onClose} ref={modalRef}>
       {children}
     </div>
   ) : (

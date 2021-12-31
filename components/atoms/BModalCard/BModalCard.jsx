@@ -7,13 +7,13 @@ import img from "../../../public/images/SILY/Saly-23.png";
 function BModalCard({
   active,
   canClose,
-  onClose,
+  onCloseHandler,
   title,
   subtitle,
   cardImage = img,
 }) {
   return (
-    <Backdrop show={active} onClose={onClose}>
+    <Backdrop show={active} onClose={onCloseHandler}>
       <div
         style={{
           position: "relative",
@@ -38,7 +38,7 @@ function BModalCard({
               top: 20,
               right: 20,
             }}
-            onClick={onClose}
+            onClick={onCloseHandler}
           >
             <IoCloseSharp />
           </div>
