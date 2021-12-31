@@ -16,7 +16,7 @@ const ADD_TO_WATHCLIST = gql`
   }
 `;
 
-function ItemsDropdown({ productId, isEnd, canEdit }) {
+function ItemsDropdown({ productId, isEnd, canEdit, setActiveReportModal }) {
   const router = useRouter();
   const [addToWatchlists] = useMutation(ADD_TO_WATHCLIST);
 
@@ -85,7 +85,10 @@ function ItemsDropdown({ productId, isEnd, canEdit }) {
             <span>Edit</span>
           </UserDropdownItem>
         )}
-        <UserDropdownItem leftIcon={<HiFlag color="#999" />}>
+        <UserDropdownItem
+          leftIcon={<HiFlag color="#999" />}
+          onClickHandler={() => setActiveReportModal(true)}
+        >
           <span>Report</span>
         </UserDropdownItem>
       </div>

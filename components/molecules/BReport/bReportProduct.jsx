@@ -7,7 +7,7 @@ import BTextarea from "../../atoms/BTextarea/bTextarea";
 import BButton from "../../atoms/BButton/bButton";
 import { useState } from "react";
 
-function BReportUser({ active, onClose, userId, username }) {
+function bReportProduct({ active, onClose, productId, productTitle, seller }) {
   const [reportData, setReportData] = useState("");
 
   return (
@@ -26,20 +26,26 @@ function BReportUser({ active, onClose, userId, username }) {
           <IoCloseSharp />
         </div>
 
-        <div className="BReport__title">User Report</div>
+        <div className="BReport__title">Product Report</div>
         <div className="BReport__body">
           <BForm>
             <BInput
               disabled={true}
-              label={"User Id"}
-              value={userId}
+              label={"Product Id"}
+              value={productId}
               inputStyles={{ width: "70%" }}
             />
             <BInput
               disabled={true}
-              label={"Username"}
-              value={username}
+              label={"Title"}
+              value={productTitle}
               inputStyles={{ width: "60%" }}
+            />
+            <BInput
+              disabled={true}
+              label={"Seller"}
+              value={seller}
+              inputStyles={{ width: "50%" }}
             />
             <div style={{ marginTop: "2rem" }} />
             <BTextarea
@@ -62,8 +68,10 @@ function BReportUser({ active, onClose, userId, username }) {
                 title="Report"
                 disabled={reportData.trim() === ""}
                 onClick={() => {
-                  console.log("report send: ", userId, reportData.trim());
+                  //send Pid and data to backend
+                  console.log("report send: ", productId, reportData.trim());
 
+                  //clear modal
                   setReportData("");
                   onClose();
                 }}
@@ -76,4 +84,4 @@ function BReportUser({ active, onClose, userId, username }) {
   );
 }
 
-export default BReportUser;
+export default bReportProduct;

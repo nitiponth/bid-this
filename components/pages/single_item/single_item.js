@@ -18,6 +18,9 @@ import Backdrop from "../../layout/backdrop";
 import Dropzone from "react-dropzone";
 import { useS3Upload } from "next-s3-upload";
 
+import BWaiting from "../../atoms/BWaiting/BWaiting";
+import BReportProduct from "../../molecules/BReport/bReportProduct";
+
 const UPDATE_TRACK = gql`
   mutation ($productId: ID!, $track: String!) {
     updateProductTrack(productId: $productId, track: $track) {
@@ -56,10 +59,12 @@ const CREATE_COMMENT = gql`
 `;
 
 function SingleItem(props) {
+  const { productId, title, seller } = props.item;
   const router = useRouter();
   const { uploadToS3 } = useS3Upload();
 
   const [activeWaitingModal, setActiveWaitingModal] = useState(false);
+  const [activeReportModal, setActiveReportModal] = useState(false);
 
   const authCtx = useContext(AuthContext);
   const countStart = useTimer(props.item.start);
@@ -374,6 +379,18 @@ function SingleItem(props) {
 
   return (
     <Fragment>
+      <BWaiting
+        active={activeWaitingModal}
+        canClose={false}
+        onClose={() => {}}
+      />
+      <BReportProduct
+        active={activeReportModal}
+        onClose={() => setActiveReportModal(false)}
+        productId={productId}
+        productTitle={title}
+        seller={seller}
+      />
       <Backdrop show={showReviewWindow}>
         <div className="floating" ref={backdropRef}>
           <div className="floating__title">{props.item.title}</div>
@@ -465,6 +482,7 @@ function SingleItem(props) {
                   productId={props.item.productId}
                   isEnd={isEnd}
                   canEdit={canEdit}
+                  setActiveReportModal={setActiveReportModal}
                 />
               </PopupItem>
             </div>
