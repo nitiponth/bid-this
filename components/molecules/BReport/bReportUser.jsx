@@ -6,9 +6,42 @@ import BForm from "../../atoms/BForm/bForm";
 import BTextarea from "../../atoms/BTextarea/bTextarea";
 import BButton from "../../atoms/BButton/bButton";
 import { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+
+const REPORT_USER = gql`
+  mutation ($userId: String!, $body: String!) {
+    reportUser(userId: $userId, body: $body)
+  }
+`;
 
 function BReportUser({ active, onClose, userId, username }) {
   const [reportData, setReportData] = useState("");
+
+  const [reportUser] = useMutation(REPORT_USER);
+
+  const reportUserHandler = async () => {
+    //validation
+    if (reportData.trim() === "" || !userId) {
+      return;
+    }
+
+    //send Pid and data to backend
+    const { data, errors } = await reportUser({
+      variables: {
+        userId: userId,
+        body: reportData,
+      },
+    });
+
+    if (data) {
+      console.log(data.reportUser);
+      setReportData("");
+      onClose();
+    } else if (errors) {
+      setReportData("");
+      console.error(errors);
+    }
+  };
 
   return (
     <Backdrop show={active} onClose={onClose}>
@@ -61,12 +94,7 @@ function BReportUser({ active, onClose, userId, username }) {
               <BButton
                 title="Report"
                 disabled={reportData.trim() === ""}
-                onClick={() => {
-                  console.log("report send: ", userId, reportData.trim());
-
-                  setReportData("");
-                  onClose();
-                }}
+                onClick={reportUserHandler}
               />
             </div>
           </BForm>

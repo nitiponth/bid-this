@@ -28,7 +28,7 @@ function Sidebar() {
               </a>
             </Link>
           </li>
-          <li className={cate === "clothing" ? linkActiveClass : linkClass}>
+          {/* <li className={cate === "clothing" ? linkActiveClass : linkClass}>
             <Link href="/?cate=clothing">
               <a className="sidebar-nav__link">
                 <img
@@ -75,7 +75,7 @@ function Sidebar() {
                 <span>Others</span>
               </a>
             </Link>
-          </li>
+          </li> */}
           <li className={cate === "watchlists" ? linkActiveClass : linkClass}>
             <Link href="/?cate=watchlists">
               <a href="#" className="sidebar-nav__link">

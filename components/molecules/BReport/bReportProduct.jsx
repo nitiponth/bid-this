@@ -6,9 +6,41 @@ import BForm from "../../atoms/BForm/bForm";
 import BTextarea from "../../atoms/BTextarea/bTextarea";
 import BButton from "../../atoms/BButton/bButton";
 import { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+
+const REPORT_PRODUCT = gql`
+  mutation ($productId: String!, $reportProductBody: String!) {
+    reportProduct(productId: $productId, body: $reportProductBody)
+  }
+`;
 
 function bReportProduct({ active, onClose, productId, productTitle, seller }) {
   const [reportData, setReportData] = useState("");
+
+  const [reportProduct] = useMutation(REPORT_PRODUCT);
+
+  const reportProductHandler = async () => {
+    //validation
+    if (reportData.trim() === "" || !productId) {
+      return;
+    }
+
+    //send Pid and data to backend
+    const { data, errors } = await reportProduct({
+      variables: {
+        productId: productId,
+        reportProductBody: reportData,
+      },
+    });
+
+    if (data) {
+      setReportData("");
+      onClose();
+    } else if (errors) {
+      setReportData("");
+      console.error(errors);
+    }
+  };
 
   return (
     <Backdrop show={active} onClose={onClose}>
@@ -67,14 +99,7 @@ function bReportProduct({ active, onClose, productId, productTitle, seller }) {
               <BButton
                 title="Report"
                 disabled={reportData.trim() === ""}
-                onClick={() => {
-                  //send Pid and data to backend
-                  console.log("report send: ", productId, reportData.trim());
-
-                  //clear modal
-                  setReportData("");
-                  onClose();
-                }}
+                onClick={reportProductHandler}
               />
             </div>
           </BForm>

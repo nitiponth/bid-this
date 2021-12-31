@@ -52,10 +52,6 @@ function AuctionDropdown(props) {
     }
   }, [data, loading]);
 
-  const toItemPage = () => {
-    router.push("/items");
-  };
-
   const compList = productsList.map((product) => {
     const haveBids = product.bids.length > 0;
     let lastBidder = "No Bid";
@@ -71,11 +67,12 @@ function AuctionDropdown(props) {
 
     return (
       <AuctionDropdownItem
+        key={product.id}
         image={product.images[0]}
         start={product.start}
         end={product.end}
         onClick={() => {
-          console.log(product.title);
+          router.push(`/items/${product.id}`);
         }}
       >
         <div style={{ display: "flex", flexDirection: "column" }}>
