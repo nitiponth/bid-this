@@ -33,6 +33,9 @@ const AUCTIONING_QUERY = gql`
 `;
 
 function UserInfo(props) {
+  const { cover, desc, join, name, last, price, userId, username } =
+    props.userData;
+
   const authCtx = useContext(AuthContext);
   const router = useRouter();
   const { lists } = router.query;
@@ -112,6 +115,8 @@ function UserInfo(props) {
       <BReportUser
         active={activeReportModal}
         onClose={() => setActiveReportModal(false)}
+        userId={userId}
+        username={username}
       />
       <div
         className="banner"
