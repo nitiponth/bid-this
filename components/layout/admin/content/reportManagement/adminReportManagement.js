@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SelectionBox from "../../../../etc/selection/selection";
+import ReportTable from "./components/reportTable";
 
 const filterOptions = ["Sort by A", "Sort by B", "Sort by C", "Sort by D"];
 function AdminReportManagement() {
@@ -11,7 +12,7 @@ function AdminReportManagement() {
           <input className="header__search__input" placeholder="Search..." />
         </div>
         <div className="header__filter">
-          <p className="label"> Filter </p>
+          <p className="label"> Sort by </p>
           <div className="header__filter__selection">
             <SelectionBox
               options={filterOptions}
@@ -22,7 +23,7 @@ function AdminReportManagement() {
         </div>
       </div>
       <div className="admin__content">
-        <div>Report Management Page</div>
+        <ReportTable />
       </div>
     </div>
   );
