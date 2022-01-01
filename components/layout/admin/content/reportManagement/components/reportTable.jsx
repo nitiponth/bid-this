@@ -36,8 +36,40 @@ const sortOptions = {
   date: "Date",
 };
 
+const sortFunction = (sortedBy, arr) => {
+  if (!arr) {
+    return;
+  }
+  const compArr = [...arr];
+
+  return compArr.sort((a, b) => {
+    let fa = a.props.id;
+    let fb = b.props.id;
+
+    if (sortedBy === sortOptions.type) {
+      fa = a.props.type;
+      fb = b.props.type;
+    } else if (sortedBy === sortOptions.status) {
+      fa = a.props.status;
+      fb = b.props.status;
+    } else if (sortedBy === sortOptions.date) {
+      fa = new Date(a.props.date);
+      fb = new Date(b.props.date);
+    }
+
+    if (fa < fb) {
+      return -1;
+    }
+    if (fa > fb) {
+      return 1;
+    }
+    return 0;
+  });
+};
+
 function ReportTable({ sortedBy, searchInput }) {
   const [listComponents, setListComponents] = useState(null);
+  const [filteredComponents, setFilteredComponents] = useState(null);
 
   const { data, error, loading } = useQuery(GET_REPORT, {
     fetchPolicy: "network-only",
@@ -81,33 +113,14 @@ function ReportTable({ sortedBy, searchInput }) {
     if (!listComponents) {
       return;
     }
-    const list = [...listComponents];
 
-    list.sort((a, b) => {
-      let fa = a.props.id;
-      let fb = b.props.id;
+    if (filteredComponents) {
+      const filteredArr = sortFunction(sortedBy, filteredComponents);
+      setFilteredComponents(filteredArr);
+    }
 
-      if (sortedBy === sortOptions.type) {
-        fa = a.props.type;
-        fb = b.props.type;
-      } else if (sortedBy === sortOptions.status) {
-        fa = a.props.status;
-        fb = b.props.status;
-      } else if (sortedBy === sortOptions.date) {
-        fa = new Date(a.props.date);
-        fb = new Date(b.props.date);
-      }
-
-      if (fa < fb) {
-        return -1;
-      }
-      if (fa > fb) {
-        return 1;
-      }
-      return 0;
-    });
-
-    setListComponents(list);
+    const listArr = sortFunction(sortedBy, listComponents);
+    setListComponents(listArr);
   }, [sortedBy]);
 
   useEffect(() => {
@@ -122,10 +135,9 @@ function ReportTable({ sortedBy, searchInput }) {
         report.props.title.toLowerCase().includes(searchInput.trim())
       );
 
-      setListComponents(filteredList);
+      setFilteredComponents(filteredList);
     } else {
-      initialize();
-      sortList();
+      setFilteredComponents(null);
     }
   }, [searchInput]);
 
@@ -149,7 +161,8 @@ function ReportTable({ sortedBy, searchInput }) {
           Loading...
         </div>
       )}
-      {data && !error && <>{listComponents}</>}
+      {data && !error && !filteredComponents && <>{listComponents}</>}
+      {filteredComponents && <>{filteredComponents}</>}
     </div>
   );
 }

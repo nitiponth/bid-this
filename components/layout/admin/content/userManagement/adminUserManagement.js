@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import UserData from "./components/userData";
 import SelectionBox from "../../../../etc/selection/selection";
-
-const filterOptions = ["User ID", "Username", "Email", "Status"];
 
 const GET_USERS = gql`
   query {
@@ -25,96 +23,102 @@ const GET_USERS = gql`
   }
 `;
 
+const filterOptions = ["User ID", "Username", "Email", "Status"];
+
+const sortOptions = {
+  id: "User ID",
+  username: "Username",
+  email: "Email",
+  status: "Status",
+};
+
 function AdminUserManagement() {
   const [selectedFilter, setSelectedFilter] = useState("User ID");
   const [userSearchInput, setUserSearchInput] = useState("");
+  const [listComponents, setListComponents] = useState(null);
+  const [filteredComponents, setFilteredComponents] = useState(null);
 
   const { loading, error, data } = useQuery(GET_USERS);
 
   const [usersData, setUsersData] = useState([]);
   const [sortedList, setSortedList] = useState([]);
 
-  useEffect(() => {
+  const initialize = useCallback(() => {
     if (!loading && data) {
-      setUsersData(data.getUsers);
+      const { getUsers } = data;
+
+      const productsList = getUsers.map((user) => (
+        <UserData key={user.id} data={user} />
+      ));
+
+      setListComponents(productsList);
     }
-    if (error) {
-      console.log("Error: ", error);
+  }, [data, error, loading]);
+
+  useEffect(() => {
+    initialize();
+  }, [data, loading, error]);
+
+  const sortFunction = (arr) => {
+    const compArr = [...arr];
+
+    return compArr.sort((a, b) => {
+      let fa = a.props.data.id;
+      let fb = b.props.data.id;
+
+      if (selectedFilter === sortOptions.username) {
+        fa = a.props.data.username.toLowerCase();
+        fb = b.props.data.username.toLowerCase();
+      } else if (selectedFilter === sortOptions.email) {
+        fa = a.props.data.email.toLowerCase();
+        fb = b.props.data.email.toLowerCase();
+      } else if (selectedFilter === sortOptions.status) {
+        fa = new Date(a.props.data.status);
+        fb = new Date(b.props.data.status);
+      }
+
+      if (fa < fb) {
+        return -1;
+      }
+      if (fa > fb) {
+        return 1;
+      }
+      return 0;
+    });
+  };
+
+  const sortList = useCallback(() => {
+    if (!listComponents) {
+      return;
     }
-  }, [data]);
+
+    if (filteredComponents) {
+      const filteredArr = sortFunction(filteredComponents);
+      setFilteredComponents(filteredArr);
+    }
+
+    const listArr = sortFunction(listComponents);
+    setListComponents(listArr);
+  }, [selectedFilter]);
 
   useEffect(() => {
     if (userSearchInput.trim().length > 0) {
-      const items = [...usersData];
-      const usersSearchList = items.filter((user) =>
-        user.username.toLowerCase().includes(userSearchInput)
+      const list = [...listComponents];
+
+      const filteredList = list.filter((user) =>
+        user.props.data.username
+          .toLowerCase()
+          .includes(userSearchInput.toLowerCase().trim())
       );
-      setSortedList(usersSearchList);
+      setFilteredComponents(filteredList);
     } else {
-      const items = [...usersData];
-      setSortedList(items);
+      setFilteredComponents(null);
     }
-  }, [userSearchInput, usersData]);
+  }, [userSearchInput]);
 
   useEffect(() => {
-    const items = [...sortedList];
-    if (selectedFilter === "User ID") {
-      setSortedList(items);
-      return;
-    }
-    if (selectedFilter === "Username") {
-      items.sort((a, b) => {
-        let fa = a.username.toLowerCase();
-        let fb = b.username.toLowerCase();
-
-        if (fa < fb) {
-          return -1;
-        }
-        if (fa > fb) {
-          return 1;
-        }
-        return 0;
-      });
-      setSortedList(items);
-      return;
-    }
-    if (selectedFilter === "Email") {
-      items.sort((a, b) => {
-        let fa = a.email;
-        let fb = b.email;
-
-        if (fa < fb) {
-          return -1;
-        }
-        if (fa > fb) {
-          return 1;
-        }
-        return 0;
-      });
-      setSortedList(items);
-      return;
-    }
-    if (selectedFilter === "Status") {
-      items.sort((a, b) => {
-        let fa = a.status;
-        let fb = b.status;
-
-        if (fa < fb) {
-          return -1;
-        }
-        if (fa > fb) {
-          return 1;
-        }
-        return 0;
-      });
-      setSortedList(items);
-      return;
-    }
+    sortList();
   }, [selectedFilter]);
-
-  const usersList = sortedList.map((user) => (
-    <UserData key={user.id} data={user} />
-  ));
 
   return (
     <div className="adminContent">
@@ -140,7 +144,8 @@ function AdminUserManagement() {
       </div>
       <div className="admin__content">
         {loading && <div className="centered">Loading...</div>}
-        {usersData.length > 0 && usersList}
+        {data && !error && !filteredComponents && listComponents}
+        {filteredComponents && filteredComponents}
       </div>
     </div>
   );
