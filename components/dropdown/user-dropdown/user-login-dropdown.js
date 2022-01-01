@@ -23,8 +23,8 @@ function UserLoginDropdown(props) {
     router.push("/users/edit");
   };
 
-  const toSupportPage = () => {
-    //support page
+  const toManagementPage = () => {
+    router.push("/admin");
   };
 
   const toLogoutHandler = async () => {
@@ -52,12 +52,14 @@ function UserLoginDropdown(props) {
         >
           Setting
         </UserDropdownItem>
-        <UserDropdownItem
-          leftIcon={<HiOutlineSupport />}
-          onClickHandler={toSupportPage}
-        >
-          Support
-        </UserDropdownItem>
+        {props.user?.role === "ADMIN" && (
+          <UserDropdownItem
+            leftIcon={<HiOutlineSupport />}
+            onClickHandler={toManagementPage}
+          >
+            Management
+          </UserDropdownItem>
+        )}
         <UserDropdownItem
           leftIcon={<HiOutlineLogout />}
           onClickHandler={toLogoutHandler}

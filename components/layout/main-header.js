@@ -17,6 +17,7 @@ const ME_QUERY = gql`
       username
       wallet
       profile
+      role
     }
   }
 `;
