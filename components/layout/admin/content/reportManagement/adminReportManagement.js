@@ -2,14 +2,21 @@ import { useState } from "react";
 import SelectionBox from "../../../../etc/selection/selection";
 import ReportTable from "./components/reportTable";
 
-const filterOptions = ["Sort by A", "Sort by B", "Sort by C", "Sort by D"];
+const filterOptions = ["ID", "Type", "Status", "Date"];
 function AdminReportManagement() {
-  const [selectedFilter, setSelectedFilter] = useState("Select Filter");
+  const [selectedFilter, setSelectedFilter] = useState("ID");
+  const [userSearchInput, setUserSearchInput] = useState("");
+
   return (
     <div className="adminContent">
       <div className="admin__header">
         <div className="header__search">
-          <input className="header__search__input" placeholder="Search..." />
+          <input
+            className="header__search__input"
+            placeholder="Search..."
+            value={userSearchInput}
+            onChange={(e) => setUserSearchInput(e.target.value)}
+          />
         </div>
         <div className="header__filter">
           <p className="label"> Sort by </p>
@@ -23,7 +30,7 @@ function AdminReportManagement() {
         </div>
       </div>
       <div className="admin__content">
-        <ReportTable />
+        <ReportTable sortedBy={selectedFilter} searchInput={userSearchInput} />
       </div>
     </div>
   );
