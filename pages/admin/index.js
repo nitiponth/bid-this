@@ -25,7 +25,7 @@ function Admin() {
   }, [isLogin, user]);
   return (
     <div className="adminPage">
-      {authCtx.isLogin ? (
+      {authCtx.role === "ADMIN" ? (
         <AdminLayout>
           {contentState === "USER" && <AdminUserManagement />}
           {contentState === "PRODUCT" && <AdminProductManagement />}
