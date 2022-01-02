@@ -1,12 +1,15 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toPhoneNumber } from "../../../../../utils/stringFormat";
 import BButton from "../../../../atoms/BButton/bButton";
 import BForm from "../../../../atoms/BForm/bForm";
 import BInput from "../../../../atoms/BInput/bInput";
+import BModalCard from "../../../../atoms/BModalCard/BModalCard";
 import BTextarea from "../../../../atoms/BTextarea/bTextarea";
 import SelectionBox from "../../../../etc/selection/selection";
+
+import SalyImage from "../../../../../public/images/SILY/Saly-1.png";
 
 const GET_PRODUCT_REPORT = gql`
   query ($reportId: ID!) {
@@ -44,6 +47,12 @@ const GET_PRODUCT_REPORT = gql`
   }
 `;
 
+const UPDATE_PRODUCT_REPORT = gql`
+  mutation ($reportId: ID!, $type: ReportType!, $newStatus: ReportStatus!) {
+    updateReportStatus(reportId: $reportId, type: $type, newStatus: $newStatus)
+  }
+`;
+
 const statusOptions = ["RECEIVED", "CHECKING", "DONE"];
 
 function AdminReportProduct(props) {
@@ -52,6 +61,7 @@ function AdminReportProduct(props) {
 
   const [reportData, setReportData] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("Loading");
+  const [activeModalCard, setActiveModalCard] = useState(false);
 
   const { data, loading, error } = useQuery(GET_PRODUCT_REPORT, {
     fetchPolicy: "network-only",
@@ -59,6 +69,8 @@ function AdminReportProduct(props) {
       reportId,
     },
   });
+
+  const [updateProductReport] = useMutation(UPDATE_PRODUCT_REPORT);
 
   useEffect(() => {
     if (!loading && data) {
@@ -77,6 +89,16 @@ function AdminReportProduct(props) {
             <div> </div>
           ) : (
             <div className="ProductReportContainer">
+              <BModalCard
+                active={activeModalCard}
+                canClose={true}
+                onCloseHandler={() => {
+                  setActiveModalCard(false);
+                }}
+                title={"Done"}
+                subtitle={"Update report status successfully."}
+                cardImage={SalyImage}
+              />
               <div className="RProduct">
                 <div className="RProduct__card">
                   <img
@@ -249,6 +271,22 @@ function AdminReportProduct(props) {
                   <BForm>
                     <BButton
                       title={"Confirm"}
+                      onClick={async () => {
+                        const { data, errors } = await updateProductReport({
+                          variables: {
+                            reportId,
+                            type: "Product",
+                            newStatus: selectedStatus,
+                          },
+                        });
+
+                        if (data) {
+                          //   console.log(data);
+                          setActiveModalCard(true);
+                        } else if (errors) {
+                          console.error(errors);
+                        }
+                      }}
                       containerStyles={{ width: "10rem" }}
                     />
                   </BForm>
