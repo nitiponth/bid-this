@@ -28,8 +28,8 @@ class AdminStore {
     this.productId = productId;
   };
 
-  defineProductId = (reportId) => {
-    this.productId = reportId;
+  defineReportId = (reportId) => {
+    this.reportId = reportId;
   };
 }
 

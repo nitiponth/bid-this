@@ -7,25 +7,35 @@ import AdminProductManagement from "../../components/layout/admin/content/produc
 import AdminReportManagement from "../../components/layout/admin/content/reportManagement/adminReportManagement";
 import AdminUserDetial from "../../components/layout/admin/content/userManagement/adminUserManagementDetail";
 import AdminProductDetail from "../../components/layout/admin/content/productManagement/detail/adminProductDetail";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../store/auth-context";
 import { useRouter } from "next/router";
+import AdminReportProduct from "../../components/layout/admin/content/reportManagement/adminReportProduct";
 
 function Admin() {
   const router = useRouter();
 
-  const { contentState, userId, productId } = useAdminStore();
+  const { contentState, userId, productId, reportId } = useAdminStore();
   const authCtx = useContext(AuthContext);
 
   const { isLogin, user } = authCtx;
+
+  const [isAdmin, setIsAdmin] = useState(false);
+
   useEffect(() => {
     if (!isLogin || user.role !== "ADMIN") {
       router.push("/");
     }
+    if (user.role === "ADMIN") {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
   }, [isLogin, user]);
+
   return (
     <div className="adminPage">
-      {authCtx.role === "ADMIN" ? (
+      {isAdmin ? (
         <AdminLayout>
           {contentState === "USER" && <AdminUserManagement />}
           {contentState === "PRODUCT" && <AdminProductManagement />}
@@ -35,6 +45,9 @@ function Admin() {
           )}
           {contentState === "PRODUCT_DETAIL" && (
             <AdminProductDetail productId={productId} />
+          )}
+          {contentState === "PRODUCT_REPORT_DETAIL" && (
+            <AdminReportProduct reportId={reportId} />
           )}
         </AdminLayout>
       ) : (

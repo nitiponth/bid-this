@@ -1,6 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
+import { useRouter } from "next/dist/client/router";
 import { useCallback, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
+import { useAdminStore } from "../../../../../../store/admin-Content-Store";
 import ReportList from "./reportList";
 import ReportTableHeader from "./reportTableHeader";
 
@@ -68,6 +70,9 @@ const sortFunction = (sortedBy, arr) => {
 };
 
 function ReportTable({ sortedBy, searchInput }) {
+  const { changeState, defineReportId } = useAdminStore();
+  const router = useRouter();
+
   const [listComponents, setListComponents] = useState(null);
   const [filteredComponents, setFilteredComponents] = useState(null);
 
@@ -87,7 +92,12 @@ function ReportTable({ sortedBy, searchInput }) {
           image={report.user.profile}
           status={report.reportStatus}
           type={"User"}
-          onCheck={() => {}}
+          onCheck={() => {
+            changeState("USER_REPORT_DETAIL");
+            defineReportId(report.id);
+
+            router.push("/admin");
+          }}
           date={report.createdAt}
         />
       ));
@@ -99,7 +109,12 @@ function ReportTable({ sortedBy, searchInput }) {
           image={report.product.images[0]}
           status={report.reportStatus}
           type={"Product"}
-          onCheck={() => {}}
+          onCheck={() => {
+            changeState("PRODUCT_REPORT_DETAIL");
+            defineReportId(report.id);
+
+            router.push("/admin");
+          }}
           date={report.createdAt}
         />
       ));

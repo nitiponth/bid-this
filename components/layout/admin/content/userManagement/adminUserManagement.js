@@ -40,9 +40,6 @@ function AdminUserManagement() {
 
   const { loading, error, data } = useQuery(GET_USERS);
 
-  const [usersData, setUsersData] = useState([]);
-  const [sortedList, setSortedList] = useState([]);
-
   const initialize = useCallback(() => {
     if (!loading && data) {
       const { getUsers } = data;

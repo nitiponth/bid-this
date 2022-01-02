@@ -18,6 +18,7 @@ function BTextarea({
         {label}
       </label>
       <textarea
+        disabled={disabled}
         rows={rows}
         onChange={onChange}
         value={value}

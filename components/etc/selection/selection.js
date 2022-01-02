@@ -45,7 +45,7 @@ function SelectionBox(props) {
         </span>
 
         {isActive && (
-          <div className="selection-content" style={{ marginBottom: "3rem" }}>
+          <div className="selection-content">
             {props.options.map((option) => (
               <div
                 key={option}

@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 const STATUS_TYPE = {
   received: "RECEIVED",
   checking: "CHECKING",
@@ -9,9 +7,6 @@ const STATUS_TYPE = {
 function StatusBadge({ status }) {
   let badgeText = "RECEIVED";
   let badgeColor = "#747b8a";
-  //   useEffect(() => {
-
-  //   }, [status]);
 
   if (status === STATUS_TYPE.received) {
     badgeText = "RECEIVED";
