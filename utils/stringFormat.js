@@ -31,3 +31,11 @@ export const toExpDate = (expDate) => {
     expDate.replace(/\//g, "").substring(2, 4)
   );
 };
+
+export const getExpMonth = (expDate) => {
+  return expDate.replace(/\//g, "").substring(0, 2);
+};
+
+export const getExpYear = (expDate) => {
+  return expDate.replace(/\//g, "").substring(2, 4);
+};

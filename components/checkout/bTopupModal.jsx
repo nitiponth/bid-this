@@ -7,14 +7,36 @@ import BButton from "../atoms/BButton/bButton";
 import { useState } from "react";
 import BCheckbox from "../atoms/BCheckbox/bCheckbox";
 import { IoCloseSharp } from "react-icons/io5";
-import { toCreditCard, toExpDate } from "../../utils/stringFormat";
+import {
+  getExpMonth,
+  getExpYear,
+  toCreditCard,
+  toExpDate,
+} from "../../utils/stringFormat";
+import { gql, useMutation } from "@apollo/client";
 
-function BTopupModal({ active, onClose, amount = 0 }) {
+const DEPOSIT_CREDIT = gql`
+  mutation ($amount: Int!, $paymentInfo: PaymentInfo, $save: Boolean) {
+    depositCredit(amount: $amount, paymentInfo: $paymentInfo, save: $save) {
+      amount
+    }
+  }
+`;
+
+function BTopupModal({
+  active,
+  onClose,
+  amount = 0,
+  setActiveWaitingModal,
+  setWaitingText,
+}) {
   const [cardInput, setCardInput] = useState("");
   const [nameInput, setNameInput] = useState("");
   const [expiredInput, setExpiredInput] = useState("");
   const [cvcInput, setCvcInput] = useState("");
   const [isSaveCard, setIsSaveCard] = useState(true);
+
+  const [depositCredit] = useMutation(DEPOSIT_CREDIT);
 
   const onCloseHandler = () => {
     setCardInput("");
@@ -23,6 +45,53 @@ function BTopupModal({ active, onClose, amount = 0 }) {
     setCvcInput("");
     setIsSaveCard(true);
     onClose();
+  };
+
+  const depositeCreditHandler = async () => {
+    if (getExpMonth(expiredInput) > 12 || getExpMonth(expiredInput) <= 0) {
+      console.log("Card Expired is invalid, Please check your infomation.");
+      return;
+    }
+
+    const today = new Date();
+    let someday = new Date();
+    someday.setFullYear(
+      20 + getExpYear(expiredInput),
+      getExpMonth(expiredInput) - 1,
+      someday.getDate()
+    );
+
+    console.log(someday);
+
+    if (someday < today) {
+      console.log("this card is expired");
+      return;
+    }
+
+    onClose();
+    setActiveWaitingModal(true);
+
+    const { data } = await depositCredit({
+      variables: {
+        amount: amount,
+        paymentInfo: {
+          card: cardInput.replace(/\s+/g, ""),
+          name: nameInput.trim(),
+          expMonth: getExpMonth(expiredInput),
+          expYear: getExpYear(expiredInput),
+          cvc: cvcInput,
+        },
+        save: isSaveCard,
+      },
+    });
+
+    if (data) {
+      setWaitingText(`Deposite ${amount}฿ successfully.`);
+      onCloseHandler();
+    } else {
+      setWaitingText(`Something went wrong. Please contact our admin.`);
+      console.log(errors);
+    }
   };
 
   return (
@@ -53,8 +122,8 @@ function BTopupModal({ active, onClose, amount = 0 }) {
             <BInput
               label="Card number"
               type={"text"}
-              value={toCreditCard(cardInput)}
-              onChange={(e) => setCardInput(e.target.value)}
+              value={cardInput}
+              onChange={(e) => setCardInput(toCreditCard(e.target.value))}
               inputStyles={{ width: "100%" }}
             />
             <BInput
@@ -69,8 +138,8 @@ function BTopupModal({ active, onClose, amount = 0 }) {
                 <BInput
                   label="Expiry date"
                   type={"text"}
-                  value={toExpDate(expiredInput)}
-                  onChange={(e) => setExpiredInput(e.target.value)}
+                  value={expiredInput}
+                  onChange={(e) => setExpiredInput(toExpDate(e.target.value))}
                   inputStyles={{ width: "95%" }}
                 />
               </div>
@@ -81,6 +150,7 @@ function BTopupModal({ active, onClose, amount = 0 }) {
                   value={cvcInput}
                   onChange={(e) => setCvcInput(e.target.value)}
                   inputStyles={{ width: "95%" }}
+                  inputProps={{ maxLength: 3 }}
                 />
               </div>
             </div>
@@ -111,9 +181,7 @@ function BTopupModal({ active, onClose, amount = 0 }) {
                 maximumFractionDigits: 2,
               })} THB`}
               onClick={() => {
-                alert(
-                  `${cardInput} \n ${expiredInput} \n ${nameInput} \n ${cvcInput} \n isSave: ${isSaveCard.toString()}`
-                );
+                depositeCreditHandler();
               }}
               containerStyles={{
                 width: "300px",

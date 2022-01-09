@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
-import CheckoutWithCreditCard from "../../checkout/checkoutWithCreditCard";
-import CheckoutWithInternetBanking from "../../checkout/CheckoutWithInternetBanking";
 import BConfirm from "../../atoms/BConfirm/BConfirm";
 import BModalCard from "../../atoms/BModalCard/BModalCard";
 
@@ -11,8 +9,8 @@ import failedImage from "../../../public/images/SILY/Saly-12.png";
 import TopupWithCrediteCard from "../../checkout/topupWithCrediteCard";
 
 const DEPOSIT_MUTATION = gql`
-  mutation ($amount: Int!, $token: String, $cardId: String) {
-    depositCredit(amount: $amount, token: $token, cardId: $cardId) {
+  mutation ($amount: Int!, $cardId: String) {
+    depositCredit(amount: $amount, cardId: $cardId) {
       id
       createdAt
       amount
@@ -68,7 +66,6 @@ function Topup(props) {
     const result = await depositCredit({
       variables: {
         amount: selected,
-        token: null,
         cardId: selectedCard.id,
       },
     });
@@ -127,23 +124,6 @@ function Topup(props) {
     ));
   }
 
-  const checkoutHandler = async (token, amount) => {
-    setActiveWaitingModal(true);
-    const result = await depositCredit({
-      variables: {
-        amount,
-        token,
-      },
-    });
-    if (result.data) {
-      setWaitingText(`Deposit ${selected.toLocaleString("En")}฿ successfully.`);
-      setWaitingImg(successImage);
-    } else if (result.errors) {
-      setWaitingText(`Payment failed. Please contact admin`);
-      setWaitingImg(failedImage);
-    }
-  };
-
   return (
     <div className="topup-container">
       <BConfirm
@@ -170,12 +150,6 @@ function Topup(props) {
       <div className="topup__select">{listsOfAmout}</div>
       <div className="topup__checkout">
         <TopupWithCrediteCard amount={selected} />
-        {/* <CheckoutWithCreditCard
-          text={"test"}
-          amount={selected}
-          checkout={checkoutHandler}
-        /> */}
-        {/* <CheckoutWithInternetBanking amount={selected} /> */}
       </div>
       {existCards}
     </div>
