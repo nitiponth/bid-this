@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
 import { gql, useMutation } from "@apollo/client";
+import { IoClose } from "react-icons/io5";
+
 import Backdrop from "../../layout/backdrop";
 import AddAccountForm from "./addAccountForm";
 
@@ -20,9 +22,16 @@ const WITHDRAW = gql`
   }
 `;
 
+const REMOVE_REPT = gql`
+  mutation ($reptId: String!) {
+    removeRecipient(reptId: $reptId)
+  }
+`;
+
 function Withdraw(props) {
   const [showForm, setShowForm] = useState(false);
   const [withdrawCredit] = useMutation(WITHDRAW);
+  const [removeRecipient] = useMutation(REMOVE_REPT);
   const amountRef = useRef();
 
   const [selectedAccount, setSelectedAccount] = useState(null);
@@ -115,7 +124,30 @@ function Withdraw(props) {
                   {account.bankInfo.brand.toUpperCase()}
                 </p>
               </div>
-              <div className="existAccount__right">{btn}</div>
+              <div
+                className="existAccount__right"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                {btn}
+                <div
+                  className="delete-btn"
+                  onClick={async () => {
+                    const { data, errors } = await removeRecipient({
+                      variables: {
+                        reptId: account.id,
+                      },
+                    });
+                    if (data) {
+                      props.refetch();
+                    } else {
+                      console.log(errors);
+                    }
+                  }}
+                  style={{ marginLeft: "1rem", marginTop: "1rem" }}
+                >
+                  <IoClose />
+                </div>
+              </div>
             </div>
           </div>
         </div>
