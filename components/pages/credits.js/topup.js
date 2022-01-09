@@ -8,6 +8,7 @@ import BModalCard from "../../atoms/BModalCard/BModalCard";
 import waitingImage from "../../../public/images/SILY/Saly-1.png";
 import successImage from "../../../public/images/SILY/Saly-22.png";
 import failedImage from "../../../public/images/SILY/Saly-12.png";
+import TopupWithCrediteCard from "../../checkout/topupWithCrediteCard";
 
 const DEPOSIT_MUTATION = gql`
   mutation ($amount: Int!, $token: String, $cardId: String) {
@@ -168,6 +169,7 @@ function Topup(props) {
       <div className="topup__title">Select your Topup amounts</div>
       <div className="topup__select">{listsOfAmout}</div>
       <div className="topup__checkout">
+        <TopupWithCrediteCard amount={selected} />
         <CheckoutWithCreditCard
           text={creditBtnText}
           amount={selected}

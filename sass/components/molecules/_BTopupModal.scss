@@ -1,0 +1,29 @@
+.topupModal {
+  position: relative;
+  width: 400px;
+  min-height: 650px;
+  background-color: white;
+  border-radius: 2rem;
+  box-shadow: 0 0rem 3rem rgba(#000, 0.35);
+  padding: 3rem 3rem;
+
+  display: flex;
+  flex-direction: column;
+
+  &__desc {
+    margin: 2rem 3rem;
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--color-grey-light-4);
+    margin-bottom: 2rem;
+  }
+
+  &__type {
+    align-self: flex-start;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--color-grey-dark-1);
+
+    margin-bottom: 1rem;
+  }
+}

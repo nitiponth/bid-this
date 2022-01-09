@@ -1,8 +1,7 @@
-function BForm(props) {
-  const { formStyles } = props;
+function BForm({ formStyles, children }) {
   return (
     <div style={formStyles} className="BForm">
-      {props.children}
+      {children}
     </div>
   );
 }
