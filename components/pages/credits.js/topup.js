@@ -170,11 +170,11 @@ function Topup(props) {
       <div className="topup__select">{listsOfAmout}</div>
       <div className="topup__checkout">
         <TopupWithCrediteCard amount={selected} />
-        <CheckoutWithCreditCard
-          text={creditBtnText}
+        {/* <CheckoutWithCreditCard
+          text={"test"}
           amount={selected}
           checkout={checkoutHandler}
-        />
+        /> */}
         {/* <CheckoutWithInternetBanking amount={selected} /> */}
       </div>
       {existCards}

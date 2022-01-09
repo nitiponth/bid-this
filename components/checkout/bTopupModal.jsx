@@ -7,6 +7,7 @@ import BButton from "../atoms/BButton/bButton";
 import { useState } from "react";
 import BCheckbox from "../atoms/BCheckbox/bCheckbox";
 import { IoCloseSharp } from "react-icons/io5";
+import { toCreditCard, toExpDate } from "../../utils/stringFormat";
 
 function BTopupModal({ active, onClose, amount = 0 }) {
   const [cardInput, setCardInput] = useState("");
@@ -15,33 +16,17 @@ function BTopupModal({ active, onClose, amount = 0 }) {
   const [cvcInput, setCvcInput] = useState("");
   const [isSaveCard, setIsSaveCard] = useState(true);
 
-  const cc_format = (value) => {
-    let v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
-    let matches = v.match(/\d{4,16}/g);
-    let match = (matches && matches[0]) || "";
-    let parts = [];
-
-    for (let i = 0, len = match.length; i < len; i += 4) {
-      parts.push(match.substring(i, i + 4));
-    }
-
-    if (parts.length) {
-      return parts.join(" ");
-    } else {
-      return value;
-    }
-  };
-
-  const expDateFormatter = (expDate) => {
-    return (
-      expDate.replace(/\//g, "").substring(0, 2) +
-      (expDate.length > 2 ? "/" : "") +
-      expDate.replace(/\//g, "").substring(2, 4)
-    );
+  const onCloseHandler = () => {
+    setCardInput("");
+    setNameInput("");
+    setExpiredInput("");
+    setCvcInput("");
+    setIsSaveCard(true);
+    onClose();
   };
 
   return (
-    <Backdrop show={active} onClose={onClose}>
+    <Backdrop show={active} onClose={onCloseHandler}>
       <div className="topupModal">
         <div
           className="close-btn"
@@ -51,7 +36,7 @@ function BTopupModal({ active, onClose, amount = 0 }) {
             top: 20,
             right: 20,
           }}
-          onClick={onClose}
+          onClick={onCloseHandler}
         >
           <IoCloseSharp />
         </div>
@@ -68,13 +53,15 @@ function BTopupModal({ active, onClose, amount = 0 }) {
             <BInput
               label="Card number"
               type={"text"}
-              value={cc_format(cardInput)}
+              value={toCreditCard(cardInput)}
               onChange={(e) => setCardInput(e.target.value)}
               inputStyles={{ width: "100%" }}
             />
             <BInput
               label="Name on card"
               type={"text"}
+              value={nameInput}
+              onChange={(e) => setNameInput(e.target.value)}
               inputStyles={{ width: "100%" }}
             />
             <div style={{ display: "flex", flex: 1 }}>
@@ -82,7 +69,7 @@ function BTopupModal({ active, onClose, amount = 0 }) {
                 <BInput
                   label="Expiry date"
                   type={"text"}
-                  value={expDateFormatter(expiredInput)}
+                  value={toExpDate(expiredInput)}
                   onChange={(e) => setExpiredInput(e.target.value)}
                   inputStyles={{ width: "95%" }}
                 />
@@ -91,6 +78,8 @@ function BTopupModal({ active, onClose, amount = 0 }) {
                 <BInput
                   label="Security code"
                   type={"text"}
+                  value={cvcInput}
+                  onChange={(e) => setCvcInput(e.target.value)}
                   inputStyles={{ width: "95%" }}
                 />
               </div>
@@ -122,7 +111,9 @@ function BTopupModal({ active, onClose, amount = 0 }) {
                 maximumFractionDigits: 2,
               })} THB`}
               onClick={() => {
-                alert(`${cardInput} \n ${expiredInput}`);
+                alert(
+                  `${cardInput} \n ${expiredInput} \n ${nameInput} \n ${cvcInput} \n isSave: ${isSaveCard.toString()}`
+                );
               }}
               containerStyles={{
                 width: "300px",
