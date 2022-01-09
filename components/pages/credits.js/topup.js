@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
+import { IoClose } from "react-icons/io5";
 import BConfirm from "../../atoms/BConfirm/BConfirm";
 import BModalCard from "../../atoms/BModalCard/BModalCard";
 
@@ -19,6 +20,12 @@ const DEPOSIT_MUTATION = gql`
   }
 `;
 
+const REMOVE_CARD = gql`
+  mutation ($custId: String!) {
+    removeCard(custId: $custId)
+  }
+`;
+
 function Topup(props) {
   const [activeConfirmModal, setActiveConfirmModal] = useState(false);
   const [confirmBody, setConfirmBody] = useState("");
@@ -29,6 +36,8 @@ function Topup(props) {
   const [depositCredit, { loading, error }] = useMutation(DEPOSIT_MUTATION);
   const [selected, setSelected] = useState(100);
   const amounts = [100, 300, 500, 1000, 3000, 5000, 10000];
+
+  const [removeCard] = useMutation(REMOVE_CARD);
 
   if (!props.visible) {
     return null;
@@ -103,7 +112,10 @@ function Topup(props) {
               <p className="existCard__brand">{card.cardInfo.brand}</p>
             </div>
           </div>
-          <div className="existCard__right">
+          <div
+            className="existCard__right"
+            style={{ display: "flex", alignItems: "center" }}
+          >
             <button
               className="existCard__btn"
               onClick={() => {
@@ -118,6 +130,25 @@ function Topup(props) {
             >
               Use this card
             </button>
+            <div
+              className="delete-btn"
+              onClick={async () => {
+                const { data, errors } = await removeCard({
+                  variables: {
+                    custId: card.id,
+                  },
+                });
+
+                if (data) {
+                  props.refetch();
+                } else {
+                  console.log(errors);
+                }
+              }}
+              style={{ marginLeft: "1rem", marginTop: "1rem" }}
+            >
+              <IoClose />
+            </div>
           </div>
         </div>
       </div>

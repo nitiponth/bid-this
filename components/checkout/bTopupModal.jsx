@@ -61,8 +61,6 @@ function BTopupModal({
       someday.getDate()
     );
 
-    console.log(someday);
-
     if (someday < today) {
       console.log("this card is expired");
       return;

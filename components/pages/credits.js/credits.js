@@ -104,7 +104,11 @@ function Credits() {
             Withdraw
           </button>
         </div>
-        <Topup visible={showTopup} cards={data && data.me && data.me.cards} />
+        <Topup
+          visible={showTopup}
+          cards={data && data.me && data.me.cards}
+          refetch={refetch}
+        />
         <Withdraw
           visible={showWithdraw}
           banks={data && data.me && data.me.bankAccounts}
