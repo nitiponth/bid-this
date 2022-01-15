@@ -1,8 +1,9 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../../../store/auth-context";
+import { useFollowStore } from "../../../store/follow-store";
 import PopupDropdown from "../../dropdown/profile-dropdown/profile-dropdown";
 import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
 import BReportUser from "../../molecules/BReport/bReportUser";
@@ -32,12 +33,32 @@ const AUCTIONING_QUERY = gql`
   }
 `;
 
+const TOGGLE_FOLLOWING = gql`
+  mutation ($userId: String!) {
+    toggleFollowing(userId: $userId) {
+      following
+    }
+  }
+`;
+
 function UserInfo(props) {
-  const { cover, desc, join, name, last, price, userId, username } =
-    props.userData;
+  const router = useRouter();
+  const {
+    cover,
+    desc,
+    join,
+    name,
+    last,
+    price,
+    userId,
+    username,
+    userFollowing,
+  } = props.userData;
+
+  console.log(userFollowing);
 
   const authCtx = useContext(AuthContext);
-  const router = useRouter();
+  const { following, toggleFollowing } = useFollowStore();
   const { lists } = router.query;
   const [userVerify, setUserVerify] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -45,6 +66,8 @@ function UserInfo(props) {
   const [activeReportModal, setActiveReportModal] = useState(false);
 
   const [productsData, setProductsData] = useState();
+
+  const [toggleUserFollowing] = useMutation(TOGGLE_FOLLOWING);
 
   let variables;
   if (!lists || lists === "Auctioning") {
@@ -74,7 +97,6 @@ function UserInfo(props) {
   useEffect(() => {
     if (loading === false && data) {
       if (data.getProductsByUserId !== null) {
-        // console.log(data);
         setProductsData(data.getProductsByUserId);
       }
       if (error) {
@@ -83,6 +105,24 @@ function UserInfo(props) {
     }
   });
 
+  const checkFollowStatus = () => {
+    if (!userId) {
+      return;
+    }
+    const userIdx = following.indexOf(userId);
+
+    if (userIdx === -1) {
+      setIsFollowing(false);
+    } else {
+      setIsFollowing(true);
+    }
+  };
+
+  useEffect(() => {
+    //initial following
+    checkFollowStatus();
+  }, [following, userId]);
+
   useEffect(() => {
     refetch();
   }, [lists]);
@@ -90,6 +130,20 @@ function UserInfo(props) {
   if (!productsData && !error) {
     return <p>Loading....</p>;
   }
+
+  const followingHandler = async () => {
+    toggleFollowing(userId);
+    const { data, errors } = await toggleUserFollowing({
+      variables: { userId },
+    });
+    if (data) {
+      console.log(data.toggleFollowing?.following);
+    } else {
+      console.log(errors);
+    }
+
+    checkFollowStatus();
+  };
 
   const productsList = productsData.map((product) => {
     const productData = {
@@ -137,10 +191,7 @@ function UserInfo(props) {
             <a className="banner__btn">Edit</a>
           </Link>
         ) : (
-          <div
-            onClick={() => setIsFollowing((prev) => !prev)}
-            className="banner__btn"
-          >
+          <div onClick={followingHandler} className="banner__btn">
             {!isFollowing ? " Follow" : "Unfollow"}
           </div>
         )}
@@ -168,12 +219,12 @@ function UserInfo(props) {
         </div>
         <div className="info__social">
           <div className="info__social-follow">
-            10
-            <label className="glabel">Following</label>
-          </div>
-          <div className="info__social-follow">
             15
             <label className="glabel">Followers</label>
+          </div>
+          <div className="info__social-follow">
+            {userFollowing || 0}
+            <label className="glabel">Following</label>
           </div>
         </div>
         <div className="info__desc">

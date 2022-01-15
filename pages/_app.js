@@ -11,6 +11,7 @@ import client from "../apollo-client";
 import "../styles/main.css";
 import { useWatchlistStore } from "../store/watchlist-store";
 import { useEffect } from "react";
+import { useFollowStore } from "../store/follow-store";
 
 const QUERY_USER = {
   query: `
@@ -23,6 +24,7 @@ const QUERY_USER = {
         watchlists {
           id
         }
+        following
         role
       }
     }
@@ -31,15 +33,19 @@ const QUERY_USER = {
 
 function MyApp({ Component, pageProps, user }) {
   const { initialWatchlist } = useWatchlistStore();
+  const { initialFollowing } = useFollowStore();
 
   useEffect(() => {
-    if (!user?.watchlists) {
+    if (!user) {
       return;
     }
     const watchedArr = user.watchlists.map((watch) => {
       return watch.id;
     });
+    const followingArr = user.following;
+
     initialWatchlist(user.id, watchedArr);
+    initialFollowing(user.id, followingArr);
   }, [user]);
 
   return (
@@ -67,7 +73,7 @@ MyApp.getInitialProps = async ({ ctx }) => {
   const cookies = headers && cookie.parse(headers.cookie || "");
   const token = cookies && (cookies.token || "");
 
-  const response = await fetch("http://localhost:4000/graphql", {
+  const response = await fetch(process.env.API_URL, {
     method: "post",
     headers: {
       "Content-Type": "application/json",

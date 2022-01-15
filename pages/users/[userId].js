@@ -21,6 +21,7 @@ const USER_QUERY = gql`
         bidded
       }
       join
+      following
     }
   }
 `;
@@ -39,19 +40,17 @@ function UserInformationPage() {
   //   if (error) return router.push("/404");
   if (error) return `Error! ${error}`;
 
-  // console.log(data.getUserById);
   const rawData = data.getUserById;
   const user = {
     userId: userId,
     name: rawData.name.first,
     last: rawData.name.last,
     username: rawData.username,
-    desc: rawData.desc ? rawData.desc : "",
-    profile: rawData.profile
-      ? rawData.profile
-      : "/images/users/no-profile-2.png",
-    cover: rawData.cover ? rawData.cover : "",
+    desc: rawData.desc || "",
+    profile: rawData.profile,
+    cover: rawData.cover || "",
     join: rawData.join,
+    userFollowing: rawData.following.length,
   };
 
   const auction = rawData.auctionCount;
