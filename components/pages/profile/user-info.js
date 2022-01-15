@@ -40,6 +40,7 @@ function UserInfo(props) {
   const router = useRouter();
   const { lists } = router.query;
   const [userVerify, setUserVerify] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   const [activeReportModal, setActiveReportModal] = useState(false);
 
@@ -136,7 +137,12 @@ function UserInfo(props) {
             <a className="banner__btn">Edit</a>
           </Link>
         ) : (
-          <a className="banner__btn">Follow</a>
+          <div
+            onClick={() => setIsFollowing((prev) => !prev)}
+            className="banner__btn"
+          >
+            {!isFollowing ? " Follow" : "Unfollow"}
+          </div>
         )}
       </div>
       <div className="info">

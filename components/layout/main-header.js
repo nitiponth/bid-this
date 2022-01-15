@@ -118,7 +118,7 @@ function MainHeader() {
               profile={
                 userData.profile
                   ? userData.profile
-                  : "/images/users/no-profile.jpg"
+                  : "https://bid-this-storage.s3.ap-southeast-1.amazonaws.com/profile/no-profile-2.png"
               }
             >
               <UserLoginDropdown user={userData} />
