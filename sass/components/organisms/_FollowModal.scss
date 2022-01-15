@@ -1,10 +1,11 @@
 .followModal {
   width: 60rem;
-  height: 80rem;
+  height: 60rem;
   border-radius: 2rem;
   background-color: white;
   box-shadow: 0 1rem 2rem rgba(#000, 0.2);
   padding: 2rem 0;
+  overflow: hidden;
 
   &__header {
     margin-top: 1rem;
@@ -35,6 +36,14 @@
     display: flex;
     flex-direction: column;
     flex: 1;
+    height: 100%;
+
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    padding-bottom: 3rem;
 
     .follower {
       display: flex;

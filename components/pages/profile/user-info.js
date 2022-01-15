@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState, useEffect } from "react";
@@ -22,6 +22,7 @@ const AUCTIONING_QUERY = gql`
       desc
       images
       seller {
+        id
         username
       }
       price {
@@ -30,16 +31,6 @@ const AUCTIONING_QUERY = gql`
       }
       start
       end
-    }
-  }
-`;
-
-const TOGGLE_FOLLOWING = gql`
-  mutation ($userId: String!) {
-    toggleFollowing(userId: $userId) {
-      following {
-        id
-      }
     }
   }
 `;
@@ -60,11 +51,14 @@ function UserInfo(props) {
   } = props.userData;
 
   const authCtx = useContext(AuthContext);
-  const { following, toggleFollowing, callToggleApi } = useFollowStore();
+  const { following, toggleFollowing } = useFollowStore();
   const { lists } = router.query;
   const [userVerify, setUserVerify] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [activeFollowModal, setActiveFollowModal] = useState(false);
+  const [activeFollowModal, setActiveFollowModal] = useState({
+    active: false,
+    topic: "Followers",
+  });
 
   const [activeReportModal, setActiveReportModal] = useState(false);
 
@@ -134,7 +128,7 @@ function UserInfo(props) {
 
   const followingHandler = async () => {
     toggleFollowing(userId);
-
+    props.refetch();
     checkFollowStatus();
   };
 
@@ -143,6 +137,7 @@ function UserInfo(props) {
       productId: product.id,
       img: product.images[0],
       title: product.title,
+      sellerId: product.seller.id,
       seller: product.seller.username,
       desc: product.desc,
       price: product.price.initial,
@@ -167,8 +162,9 @@ function UserInfo(props) {
         username={username}
       />
       <FollowModal
-        active={activeFollowModal}
-        onClose={() => setActiveFollowModal(false)}
+        active={activeFollowModal.active}
+        initialTopic={activeFollowModal.topic}
+        onClose={() => setActiveFollowModal({ active: false })}
         userId={userId}
       />
 
@@ -220,7 +216,7 @@ function UserInfo(props) {
           <div
             className="info__social-follow hover__pointer"
             onClick={() => {
-              setActiveFollowModal(true);
+              setActiveFollowModal({ active: true, topic: "Followers" });
             }}
           >
             {followersCount || 0}
@@ -229,7 +225,7 @@ function UserInfo(props) {
           <div
             className="info__social-follow hover__pointer"
             onClick={() => {
-              setActiveFollowModal(true);
+              setActiveFollowModal({ active: true, topic: "Following" });
             }}
           >
             {isOwner ? following.length || 0 : followingCount || 0}

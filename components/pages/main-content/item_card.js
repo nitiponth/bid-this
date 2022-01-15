@@ -32,6 +32,8 @@ function ItemCard(props) {
   const startTime = new Date(props.item.start);
   const endTime = new Date(props.item.endTime);
 
+  console.log(props);
+
   useEffect(() => {
     if (endTime < new Date()) {
       setIsEnd(true);
@@ -140,7 +142,12 @@ function ItemCard(props) {
             {props.item.title}
           </a>
         </Link>
-        <a href="#" className="item-card__detail-seller">
+        <a
+          href="#"
+          className="hover__pointer"
+          onClick={() => router.push(`/users/${props.item.sellerId}`)}
+          className="item-card__detail-seller"
+        >
           <span className="at-sign">@</span>
           {props.item.seller}
         </a>

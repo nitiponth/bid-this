@@ -27,16 +27,22 @@ const GET_FOLLOWER = gql`
   }
 `;
 
-function FollowModal({ active, onClose, userId }) {
+function FollowModal({ active, onClose, userId, initialTopic }) {
   const [isLoading, setIsLoading] = useState(true);
   const { following } = useFollowStore();
   const authCtx = useContext(AuthContext);
-  const { loading, data, error } = useQuery(GET_FOLLOWER, {
+  const { loading, data, error, refetch } = useQuery(GET_FOLLOWER, {
     ssr: false,
     fetchPolicy: "network-only",
     variables: { userId },
   });
-  const [selectedTopic, setSelectedTopic] = useState("Followers");
+  const [selectedTopic, setSelectedTopic] = useState(initialTopic);
+
+  useEffect(() => {
+    setSelectedTopic(initialTopic);
+  }, [initialTopic]);
+
+  console.log(selectedTopic);
 
   useEffect(() => {
     if (!loading && data) {
@@ -47,6 +53,10 @@ function FollowModal({ active, onClose, userId }) {
     }
   }, [data, loading, error]);
 
+  useEffect(() => {
+    refetch();
+  }, [selectedTopic]);
+
   const followers = data?.getFollowData?.followers?.map((follower) => {
     const isFollowMe = following?.find((user) => user === follower.id);
     const isMe = follower.id === authCtx?.user?.id;
@@ -54,11 +64,14 @@ function FollowModal({ active, onClose, userId }) {
     return (
       <Follower
         key={follower.id}
+        followerId={follower.id}
         img={follower.profile}
         username={follower.username}
         desc={follower.desc}
         isFollow={!!isFollowMe}
         isMe={isMe}
+        refetch={refetch}
+        onClose={onClose}
       />
     );
   });
@@ -68,17 +81,26 @@ function FollowModal({ active, onClose, userId }) {
     return (
       <Follower
         key={user.id}
+        followerId={user.id}
         img={user.profile}
         username={user.username}
         desc={user.desc}
         isFollow={true}
         isMe={isMe}
+        refetch={refetch}
+        onClose={onClose}
       />
     );
   });
 
   return (
-    <Backdrop show={active} onClose={onClose}>
+    <Backdrop
+      show={active}
+      onClose={() => {
+        onClose();
+        refetch();
+      }}
+    >
       <div className="followModal">
         <FollowHeader
           selectedTopic={selectedTopic}
