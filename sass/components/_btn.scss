@@ -145,3 +145,11 @@
     transform: scale(1.1);
   }
 }
+
+.hover {
+  &__pointer {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

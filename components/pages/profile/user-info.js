@@ -52,16 +52,16 @@ function UserInfo(props) {
     price,
     userId,
     username,
-    userFollowing,
+    followingCount,
+    followersCount = 0,
   } = props.userData;
-
-  console.log(userFollowing);
 
   const authCtx = useContext(AuthContext);
   const { following, toggleFollowing } = useFollowStore();
   const { lists } = router.query;
   const [userVerify, setUserVerify] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [activeFollowerModal, setActiveFollowerModal] = useState(true);
 
   const [activeReportModal, setActiveReportModal] = useState(false);
 
@@ -137,7 +137,8 @@ function UserInfo(props) {
       variables: { userId },
     });
     if (data) {
-      console.log(data.toggleFollowing?.following);
+      props.refetch();
+      // console.log(data.toggleFollowing?.following);
     } else {
       console.log(errors);
     }
@@ -190,11 +191,11 @@ function UserInfo(props) {
           <Link href="/users/edit">
             <a className="banner__btn">Edit</a>
           </Link>
-        ) : (
+        ) : authCtx.isLogin ? (
           <div onClick={followingHandler} className="banner__btn">
             {!isFollowing ? " Follow" : "Unfollow"}
           </div>
-        )}
+        ) : null}
       </div>
       <div className="info">
         <div className="info__name">
@@ -218,12 +219,22 @@ function UserInfo(props) {
           </div>
         </div>
         <div className="info__social">
-          <div className="info__social-follow">
-            15
+          <div
+            className="info__social-follow hover__pointer"
+            onClick={() => {
+              setActiveFollowModal(true);
+            }}
+          >
+            {followersCount || 0}
             <label className="glabel">Followers</label>
           </div>
-          <div className="info__social-follow">
-            {userFollowing || 0}
+          <div
+            className="info__social-follow hover__pointer"
+            onClick={() => {
+              setActiveFollowModal(true);
+            }}
+          >
+            {isOwner ? following.length || 0 : followingCount || 0}
             <label className="glabel">Following</label>
           </div>
         </div>
@@ -240,12 +251,14 @@ function UserInfo(props) {
             })}
           </div>
         </div>
-        <div className="info__popup">
-          <PopupItem icon="/images/SVG/dots-three-horizontal.svg">
-            <PopupDropdown setActiveReportModal={setActiveReportModal} />
-          </PopupItem>
-        </div>
-        <div className="legal">
+        {authCtx.isLogin && !isOwner && (
+          <div className="info__popup">
+            <PopupItem icon="/images/SVG/dots-three-horizontal.svg">
+              <PopupDropdown setActiveReportModal={setActiveReportModal} />
+            </PopupItem>
+          </div>
+        )}
+        <div className="legal" style={{ marginTop: "auto" }}>
           &copy; 2021 by <a href="1">N. Do San.</a> <br></br>All rights
           reserved.
         </div>

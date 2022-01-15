@@ -22,6 +22,9 @@ const USER_QUERY = gql`
       }
       join
       following
+      followers {
+        id
+      }
     }
   }
 `;
@@ -30,7 +33,7 @@ function UserInformationPage() {
   const router = useRouter();
   const { userId } = router.query;
 
-  const { data, loading, error } = useQuery(USER_QUERY, {
+  const { data, loading, error, refetch } = useQuery(USER_QUERY, {
     variables: {
       getUserByIdUserId: userId,
     },
@@ -47,17 +50,20 @@ function UserInformationPage() {
     last: rawData.name.last,
     username: rawData.username,
     desc: rawData.desc || "",
-    profile: rawData.profile,
+    profile:
+      rawData.profile ||
+      "https://bid-this-storage.s3.ap-southeast-1.amazonaws.com/profile/no-profile-2.png",
     cover: rawData.cover || "",
     join: rawData.join,
-    userFollowing: rawData.following.length,
+    followingCount: rawData.following.length,
+    followersCount: rawData.followers.length,
   };
 
   const auction = rawData.auctionCount;
 
   return (
     <NoSideLayout>
-      <UserInfo userData={user} auctionData={auction} />
+      <UserInfo userData={user} auctionData={auction} refetch={refetch} />
     </NoSideLayout>
   );
 }

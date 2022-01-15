@@ -626,6 +626,10 @@ body {
           transform: scale(1.1);
 }
 
+.hover__pointer:hover {
+  cursor: pointer;
+}
+
 .checkbox {
   font-family: inherit;
   color: var(--color-grey-dark-1);
