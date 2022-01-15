@@ -3,6 +3,7 @@ import { useQuery, gql } from "@apollo/client";
 
 import NoSideLayout from "../../components/layout/no-sidebar-layout/no-sidebar-layout";
 import UserInfo from "../../components/pages/profile/user-info";
+import { useEffect } from "react";
 
 const USER_QUERY = gql`
   query ($getUserByIdUserId: ID!) {
@@ -21,7 +22,9 @@ const USER_QUERY = gql`
         bidded
       }
       join
-      following
+      following {
+        id
+      }
       followers {
         id
       }
@@ -38,6 +41,10 @@ function UserInformationPage() {
       getUserByIdUserId: userId,
     },
   });
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   if (loading) return null;
   //   if (error) return router.push("/404");

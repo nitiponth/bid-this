@@ -17,7 +17,9 @@ const LOGIN_USER = gql`
           id
         }
         role
-        following
+        following {
+          id
+        }
       }
       token
     }
@@ -79,7 +81,7 @@ export function AuthContextProvider(props) {
         const watchedArr = data.login.user.watchlists.map((watched) => {
           return watched.id;
         });
-        const followingArr = data.login.user.following;
+        const followingArr = data.login.user.following.map((user) => user.id);
         initialWatchlist(data.login.user.id, watchedArr);
         initialFollowing(data.login.user.id, followingArr);
       }

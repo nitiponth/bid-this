@@ -200,6 +200,148 @@ body {
   margin-bottom: 1rem;
 }
 
+.followModal {
+  width: 60rem;
+  height: 80rem;
+  border-radius: 2rem;
+  background-color: white;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  padding: 2rem 0;
+}
+
+.followModal__header {
+  margin-top: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.followModal__header__topic {
+  margin: 0 10%;
+  width: 50%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  font-size: 1.8rem;
+  padding-bottom: 1rem;
+  color: black;
+}
+
+.followModal__header__topic:hover {
+  cursor: pointer;
+}
+
+.followModal__header__topic--selected {
+  border-bottom: 4px solid var(--primary-yellow-dark-1);
+  color: black;
+}
+
+.followModal__list {
+  border-top: 0.5px solid #eee;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.followModal__list .follower {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  padding: 16px 32px;
+  height: 8rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.followModal__list .follower:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+}
+
+.followModal__list .follower__img {
+  width: 48px;
+  height: 48px;
+  border-radius: 30px;
+  margin-right: 12px;
+}
+
+.followModal__list .follower__body {
+  max-width: 70%;
+}
+
+.followModal__list .follower__username, .followModal__list .follower__desc {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: black;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.followModal__list .follower__desc {
+  font-size: 1.2rem;
+  color: inherit;
+}
+
+.followModal__list .follower__button {
+  margin-left: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 30px;
+  border-radius: 15px;
+  border: 1px solid #0f1419;
+  padding: 0 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  background-color: #0f1419;
+  color: white;
+}
+
+.followModal__list .follower__button:hover {
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+}
+
+.followModal__list .follower__button:active {
+  -webkit-transform: translateY(1px);
+          transform: translateY(1px);
+}
+
+.followModal__list .follower__button--unfollow {
+  border: 1px solid #aaa;
+  background-color: transparent;
+  color: inherit;
+}
+
+.followModal__list .follower__button--unfollow:hover {
+  background-color: #ffdded;
+  color: salmon;
+  border-color: salmon;
+}
+
 .BConfirm {
   background-color: white;
   width: 350px;

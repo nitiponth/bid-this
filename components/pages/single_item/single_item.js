@@ -80,12 +80,22 @@ function SingleItem(props) {
   const [productScore, setProductScore] = useState(5);
   const textareContainer = useRef(null);
   const backdropRef = useRef();
+  const [canRefund, setCanRefund] = useState(false);
 
   const trackNumber = useRef(props.item.track);
 
   const [updateProductTrack] = useMutation(UPDATE_TRACK);
   const [confirmProduct] = useMutation(CONFIRM_PRODUCT);
   const [createComment] = useMutation(CREATE_COMMENT);
+
+  useEffect(() => {
+    const sevenDaysAfterEnd = new Date(endTime);
+    sevenDaysAfterEnd.setDate(sevenDaysAfterEnd.getDate() + 7);
+
+    const now = new Date();
+
+    setCanRefund(now > sevenDaysAfterEnd);
+  }, []);
 
   const current = new Date();
   // console.log(props.item.sentAt);
@@ -309,7 +319,7 @@ function SingleItem(props) {
                 : "The seller is preparing the parcel. "
             }
           />
-          <div className="item__desc-btn-group">
+          <div className="item__desc-btn-group" style={{ flexWrap: "wrap" }}>
             {props.item.track && props.item.status === "ACTIVED" && (
               <button
                 type="button"
@@ -328,9 +338,30 @@ function SingleItem(props) {
                 {props.item.comment ? "Edit Review" : "Score this product"}
               </button>
             )}
-            <button type="button" className="item__desc-track-support">
+            <button
+              type="button"
+              className="item__desc-track-support"
+              style={{ marginBottom: "10px" }}
+            >
               <BiSupport />
             </button>
+            {props.item.status !== "RECEIVED" && canRefund && (
+              <button
+                type="button"
+                onClick={() => {
+                  console.log("//TODO Refund function!");
+                }}
+                className="item__desc-track-support"
+                style={{
+                  width: "180px",
+                  padding: "0 10px",
+                  backgroundColor: "salmon",
+                  color: "whitesmoke",
+                }}
+              >
+                Refund this Auction
+              </button>
+            )}
           </div>
         </div>
       </Fragment>

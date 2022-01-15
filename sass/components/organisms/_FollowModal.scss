@@ -1,0 +1,118 @@
+.followModal {
+  width: 60rem;
+  height: 80rem;
+  border-radius: 2rem;
+  background-color: white;
+  box-shadow: 0 1rem 2rem rgba(#000, 0.2);
+  padding: 2rem 0;
+
+  &__header {
+    margin-top: 1rem;
+    display: flex;
+
+    &__topic {
+      margin: 0 10%;
+      width: 50%;
+      justify-content: center;
+      text-align: center;
+      font-size: 1.8rem;
+      padding-bottom: 1rem;
+      color: black;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &--selected {
+        border-bottom: 4px solid var(--primary-yellow-dark-1);
+        color: black;
+      }
+    }
+  }
+
+  &__list {
+    border-top: 0.5px solid #eee;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .follower {
+      display: flex;
+      width: 100%;
+      padding: 16px 32px;
+      height: 8rem;
+
+      align-items: center;
+
+      &:hover {
+        background-color: rgba(#000000, 0.03);
+        cursor: pointer;
+        transition: all 0.25s;
+      }
+
+      &__img {
+        width: 48px;
+        height: 48px;
+        border-radius: 30px;
+        margin-right: 12px;
+      }
+
+      &__body {
+        max-width: 70%;
+      }
+
+      &__username,
+      &__desc {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: black;
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+      }
+
+      &__desc {
+        font-size: 1.2rem;
+        color: inherit;
+      }
+
+      &__button {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        border-radius: 15px;
+        border: 1px solid rgb(15, 20, 25);
+        padding: 0 2rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+
+        transition: all 0.2s;
+
+        background-color: rgb(15, 20, 25);
+        color: white;
+
+        &:hover {
+          transform: translateY(-2px);
+        }
+
+        &:active {
+          transform: translateY(1px);
+        }
+
+        &--unfollow {
+          border: 1px solid #aaa;
+          background-color: transparent;
+          color: inherit;
+          &:hover {
+            background-color: #ffdded;
+            color: salmon;
+            border-color: salmon;
+          }
+        }
+      }
+    }
+  }
+}

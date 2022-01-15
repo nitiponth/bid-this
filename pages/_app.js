@@ -24,7 +24,9 @@ const QUERY_USER = {
         watchlists {
           id
         }
-        following
+        following{
+          id
+        }
         role
       }
     }
@@ -42,7 +44,9 @@ function MyApp({ Component, pageProps, user }) {
     const watchedArr = user.watchlists.map((watch) => {
       return watch.id;
     });
-    const followingArr = user.following;
+    const followingArr = user.following.map((user) => {
+      return user.id;
+    });
 
     initialWatchlist(user.id, watchedArr);
     initialFollowing(user.id, followingArr);

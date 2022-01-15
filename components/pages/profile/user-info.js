@@ -7,6 +7,7 @@ import { useFollowStore } from "../../../store/follow-store";
 import PopupDropdown from "../../dropdown/profile-dropdown/profile-dropdown";
 import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
 import BReportUser from "../../molecules/BReport/bReportUser";
+import FollowModal from "../../organisms/FollowInfo/FollowModal";
 
 import ItemCard from "../main-content/item_card";
 
@@ -36,7 +37,9 @@ const AUCTIONING_QUERY = gql`
 const TOGGLE_FOLLOWING = gql`
   mutation ($userId: String!) {
     toggleFollowing(userId: $userId) {
-      following
+      following {
+        id
+      }
     }
   }
 `;
@@ -57,17 +60,15 @@ function UserInfo(props) {
   } = props.userData;
 
   const authCtx = useContext(AuthContext);
-  const { following, toggleFollowing } = useFollowStore();
+  const { following, toggleFollowing, callToggleApi } = useFollowStore();
   const { lists } = router.query;
   const [userVerify, setUserVerify] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [activeFollowerModal, setActiveFollowerModal] = useState(true);
+  const [activeFollowModal, setActiveFollowModal] = useState(false);
 
   const [activeReportModal, setActiveReportModal] = useState(false);
 
   const [productsData, setProductsData] = useState();
-
-  const [toggleUserFollowing] = useMutation(TOGGLE_FOLLOWING);
 
   let variables;
   if (!lists || lists === "Auctioning") {
@@ -133,15 +134,6 @@ function UserInfo(props) {
 
   const followingHandler = async () => {
     toggleFollowing(userId);
-    const { data, errors } = await toggleUserFollowing({
-      variables: { userId },
-    });
-    if (data) {
-      props.refetch();
-      // console.log(data.toggleFollowing?.following);
-    } else {
-      console.log(errors);
-    }
 
     checkFollowStatus();
   };
@@ -174,6 +166,12 @@ function UserInfo(props) {
         userId={userId}
         username={username}
       />
+      <FollowModal
+        active={activeFollowModal}
+        onClose={() => setActiveFollowModal(false)}
+        userId={userId}
+      />
+
       <div
         className="banner"
         style={{
