@@ -20,6 +20,7 @@ import { useS3Upload } from "next-s3-upload";
 
 import BWaiting from "../../atoms/BWaiting/BWaiting";
 import BReportProduct from "../../molecules/BReport/bReportProduct";
+import RefundModal from "../../organisms/RefundModal/RefundModal";
 
 const UPDATE_TRACK = gql`
   mutation ($productId: ID!, $track: String!) {
@@ -65,6 +66,7 @@ function SingleItem(props) {
 
   const [activeWaitingModal, setActiveWaitingModal] = useState(false);
   const [activeReportModal, setActiveReportModal] = useState(false);
+  const [activeRefundModal, setActiveRefundModal] = useState(false);
 
   const authCtx = useContext(AuthContext);
   const countStart = useTimer(props.item.start);
@@ -349,7 +351,7 @@ function SingleItem(props) {
               <button
                 type="button"
                 onClick={() => {
-                  console.log("//TODO Refund function!");
+                  setActiveRefundModal(true);
                 }}
                 className="item__desc-track-support"
                 style={{
@@ -421,6 +423,11 @@ function SingleItem(props) {
         productId={productId}
         productTitle={title}
         seller={seller}
+      />
+      <RefundModal
+        active={activeRefundModal}
+        onClose={() => setActiveRefundModal(false)}
+        refund={props.refund}
       />
       <Backdrop show={showReviewWindow}>
         <div className="floating" ref={backdropRef}>

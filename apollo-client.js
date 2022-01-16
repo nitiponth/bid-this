@@ -11,6 +11,8 @@ const wsLink = process.browser
       uri: process.env.SUB_URL,
       options: {
         reconnect: true,
+        timeout: 30000,
+        lazy: true,
       },
     })
   : null;

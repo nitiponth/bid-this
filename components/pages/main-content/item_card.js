@@ -32,8 +32,6 @@ function ItemCard(props) {
   const startTime = new Date(props.item.start);
   const endTime = new Date(props.item.endTime);
 
-  console.log(props);
-
   useEffect(() => {
     if (endTime < new Date()) {
       setIsEnd(true);

@@ -34,7 +34,7 @@ function MainHeader() {
   const { data, loading, error, refetch, subscribeToMore } = useQuery(
     ME_QUERY,
     {
-      fetchPolicy: "standby",
+      fetchPolicy: "network-only",
       ssr: false,
     }
   );
@@ -55,8 +55,9 @@ function MainHeader() {
   }, [authCtx.isLogin]);
 
   useEffect(() => {
-    if (authCtx.user && authCtx.user.id) {
-      subscribeToMore({
+    let unsubscribe;
+    if (authCtx?.user?.id) {
+      unsubscribe = subscribeToMore({
         document: WALLET_SUBSCRIPTION,
         variables: { walletChangedUserId: authCtx.user.id },
 
@@ -66,7 +67,9 @@ function MainHeader() {
         },
       });
     }
-  });
+
+    if (unsubscribe) return () => unsubscribe();
+  }, [authCtx, subscribeToMore]);
 
   return (
     <Fragment>

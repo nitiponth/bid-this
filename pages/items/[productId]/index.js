@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery, gql } from "@apollo/client";
 
 import Layout from "../../../components/layout/layout";
 import SingleItem from "../../../components/pages/single_item/single_item";
+import BLoading from "../../../components/atoms/BLoading/BLoading";
 
 const PRODUCT_QUERY = gql`
   query ($getProductByIdProductId: ID!) {
@@ -60,11 +61,7 @@ const BIDPLACED_SUB = gql`
   subscription ($bidPlacedProductId: ID!) {
     bidPlaced(productId: $bidPlacedProductId) {
       product {
-        id
-        title
         price {
-          bidOffer
-          initial
           current
         }
         end
@@ -89,24 +86,43 @@ const BIDPLACED_SUB = gql`
 `;
 
 function ProductPage() {
+  const [isEnd, setIsEnd] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const { productId } = router.query;
 
   const { data, loading, error, subscribeToMore } = useQuery(PRODUCT_QUERY, {
+    ssr: false,
     variables: {
       getProductByIdProductId: productId,
     },
   });
 
   useEffect(() => {
-    if (!productId) {
+    if (!loading && data) {
+      setIsLoading(false);
+
+      const now = new Date();
+      if (new Date(data.getProductById.end) < now) {
+        setIsEnd(true);
+      }
+    }
+  }, [data, loading, error]);
+
+  useEffect(() => {
+    let unsubscribe;
+
+    if (!productId && isEnd) {
       return null;
     }
-    subscribeToMore({
+    if (!isEnd) {
+      return;
+    }
+    unsubscribe = subscribeToMore({
       document: BIDPLACED_SUB,
       variables: { bidPlacedProductId: productId },
       updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
+        if (!subscriptionData?.data) return prev;
         const product = subscriptionData.data.bidPlaced.product;
 
         return {
@@ -122,7 +138,9 @@ function ProductPage() {
         };
       },
     });
-  }, [subscribeToMore, productId]);
+
+    if (unsubscribe) return () => unsubscribe();
+  }, [subscribeToMore, productId, isEnd]);
 
   if (loading) return null;
   // if (error) return router.push("/404");
@@ -146,19 +164,32 @@ function ProductPage() {
     createdAt: data.getProductById.createdAt,
     track: data.getProductById.track,
     sentAt: data.getProductById.sentAt,
-    buyer: data.getProductById.buyer ? data.getProductById.buyer.id : null,
-    buyerName: data.getProductById.buyer
-      ? data.getProductById.buyer.username
-      : null,
+    buyer: data.getProductById?.buyer?.id,
+    buyerName: data.getProductById?.buyer?.username,
     status: data.getProductById.status,
     comment: data.getProductById.comment,
   };
 
   const bidders = data.getProductById.bids;
 
+  const refundData = {
+    id: data.getProductById.id,
+    title: data.getProductById.title,
+    sellerId: data.getProductById.seller.id,
+    seller: data.getProductById.seller.username,
+    winnerId: data.getProductById.buyer?.id,
+    winner: data.getProductById.buyer?.username,
+    end: data.getProductById.end,
+    finalPrice: data.getProductById.price.current,
+  };
+
   return (
     <Layout>
-      <SingleItem item={itemData} bidInfo={bidders} />
+      {isLoading ? (
+        <BLoading />
+      ) : (
+        <SingleItem item={itemData} bidInfo={bidders} refund={refundData} />
+      )}
     </Layout>
   );
 }
