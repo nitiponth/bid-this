@@ -1,27 +1,27 @@
-import { useContext, useEffect, useState } from "react";
-import Backdrop from "../../layout/backdrop";
-import FollowHeader from "./components/FollowHeader";
-import Follower from "./components/Follower";
-import { gql, useQuery } from "@apollo/client";
 import { Fragment } from "react/cjs/react.production.min";
-import BLoading from "../../atoms/BLoading/BLoading";
+import { gql, useQuery } from "@apollo/client";
+import { useContext, useEffect, useState } from "react";
 import { useFollowStore } from "../../../store/follow-store";
 import AuthContext from "../../../store/auth-context";
+import Backdrop from "../../layout/backdrop";
+import BLoading from "../../atoms/BLoading/BLoading";
+import Follower from "./components/Follower";
+import FollowHeader from "./components/FollowHeader";
 
 const GET_FOLLOWER = gql`
   query ($userId: ID!) {
     getFollowData(userId: $userId) {
       followers {
+        desc
         id
         profile
         username
-        desc
       }
       followings {
+        desc
         id
         profile
         username
-        desc
       }
     }
   }
@@ -42,8 +42,6 @@ function FollowModal({ active, onClose, userId, initialTopic }) {
     setSelectedTopic(initialTopic);
   }, [initialTopic]);
 
-  console.log(selectedTopic);
-
   useEffect(() => {
     if (!loading && data) {
       setIsLoading(false);
@@ -63,15 +61,15 @@ function FollowModal({ active, onClose, userId, initialTopic }) {
 
     return (
       <Follower
-        key={follower.id}
+        desc={follower.desc}
         followerId={follower.id}
         img={follower.profile}
-        username={follower.username}
-        desc={follower.desc}
         isFollow={!!isFollowMe}
         isMe={isMe}
-        refetch={refetch}
+        key={follower.id}
         onClose={onClose}
+        refetch={refetch}
+        username={follower.username}
       />
     );
   });
@@ -80,15 +78,15 @@ function FollowModal({ active, onClose, userId, initialTopic }) {
 
     return (
       <Follower
-        key={user.id}
+        desc={user.desc}
         followerId={user.id}
         img={user.profile}
-        username={user.username}
-        desc={user.desc}
         isFollow={true}
         isMe={isMe}
-        refetch={refetch}
+        key={user.id}
         onClose={onClose}
+        refetch={refetch}
+        username={user.username}
       />
     );
   });
