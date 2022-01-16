@@ -101,9 +101,9 @@ function MainContent() {
       return 0;
     });
 
-  let filteredItems = products.reverse();
+  let filteredItems = products?.reverse();
 
-  if (filteredItems.length === 0) {
+  if (filteredItems?.length === 0) {
     return (
       <div className="main-content">
         {!cate && (

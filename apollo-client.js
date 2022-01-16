@@ -8,7 +8,7 @@ import cookie from "cookie";
 const wsLink = process.browser
   ? new WebSocketLink({
       // if you instantiate in the server, the error will be thrown
-      uri: `ws://localhost:4000/subscriptions`,
+      uri: process.env.SUB_URL,
       options: {
         reconnect: true,
       },
@@ -16,7 +16,7 @@ const wsLink = process.browser
   : null;
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: process.env.API_URL,
   credentials: "same-origin",
 });
 
