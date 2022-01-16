@@ -21,11 +21,6 @@
           box-sizing: inherit;
 }
 
-html,
-body {
-  overflow-x: hidden;
-}
-
 html {
   font-size: 62.5%;
 }
@@ -1143,6 +1138,7 @@ body {
 }
 
 .search__input {
+  justify-self: flex-start;
   font-family: inherit;
   font-size: inherit;
   color: inherit;
@@ -1189,6 +1185,9 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -3396,6 +3395,7 @@ body {
   -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
           box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
   max-width: 120rem;
+  min-width: 80rem;
   height: 85vh;
   min-height: 100rem;
   display: -ms-grid;
@@ -3411,14 +3411,14 @@ body {
   grid-row: head-start / head-end;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: min-content 40% min-content;
-      grid-template-columns: -webkit-min-content 40% -webkit-min-content;
-      grid-template-columns: min-content 40% min-content;
+  -ms-grid-columns: min-content 40% 1fr;
+      grid-template-columns: -webkit-min-content 40% 1fr;
+      grid-template-columns: min-content 40% 1fr;
   -ms-grid-rows: 100%;
       grid-template-rows: 100%;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -3441,7 +3441,6 @@ body {
   padding: 2rem;
   border-radius: 2rem;
   margin: 0 2rem 2rem 0rem;
-  overflow-x: hidden;
   overflow-y: auto;
 }
 

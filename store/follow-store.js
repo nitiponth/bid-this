@@ -1,6 +1,5 @@
 import { action, autorun, makeAutoObservable, toJS } from "mobx";
 import React from "react";
-import Cookies from "js-cookie";
 import { POST } from "../utils/networking/post";
 class FollowStore {
   userId = null;
@@ -13,9 +12,9 @@ class FollowStore {
       clearFollowing: action,
       callToggleApi: action,
     });
-    autorun(() => {
-      console.log(toJS(this.following));
-    });
+    // autorun(() => {
+    //   console.log(toJS(this.following));
+    // });
   }
 
   initialFollowing = (userId, followingArr, api_url) => {
@@ -35,13 +34,10 @@ class FollowStore {
       this.following.splice(idx, 1);
     }
 
-    // console.log(toJS(this.following));
-
     await this.callToggleApi(toJS(this.following));
   };
 
   callToggleApi = async (userArr) => {
-    // console.log(object);
     const TOGGLE_FOLLOWING = {
       query: `
         mutation ToggleFollowingUser($userArr: [ID]!) {
@@ -58,13 +54,12 @@ class FollowStore {
     };
 
     const response = await POST(TOGGLE_FOLLOWING);
-    // const result = await response.json();
+    const result = await response.json();
 
-    if (response.ok) {
+    if (result) {
       // console.log("res: ", result.data.toggleFollowing.following);
     } else {
-      // console.log("error!");
-      console.log(response.status);
+      console.log(response);
     }
   };
 

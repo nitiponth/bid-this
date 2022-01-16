@@ -94,12 +94,12 @@ function MainHeader() {
         </button>
       </form>
       <nav className="user-nav">
-        <a href="#" className="user-nav__link">
+        {/* <a href="#" className="user-nav__link">
           Product
         </a>
         <a href="#" className="user-nav__link">
           Shipping
-        </a>
+        </a> */}
         <div className="user-nav__icon-box">
           <NavItem
             icon="/images/SVG/bookmark.svg"

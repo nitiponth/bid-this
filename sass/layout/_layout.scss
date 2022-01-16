@@ -5,6 +5,7 @@
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 
   max-width: 120rem;
+  min-width: 80rem;
   height: 85vh;
   min-height: 100rem;
 
@@ -16,9 +17,9 @@
     grid-column: side-start / con-end;
     grid-row: head-start / head-end;
     display: grid;
-    grid-template-columns: min-content 40% min-content;
+    grid-template-columns: min-content 40% 1fr;
     grid-template-rows: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
   }
 
@@ -37,7 +38,6 @@
     border-radius: 2rem;
     margin: 0 2rem 2rem 0rem;
 
-    overflow-x: hidden;
     overflow-y: auto;
     &::-webkit-scrollbar {
       display: none;
