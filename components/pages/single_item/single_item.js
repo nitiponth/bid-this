@@ -61,6 +61,7 @@ const CREATE_COMMENT = gql`
 
 function SingleItem(props) {
   const { productId, title, seller } = props.item;
+  const { status } = props.refund;
   const router = useRouter();
   const { uploadToS3 } = useS3Upload();
 
@@ -97,7 +98,11 @@ function SingleItem(props) {
     const now = new Date();
 
     setCanRefund(now > sevenDaysAfterEnd);
-  }, []);
+
+    if (props.refund.status === "REFUNDED") {
+      setCanRefund(false);
+    }
+  }, [status]);
 
   const current = new Date();
   // console.log(props.item.sentAt);
@@ -347,7 +352,7 @@ function SingleItem(props) {
             >
               <BiSupport />
             </button>
-            {props.item.status !== "RECEIVED" && canRefund && (
+            {canRefund && (
               <button
                 type="button"
                 onClick={() => {

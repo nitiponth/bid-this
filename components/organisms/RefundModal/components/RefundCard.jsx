@@ -21,7 +21,9 @@ function RefundCard({ amount, status = statusType.req }) {
           justifyContent: "space-between",
         }}
       >
-        <div className="refundModal__card__title">Refund</div>
+        <div className="refundModal__card__title">{`${
+          status === statusType.success ? "Refunded" : "Request Refund ?"
+        }`}</div>
         <div className="refundModal__card__amount">
           {amount.toLocaleString()}฿
         </div>

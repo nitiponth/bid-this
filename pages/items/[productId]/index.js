@@ -52,6 +52,7 @@ const PRODUCT_QUERY = gql`
         score
         rImages
       }
+      extendTime
       createdAt
     }
   }
@@ -91,12 +92,15 @@ function ProductPage() {
   const router = useRouter();
   const { productId } = router.query;
 
-  const { data, loading, error, subscribeToMore } = useQuery(PRODUCT_QUERY, {
-    ssr: false,
-    variables: {
-      getProductByIdProductId: productId,
-    },
-  });
+  const { data, loading, error, subscribeToMore, refetch } = useQuery(
+    PRODUCT_QUERY,
+    {
+      ssr: false,
+      variables: {
+        getProductByIdProductId: productId,
+      },
+    }
+  );
 
   useEffect(() => {
     if (!loading && data) {
@@ -181,6 +185,9 @@ function ProductPage() {
     winner: data.getProductById.buyer?.username,
     end: data.getProductById.end,
     finalPrice: data.getProductById.price.current,
+    extendTime: !!data.getProductById?.extendTime,
+    status: data.getProductById?.status,
+    refetch,
   };
 
   return (
