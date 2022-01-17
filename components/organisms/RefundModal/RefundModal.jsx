@@ -142,7 +142,14 @@ function RefundModal({ active, onClose, refund, isDone }) {
           >
             Refund Credits
           </button>
-          <button className="refundModal__btnGroup__btn refundModal__btnGroup__btn--support">
+          <button
+            onClick={() => {
+              if (process.env.DISCORD_INVITE) {
+                window.open(process.env.DISCORD_INVITE, "_blank");
+              }
+            }}
+            className="refundModal__btnGroup__btn refundModal__btnGroup__btn--support"
+          >
             <BiSupport />
           </button>
         </div>
