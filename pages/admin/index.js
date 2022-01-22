@@ -11,6 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../store/auth-context";
 import { useRouter } from "next/router";
 import AdminReportProduct from "../../components/layout/admin/content/reportManagement/adminReportProduct";
+import AdminReportUser from "../../components/layout/admin/content/reportManagement/adminReportUser";
 
 function Admin() {
   const router = useRouter();
@@ -45,6 +46,9 @@ function Admin() {
           )}
           {contentState === "PRODUCT_DETAIL" && (
             <AdminProductDetail productId={productId} />
+          )}
+          {contentState === "USER_REPORT_DETAIL" && (
+            <AdminReportUser reportId={reportId} />
           )}
           {contentState === "PRODUCT_REPORT_DETAIL" && (
             <AdminReportProduct reportId={reportId} />

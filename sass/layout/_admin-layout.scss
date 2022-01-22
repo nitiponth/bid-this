@@ -587,6 +587,98 @@
           }
         }
 
+        .UserReportContainer {
+          margin-top: 1.5rem;
+          margin-bottom: 5rem;
+          display: flex;
+          align-items: flex-start;
+          flex-wrap: wrap;
+
+          .RUser {
+            &__card {
+              position: relative;
+              width: 280px;
+              min-height: 370px;
+              border-radius: 2rem;
+              box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.09);
+              padding: 0 1rem;
+              padding-top: 170px;
+
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+
+              background: white;
+
+              &__image {
+                position: absolute;
+                top: -20px;
+                left: 50%;
+                transform: translate(-50%, 0);
+                width: 170px;
+                height: 170px;
+                border-radius: 85px;
+                box-shadow: rgba(0, 0, 0, 0.12) 0rem 0.3125rem 0.625rem 0rem;
+
+                object-fit: cover;
+              }
+
+              &__name {
+                text-align: center;
+                font-size: 1.8rem;
+                color: var(--color-grey-dark-1);
+                margin-bottom: 0.25rem;
+              }
+
+              &__username {
+                text-align: center;
+                font-size: 1.6rem;
+                color: var(--color-grey-dark-2);
+                margin-bottom: 1.5rem;
+              }
+            }
+
+            &__info {
+              display: flex;
+              flex: 1;
+              align-self: flex-start;
+              flex-direction: column;
+              margin-left: 2rem;
+
+              padding: 2rem;
+
+              border-radius: 2rem;
+              box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.09);
+
+              background: white;
+
+              &__label {
+                font-size: 2rem;
+                color: var(--color-grey-dark-1);
+                margin-bottom: 1.5rem;
+              }
+
+              margin-bottom: 2rem;
+            }
+
+            &__action {
+              align-self: flex-start;
+
+              transform: translateY(-70px);
+              width: 280px;
+              border-radius: 2rem;
+              box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.09);
+              padding: 2rem;
+
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+
+              background-color: white;
+            }
+          }
+        }
+
         .ProductReportContainer {
           margin-top: 1.5rem;
           margin-bottom: 5rem;
@@ -617,6 +709,8 @@
                 height: 170px;
                 border-radius: 1.5rem;
                 box-shadow: rgba(0, 0, 0, 0.12) 0rem 0.3125rem 0.625rem 0rem;
+
+                object-fit: cover;
               }
 
               &__title {

@@ -3,6 +3,7 @@ import { useRouter } from "next/dist/client/router";
 import { useCallback, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { useAdminStore } from "../../../../../../store/admin-Content-Store";
+import BLoading from "../../../../../molecules/BLoading/BLoading";
 import ReportList from "./reportList";
 import ReportTableHeader from "./reportTableHeader";
 
@@ -163,19 +164,7 @@ function ReportTable({ sortedBy, searchInput }) {
   return (
     <div className="reportTable">
       <ReportTableHeader />
-      {loading && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "1.6rem",
-            marginBottom: "1rem",
-          }}
-        >
-          Loading...
-        </div>
-      )}
+      {loading && <BLoading />}
       {data && !error && !filteredComponents && <>{listComponents}</>}
       {filteredComponents && <>{filteredComponents}</>}
     </div>
