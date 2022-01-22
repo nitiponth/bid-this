@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { toPhoneNumber } from "../../../../../utils/stringFormat";
 import BButton from "../../../../atoms/BButton/bButton";
 import BForm from "../../../../atoms/BForm/bForm";
@@ -10,6 +10,7 @@ import BTextarea from "../../../../atoms/BTextarea/bTextarea";
 import SelectionBox from "../../../../etc/selection/selection";
 
 import SalyImage from "../../../../../public/images/SILY/Saly-1.png";
+import BLoading from "../../../../molecules/BLoading/BLoading";
 
 const GET_PRODUCT_REPORT = gql`
   query ($reportId: ID!) {
@@ -84,9 +85,9 @@ function AdminReportProduct(props) {
   return (
     <div className="adminContent">
       <div className="admin__content">
-        <>
+        <Fragment>
           {!reportData ? (
-            <div> </div>
+            <BLoading />
           ) : (
             <div className="ProductReportContainer">
               <BModalCard
@@ -406,7 +407,7 @@ function AdminReportProduct(props) {
               </div>
             </div>
           )}
-        </>
+        </Fragment>
       </div>
     </div>
   );

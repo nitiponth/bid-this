@@ -121,6 +121,19 @@ body {
   padding-top: 12rem !important;
 }
 
+.bLoading {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 5rem;
+}
+
 .BReport {
   background-color: white;
   width: 500px;
