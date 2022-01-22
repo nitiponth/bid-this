@@ -601,6 +601,11 @@ body {
           box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
 }
 
+.bVerify__btn:active {
+  -webkit-transform: translateY(1px);
+          transform: translateY(1px);
+}
+
 .bVerify__btn--later {
   background-color: #191414;
   color: #ffffff;
@@ -615,6 +620,11 @@ body {
 .bVerify__btn--disabled {
   background-color: #999999;
   color: #ffffff;
+}
+
+.bVerify__btn--disabled:hover {
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
 }
 
 .BConfirm {

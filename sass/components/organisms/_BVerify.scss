@@ -70,6 +70,10 @@
       box-shadow: $SHADOW-1;
     }
 
+    &:active {
+      transform: translateY(1px);
+    }
+
     &--later {
       background-color: $COLOR-BLACK;
       color: $COLOR-WHITE;
@@ -84,6 +88,10 @@
     &--disabled {
       background-color: $COLOR-DARKGRAY;
       color: $COLOR-WHITE;
+
+      &:hover {
+        transform: translateY(0px);
+      }
     }
   }
 }

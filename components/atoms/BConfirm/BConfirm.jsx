@@ -1,6 +1,14 @@
 import Backdrop from "../../layout/backdrop";
 
-function BConfirm({ active, onClose, onConfirm, title, body }) {
+function BConfirm({
+  active,
+  onClose,
+  onConfirm,
+  title,
+  body,
+  confirmOnly,
+  confirmText,
+}) {
   return (
     <Backdrop show={active} onClose={onClose}>
       <div className="BConfirm">
@@ -13,11 +21,13 @@ function BConfirm({ active, onClose, onConfirm, title, body }) {
             justifyContent: "space-evenly",
           }}
         >
-          <div onClick={onClose} className="BConfirm__cancel">
-            Cancel
-          </div>
+          {!confirmOnly && (
+            <div onClick={onClose} className="BConfirm__cancel">
+              Cancel
+            </div>
+          )}
           <div onClick={onConfirm} className="BConfirm__confirm">
-            Confirm
+            {confirmText || "Confirm"}
           </div>
         </div>
       </div>
