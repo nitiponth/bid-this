@@ -17,6 +17,7 @@ const LOGIN_USER = gql`
           id
         }
         role
+        status
         following {
           id
         }
@@ -59,6 +60,8 @@ export function AuthContextProvider(props) {
       Cookies.remove("token");
       clearWatchlist();
       clearFollowing();
+      Cookies.remove("verifyPopup");
+
       router.push("/");
     } catch (e) {
       console.log(e.message);
@@ -85,12 +88,11 @@ export function AuthContextProvider(props) {
         initialWatchlist(data.login.user.id, watchedArr);
         initialFollowing(data.login.user.id, followingArr);
       }
+      return data.login.user;
     } catch (e) {
       alert(e.message);
       return false;
     }
-
-    return true;
   };
 
   const context = {

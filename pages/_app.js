@@ -21,6 +21,7 @@ const QUERY_USER = {
         username
         wallet
         profile
+        status
         watchlists {
           id
         }

@@ -510,6 +510,113 @@ body {
           transform: none;
 }
 
+.bVerify {
+  width: 40rem;
+  height: 60rem;
+  background-color: #ffffff;
+  border-radius: 2rem;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+.bVerify__image {
+  width: 35rem;
+  height: 20rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 2rem;
+}
+
+.bVerify__title {
+  margin-top: 3rem;
+  padding: 0 2rem;
+  font-size: 1.8rem;
+  text-align: center;
+  color: #191414;
+}
+
+.bVerify__bold {
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.bVerify__resend {
+  height: 4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 1.6rem;
+  color: #999999;
+  margin-top: 2rem;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.bVerify__resend:hover {
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+  cursor: pointer;
+  text-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.bVerify__btnGroup {
+  margin-top: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.bVerify__btn {
+  height: 5rem;
+  width: 15rem;
+  border: none;
+  outline: none;
+  border-radius: 1rem;
+  font-size: 1.8rem;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.bVerify__btn:hover {
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+  cursor: pointer;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+}
+
+.bVerify__btn--later {
+  background-color: #191414;
+  color: #ffffff;
+  margin-right: 2rem;
+}
+
+.bVerify__btn--confirm {
+  background-color: #ffc648;
+  color: #999999;
+}
+
+.bVerify__btn--disabled {
+  background-color: #999999;
+  color: #ffffff;
+}
+
 .BConfirm {
   background-color: white;
   width: 350px;

@@ -1,0 +1,89 @@
+.bVerify {
+  width: 40rem;
+  height: 60rem;
+  background-color: $COLOR-WHITE;
+  border-radius: 2rem;
+  box-shadow: $SHADOW-1;
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: relative;
+
+  &__image {
+    width: 35rem;
+    height: 20rem;
+    object-fit: cover;
+    border-radius: 2rem;
+  }
+
+  &__title {
+    margin-top: 3rem;
+    padding: 0 2rem;
+    font-size: 1.8rem;
+    text-align: center;
+    color: $COLOR-BLACK;
+  }
+
+  &__bold {
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  &__resend {
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    color: $COLOR-DARKGRAY;
+    margin-top: 2rem;
+
+    transition: all 0.2s;
+    &:hover {
+      transform: translateY(-2px);
+      cursor: pointer;
+      text-shadow: $SHADOW-2;
+    }
+  }
+
+  &__btnGroup {
+    margin-top: auto;
+    display: flex;
+    margin-bottom: 2rem;
+  }
+
+  &__btn {
+    height: 5rem;
+    width: 15rem;
+    border: none;
+    outline: none;
+    border-radius: 1rem;
+    font-size: 1.8rem;
+
+    transition: all 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+      cursor: pointer;
+      box-shadow: $SHADOW-1;
+    }
+
+    &--later {
+      background-color: $COLOR-BLACK;
+      color: $COLOR-WHITE;
+      margin-right: 2rem;
+    }
+
+    &--confirm {
+      background-color: $COLOR-YELLOW;
+      color: $COLOR-DARKGRAY;
+    }
+
+    &--disabled {
+      background-color: $COLOR-DARKGRAY;
+      color: $COLOR-WHITE;
+    }
+  }
+}

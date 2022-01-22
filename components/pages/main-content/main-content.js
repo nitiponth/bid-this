@@ -1,8 +1,10 @@
+import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import { useQuery, gql, useSubscription } from "@apollo/client";
 import ItemCard from "./item_card";
 import ItemHero from "./item_hero";
 import { useEffect, useState } from "react";
+import BLoading from "../../molecules/BLoading/BLoading";
 
 const PRODUCTS_QUERY = gql`
   query {
@@ -34,7 +36,7 @@ const PRODUCTS_CHANGED_SUB = gql`
 function MainContent() {
   const router = useRouter();
   const { cate } = router.query;
-  const [productsData, setProductData] = useState();
+  const [productsData, setProductData] = useState([]);
 
   const { data, loading, error, refetch, subscribeToMore } = useQuery(
     PRODUCTS_QUERY,
@@ -45,13 +47,10 @@ function MainContent() {
   );
 
   useEffect(() => {
-    if (loading === false && data) {
-      if (data.getActivedProducts !== null) {
-        setProductData(data.getActivedProducts);
-      }
-      if (error) {
-        console.log(error);
-      }
+    if (!loading && data) {
+      setProductData(data.getActivedProducts);
+    } else if (error) {
+      console.log(error);
     }
   });
 
@@ -66,10 +65,6 @@ function MainContent() {
       },
     });
   });
-
-  if (!productsData && !error) {
-    return <p>Loading....</p>;
-  }
 
   const products = productsData
     .map((product) => {
@@ -143,6 +138,10 @@ function MainContent() {
     itemLists = filteredItems.map((product) => (
       <ItemCard item={product} key={product.productId} />
     ));
+  }
+
+  if (loading) {
+    return <BLoading />;
   }
 
   return (

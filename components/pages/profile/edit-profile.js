@@ -8,6 +8,8 @@ import Dropzone from "react-dropzone";
 import AuthContext from "../../../store/auth-context";
 import BWaiting from "../../atoms/BWaiting/BWaiting";
 import BModalCard from "../../atoms/BModalCard/BModalCard";
+import BVerify from "../../organisms/BVerify/bVerify";
+import { Fragment } from "react/cjs/react.production.min";
 
 const ME_QUERY = gql`
   query {
@@ -77,6 +79,7 @@ function EditProfile() {
 
   const [activeWaitingModal, setActiveWatingModal] = useState(false);
   const [activeErrorModal, setActiveErrorModal] = useState(false);
+  const [activeVerifyModal, setActiveVerifyModal] = useState(false);
 
   const [userData, setUserData] = useState();
   const [hasError, setHasError] = useState();
@@ -346,6 +349,10 @@ function EditProfile() {
     );
   }
 
+  const verifyHandler = () => {
+    setActiveVerifyModal(true);
+  };
+
   return (
     <>
       <BWaiting
@@ -360,6 +367,10 @@ function EditProfile() {
         title="Something went wrong"
         subtitle={hasError}
         // modalImage={}
+      />
+      <BVerify
+        active={activeVerifyModal}
+        onClose={() => setActiveVerifyModal(false)}
       />
       <div className="uf-container">
         <h1 className="title">Edit your Profile</h1>
@@ -658,14 +669,22 @@ function EditProfile() {
                     </Dropzone>
                   )}
                 </div>
-                <div className="form__box-title form__box-title--sm u-margin-bottom-small u-padding-top-tiny">
-                  Email Verification
-                </div>
-                <div className="input__form-request">
-                  <button type="button" className="input__form-request-btn">
-                    Request New Email Verification.
-                  </button>
-                </div>
+                {authCtx.user.status === "GUEST" && (
+                  <Fragment>
+                    <div className="form__box-title form__box-title--sm u-margin-bottom-small u-padding-top-tiny">
+                      Email Verification
+                    </div>
+                    <div className="input__form-request">
+                      <button
+                        onClick={verifyHandler}
+                        type="button"
+                        className="input__form-request-btn"
+                      >
+                        Email Verification
+                      </button>
+                    </div>
+                  </Fragment>
+                )}
               </div>
             </div>
             <div className="form__end u-padding-top-medium">
