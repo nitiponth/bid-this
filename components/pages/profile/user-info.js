@@ -6,6 +6,7 @@ import AuthContext from "../../../store/auth-context";
 import { useFollowStore } from "../../../store/follow-store";
 import PopupDropdown from "../../dropdown/profile-dropdown/profile-dropdown";
 import PopupItem from "../../dropdown/profile-dropdown/profile-dropdown-item";
+import BLoading from "../../molecules/BLoading/BLoading";
 import BReportUser from "../../molecules/BReport/bReportUser";
 import FollowModal from "../../organisms/FollowInfo/FollowModal";
 
@@ -123,7 +124,7 @@ function UserInfo(props) {
   }, [lists]);
 
   if (!productsData && !error) {
-    return <p>Loading....</p>;
+    return <BLoading />;
   }
 
   const followingHandler = async () => {
@@ -308,13 +309,15 @@ function UserInfo(props) {
             </Link>
           )}
         </nav>
-        {isOwner && (lists === "Auctioning" || !lists) && (
-          <Link href="/users/add-item">
-            <div className="auction-info__add-items">
-              Click to add your items to the auction
-            </div>
-          </Link>
-        )}
+        {isOwner &&
+          authCtx.user.status === "FULLAUTHEN" &&
+          (lists === "Auctioning" || !lists) && (
+            <Link href="/users/add-item">
+              <div className="auction-info__add-items">
+                Click to add your items to the auction
+              </div>
+            </Link>
+          )}
         <div className="auction-info__list-items">{productsList}</div>
       </div>
     </div>

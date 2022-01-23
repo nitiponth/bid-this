@@ -88,10 +88,9 @@ export function AuthContextProvider(props) {
         initialWatchlist(data.login.user.id, watchedArr);
         initialFollowing(data.login.user.id, followingArr);
       }
-      return data.login.user;
+      return { status: true, data: data.login.user };
     } catch (e) {
-      alert(e.message);
-      return false;
+      return { status: false, data: e.message };
     }
   };
 

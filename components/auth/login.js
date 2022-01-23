@@ -1,9 +1,12 @@
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useState } from "react";
 import { Form, Field, Formik } from "formik";
 import AuthContext from "../../store/auth-context";
 import LayoutContext from "../../store/layout-context";
+import BConfirm from "../atoms/BConfirm/BConfirm";
 
 function Login() {
+  const [errorModal, setErrorModal] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const layoutCtx = useContext(LayoutContext);
   const authCtx = useContext(AuthContext);
 
@@ -17,13 +20,30 @@ function Login() {
 
   const onLoginHander = async ({ email, password }) => {
     const result = await authCtx.login(email, password);
-    if (result) {
+    if (result.status) {
       layoutCtx.setModalType(null);
+    } else if (!result.status) {
+      setErrorModal(true);
+      setErrorMsg(result.data);
     }
+  };
+
+  const closeModalHandler = () => {
+    setErrorModal(false);
+    setErrorMsg("");
   };
 
   return (
     <div className="auth__layout">
+      <BConfirm
+        body={errorMsg}
+        active={errorModal}
+        confirmOnly={true}
+        onClose={closeModalHandler}
+        confirmText={"Ok"}
+        onConfirm={closeModalHandler}
+        title={"An error occurred"}
+      />
       <div className="login">
         <div className="close-btn" onClick={onCloseHandler}>
           <img
@@ -72,9 +92,9 @@ function Login() {
                 placeholder="Password"
                 className="login__form-input"
               />
-              <a href="#" className="login__link login__link--forgot">
+              {/* <a href="#" className="login__link login__link--forgot">
                 Forgot password?
-              </a>
+              </a> */}
 
               <button type="submit" className="login__btn">
                 Login

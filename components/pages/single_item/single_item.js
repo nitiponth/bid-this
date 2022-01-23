@@ -21,6 +21,7 @@ import { useS3Upload } from "next-s3-upload";
 import BWaiting from "../../atoms/BWaiting/BWaiting";
 import BReportProduct from "../../molecules/BReport/bReportProduct";
 import RefundModal from "../../organisms/RefundModal/RefundModal";
+import LayoutContext from "../../../store/layout-context";
 
 const UPDATE_TRACK = gql`
   mutation ($productId: ID!, $track: String!) {
@@ -62,12 +63,15 @@ const CREATE_COMMENT = gql`
 function SingleItem(props) {
   const { productId, title, seller } = props.item;
   const { status } = props.refund;
+  const layoutCtx = useContext(LayoutContext);
   const router = useRouter();
   const { uploadToS3 } = useS3Upload();
 
   const [activeWaitingModal, setActiveWaitingModal] = useState(false);
   const [activeReportModal, setActiveReportModal] = useState(false);
   const [activeRefundModal, setActiveRefundModal] = useState(false);
+
+  const [canBid, setCanBid] = useState(false);
 
   const authCtx = useContext(AuthContext);
   const countStart = useTimer(props.item.start);
@@ -90,6 +94,8 @@ function SingleItem(props) {
   const [updateProductTrack] = useMutation(UPDATE_TRACK);
   const [confirmProduct] = useMutation(CONFIRM_PRODUCT);
   const [createComment] = useMutation(CREATE_COMMENT);
+
+  const { isLogin, user } = authCtx;
 
   useEffect(() => {
     const sevenDaysAfterEnd = new Date(endTime);
@@ -148,6 +154,19 @@ function SingleItem(props) {
       setCanEdit(false);
     }
   }, [countStart]);
+
+  useEffect(() => {
+    if (!isLogin || !isStart) {
+      return;
+    }
+    if (isEnd) {
+      return;
+    }
+    if (user.status === "GUEST") {
+      return;
+    }
+    setCanBid(true);
+  }, [isEnd, isStart, isLogin, user]);
 
   const bidData = [...props.bidInfo].sort(
     (a, b) => new Date(b.bidTime) - new Date(a.bidTime)
@@ -415,6 +434,11 @@ function SingleItem(props) {
     };
   }, [showReviewWindow]);
 
+  const bidModalHandler = () => {
+    layoutCtx.setProductId(productId);
+    layoutCtx.setModalType("bid");
+  };
+
   return (
     <Fragment>
       <BWaiting
@@ -617,15 +641,16 @@ function SingleItem(props) {
                 )}
               </div>
               <div className="item__bidding-btn">
-                {!isEnd && isStart ? (
-                  <Link href={`/items/${props.item.productId}/bid`}>
-                    <a className="btn btn--single-item">Place a bid</a>
-                  </Link>
-                ) : (
-                  <a className="btn btn--single-item btn--disabled-place">
-                    Place a bid
-                  </a>
-                )}
+                <button
+                  role={"button"}
+                  onClick={bidModalHandler}
+                  disabled={true}
+                  className={`btn btn--single-item ${
+                    !canBid && "btn--disabled"
+                  }`}
+                >
+                  Place a bid
+                </button>
               </div>
             </div>
 

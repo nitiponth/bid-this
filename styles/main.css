@@ -898,16 +898,19 @@ body {
   text-align: center;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
+  outline: none;
+  border: none;
   cursor: pointer;
 }
 
 .btn--disabled {
+  background-color: #cbcbcb;
   cursor: not-allowed;
 }
 
 .btn--disabled:hover {
-  -webkit-transform: translateY(0);
-          transform: translateY(0);
+  -webkit-transform: translateY(0px) !important;
+          transform: translateY(0px) !important;
 }
 
 .btn--card {
@@ -3883,7 +3886,7 @@ body {
 .mobileSafe__box {
   padding: 3rem;
   border-radius: 1.5rem;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .mobileSafe__logo {

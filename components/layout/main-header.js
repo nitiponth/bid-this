@@ -103,15 +103,17 @@ function MainHeader() {
         <a href="#" className="user-nav__link">
           Shipping
         </a> */}
-        <div className="user-nav__icon-box">
-          <NavItem
-            icon="/images/SVG/bookmark.svg"
-            notification={0}
-            type="bookmark"
-          >
-            <AuctionDropdown />
-          </NavItem>
-        </div>
+        {authCtx.isLogin && (
+          <div className="user-nav__icon-box">
+            <NavItem
+              icon="/images/SVG/bookmark.svg"
+              notification={0}
+              type="bookmark"
+            >
+              <AuctionDropdown />
+            </NavItem>
+          </div>
+        )}
         {userData ? (
           <div className="user-nav__user-box">
             <NavItem

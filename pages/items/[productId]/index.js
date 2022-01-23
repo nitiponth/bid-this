@@ -107,7 +107,7 @@ function ProductPage() {
       setIsLoading(false);
 
       const now = new Date();
-      if (new Date(data.getProductById.end) < now) {
+      if (new Date(data?.getProductById.end) < now) {
         setIsEnd(true);
       }
     }
@@ -146,9 +146,17 @@ function ProductPage() {
     if (unsubscribe) return () => unsubscribe();
   }, [subscribeToMore, productId, isEnd]);
 
-  if (loading) return null;
-  // if (error) return router.push("/404");
-  if (error) return `Error! ${error}`;
+  if (loading) {
+    return (
+      <Layout>
+        <BLoading />
+      </Layout>
+    );
+  }
+  if (error) {
+    console.log(error);
+    return router.push("/");
+  }
 
   const itemData = {
     productId: productId,

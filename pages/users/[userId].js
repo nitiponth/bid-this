@@ -4,6 +4,7 @@ import { useQuery, gql } from "@apollo/client";
 import NoSideLayout from "../../components/layout/no-sidebar-layout/no-sidebar-layout";
 import UserInfo from "../../components/pages/profile/user-info";
 import { useEffect } from "react";
+import BLoading from "../../components/molecules/BLoading/BLoading";
 
 const USER_QUERY = gql`
   query ($getUserByIdUserId: ID!) {
@@ -46,9 +47,16 @@ function UserInformationPage() {
     refetch();
   }, []);
 
-  if (loading) return null;
-  //   if (error) return router.push("/404");
-  if (error) return `Error! ${error}`;
+  if (loading) {
+    return (
+      <NoSideLayout>
+        <BLoading />
+      </NoSideLayout>
+    );
+  }
+  if (error) {
+    return router.push("/");
+  }
 
   const rawData = data.getUserById;
   const user = {

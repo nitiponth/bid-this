@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
+import AuthContext from "../../store/auth-context";
 
 function Sidebar() {
+  const authCtx = useContext(AuthContext);
   const router = useRouter();
   const path = router.pathname;
   const { cate } = router.query;
@@ -76,7 +78,7 @@ function Sidebar() {
               </a>
             </Link>
           </li> */}
-          <li className={cate === "watchlists" ? linkActiveClass : linkClass}>
+          {/* <li className={cate === "watchlists" ? linkActiveClass : linkClass}>
             <Link href="/?cate=watchlists">
               <a href="#" className="sidebar-nav__link">
                 <img
@@ -87,19 +89,21 @@ function Sidebar() {
                 <span>Watchlists</span>
               </a>
             </Link>
-          </li>
-          <li className={path === "/credits" ? linkActiveClass : linkClass}>
-            <Link href="/credits">
-              <a className="sidebar-nav__link">
-                <img
-                  src="/images/ios-icon/gem-stone.png"
-                  alt="Credits"
-                  className="sidebar-nav__icon"
-                />
-                <span>Credits</span>
-              </a>
-            </Link>
-          </li>
+          </li> */}
+          {authCtx.isLogin && (
+            <li className={path === "/credits" ? linkActiveClass : linkClass}>
+              <Link href="/credits">
+                <a className="sidebar-nav__link">
+                  <img
+                    src="/images/ios-icon/gem-stone.png"
+                    alt="Credits"
+                    className="sidebar-nav__icon"
+                  />
+                  <span>Credits</span>
+                </a>
+              </Link>
+            </li>
+          )}
         </nav>
       </div>
 

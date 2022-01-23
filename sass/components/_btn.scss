@@ -11,12 +11,16 @@
 
   transition: all 0.2s;
 
+  outline: none;
+  border: none;
+
   cursor: pointer;
 
   &--disabled {
+    background-color: $COLOR-GRAY;
     cursor: not-allowed;
     &:hover {
-      transform: translateY(0);
+      transform: translateY(0px) !important;
     }
   }
 
