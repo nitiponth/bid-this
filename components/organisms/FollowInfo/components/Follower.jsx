@@ -29,14 +29,15 @@ function Follower({
       }}
       className="follower"
     >
-      <Image
-        src={img}
-        width={48}
-        height={48}
-        objectFit="cover"
-        alt="profile"
-        className="follower__img"
-      />
+      <div className="follower__img" style={{ marginRight: "10px" }}>
+        <Image
+          src={img}
+          width={48}
+          height={48}
+          objectFit="cover"
+          alt="profile"
+        />
+      </div>
       <div className="follower__body">
         <div className="follower__username">@{username}</div>
         {desc && <div className="follower__desc">{desc}</div>}
