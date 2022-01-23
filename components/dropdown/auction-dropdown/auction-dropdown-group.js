@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 let useClickOutside = (handler) => {
@@ -28,7 +29,7 @@ function AuctionDropdownGroup(props) {
 
   let component = (
     <Fragment>
-      <img src={props.icon} alt="icon" className="" />
+      <Image src={props.icon} alt="icon" width={30} height={30} />
       {props.notification && (
         <span className="user-nav__notification">{props.notification}</span>
       )}

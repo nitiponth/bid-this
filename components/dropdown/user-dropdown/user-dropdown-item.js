@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 function UserDropdownItem({
   onClickHandler,
   leftProfile,
@@ -15,7 +17,12 @@ function UserDropdownItem({
     <a className="user-dropdown-item" onClick={onClickHandler}>
       {leftProfile && (
         <span className="icon-button icon-button--left">
-          <img src={leftProfile} className="icon-button-profile" />
+          <Image
+            src={leftProfile}
+            width={30}
+            height={30}
+            className="icon-button-profile"
+          />
         </span>
       )}
       {leftIcon && (

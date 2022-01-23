@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import useTimer from "../../../hooks/useTimer";
 
@@ -34,7 +35,7 @@ function AuctionDropdownItem({
       onClick={onClick}
     >
       <span className="icon-button icon-button--left">
-        <img src={image} className="auction__img" />
+        <Image src={image} width={50} height={50} className="auction__img" />
       </span>
 
       {children}

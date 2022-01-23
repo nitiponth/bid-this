@@ -11,6 +11,7 @@ import SelectionBox from "../../../../etc/selection/selection";
 
 import SalyImage from "../../../../../public/images/SILY/Saly-1.png";
 import BLoading from "../../../../molecules/BLoading/BLoading";
+import Image from "next/image";
 
 const GET_PRODUCT_REPORT = gql`
   query ($reportId: ID!) {
@@ -102,9 +103,11 @@ function AdminReportProduct(props) {
               />
               <div className="RProduct">
                 <div className="RProduct__card">
-                  <img
+                  <Image
                     className="RProduct__card__image"
                     src={reportData.product.images[0]}
+                    width={50}
+                    height={50}
                     alt="product Image"
                   />
                   <div className="RProduct__card__title">

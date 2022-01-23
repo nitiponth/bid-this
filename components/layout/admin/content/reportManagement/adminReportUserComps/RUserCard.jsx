@@ -1,3 +1,4 @@
+import Image from "next/image";
 import BForm from "../../../../../atoms/BForm/bForm";
 import BTextarea from "../../../../../atoms/BTextarea/bTextarea";
 
@@ -5,7 +6,15 @@ function RUserCard({ user }) {
   const { profile, name, username, desc } = user;
   return (
     <div className="RUser__card">
-      <img className="RUser__card__image" src={profile} alt="User Image" />
+      <div className="RUser__card__image">
+        <Image
+          src={profile}
+          alt="User Image"
+          width={170}
+          height={170}
+          objectFit="cover"
+        />
+      </div>
       <div className="RUser__card__name">{`${name.first} ${name.last}`}</div>
       <div className="RUser__card__username">@{username}</div>
       <BForm>

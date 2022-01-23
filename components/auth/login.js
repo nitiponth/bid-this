@@ -3,6 +3,7 @@ import { Form, Field, Formik } from "formik";
 import AuthContext from "../../store/auth-context";
 import LayoutContext from "../../store/layout-context";
 import BConfirm from "../atoms/BConfirm/BConfirm";
+import Image from "next/image";
 
 function Login() {
   const [errorModal, setErrorModal] = useState(false);
@@ -46,17 +47,21 @@ function Login() {
       />
       <div className="login">
         <div className="close-btn" onClick={onCloseHandler}>
-          <img
+          <Image
             src="/images/SVG/cross.svg"
             alt="clost button"
+            width={30}
+            height={30}
             className="btn__close-img"
           />
         </div>
         <div className="login__logo">
           <div className="login__logo-box">
-            <img
+            <Image
               src="/images/logo-square.png"
               alt="logo"
+              width={105}
+              height={105}
               className="login__logo-img"
             />
           </div>

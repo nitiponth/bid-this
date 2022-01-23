@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 let useClickOutside = (handler) => {
@@ -28,7 +29,7 @@ function PopupItem(props) {
 
   let component = (
     <Fragment>
-      <img src={props.icon} alt="icon" className="" />
+      <Image src={props.icon} width={23} height={23} alt="icon" className="" />
       {props.notification && (
         <span className="user-nav__notification">{props.notification}</span>
       )}

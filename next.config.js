@@ -3,6 +3,12 @@ const { withSentryConfig } = require("@sentry/nextjs");
 
 moduleExports = {
   reactStrictMode: true,
+  images: {
+    domains: [
+      "bid-this-storage.s3.ap-southeast-1.amazonaws.com",
+      "images.unsplash.com",
+    ],
+  },
   env: {
     OMISE_PUBLIC_KEY: process.env.OMISE_PUBLIC_KEY,
     API_URL: process.env.API_URL,

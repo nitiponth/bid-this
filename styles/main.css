@@ -3531,6 +3531,7 @@ body {
           box-shadow: rgba(0, 0, 0, 0.12) 0rem 0.3125rem 0.625rem 0rem;
   -o-object-fit: cover;
      object-fit: cover;
+  overflow: hidden;
 }
 
 .adminContainer .adminContent .admin__content .UserReportContainer .RUser__card__name {

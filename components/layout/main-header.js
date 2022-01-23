@@ -9,6 +9,9 @@ import UserLoginDropdown from "../dropdown/user-dropdown/user-login-dropdown";
 import NavItem from "../navbar/nav-item";
 import AuthContext from "../../store/auth-context";
 import AuctionDropdown from "../dropdown/auction-dropdown/auction-dropdown";
+import Image from "next/image";
+
+import logo from "../../public/images/logo-land.png";
 
 const ME_QUERY = gql`
   query {
@@ -75,11 +78,15 @@ function MainHeader() {
     <Fragment>
       <Link href="/">
         <div className="header__logo-box">
-          <img
-            src="/images/logo-land.png"
-            alt="logo"
-            className="header__logo-img"
-          />
+          <div className="header__logo-img">
+            <Image
+              src={logo}
+              alt="logo"
+              width={150}
+              height={70}
+              objectFit="cover"
+            />
+          </div>
         </div>
       </Link>
       <form className="search">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaSearch, FaBox } from "react-icons/fa";
@@ -19,7 +20,13 @@ function ProductData(props) {
   return (
     <div className="productDataContainer">
       <div className="left">
-        <img src={images[0]} className={"left__image"} />
+        <Image
+          src={images[0]}
+          width={100}
+          height={100}
+          objectFit="cover"
+          className={"left__image"}
+        />
       </div>
       <div className="body">
         <div className="body__productId">{id}</div>

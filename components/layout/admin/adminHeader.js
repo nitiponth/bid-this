@@ -1,4 +1,5 @@
 import Link from "next/dist/client/link";
+import Image from "next/image";
 import { useContext } from "react";
 import AuthContext from "../../../store/auth-context";
 
@@ -9,9 +10,12 @@ function AdminHeader() {
       <div className="header__left">
         <div className="header__left__logoBox">
           <Link href={"/"}>
-            <img
+            <Image
               src={"/images/logo-land.png"}
               alt="logo"
+              width={150}
+              height={70}
+              objectFit="cover"
               className="header__left__logo"
             />
           </Link>

@@ -1,5 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { useFormik } from "formik";
+import Image from "next/image";
 import { useContext, useState } from "react";
 import LayoutContext from "../../store/layout-context";
 
@@ -108,18 +109,23 @@ function Register() {
     <div className="auth__layout">
       <div className="register">
         <div className="close-btn" onClick={onCloseHandler}>
-          <img
+          <Image
             src="/images/SVG/cross.svg"
             alt="clost button"
+            width={30}
+            height={30}
             className="btn__close-img"
           />
         </div>
 
         <div className="register__logo">
           <div className="register__logo-box">
-            <img
+            <Image
               src="/images/logo-land.png"
               alt="logo"
+              width={150}
+              height={80}
+              objectFit="cover"
               className="register__logo-img"
             />
           </div>
