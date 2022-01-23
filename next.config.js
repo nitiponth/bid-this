@@ -1,7 +1,6 @@
 require("dotenv").config;
-const { withSentryConfig } = require("@sentry/nextjs");
 
-moduleExports = {
+module.exports = {
   reactStrictMode: true,
   images: {
     domains: [
@@ -16,9 +15,3 @@ moduleExports = {
     SENTRY_DSN: process.env.SENTRY_DSN,
   },
 };
-
-const sentryWebpackPluginOptions = {
-  silent: true,
-};
-
-module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);

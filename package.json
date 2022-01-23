@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.13",
-    "@sentry/nextjs": "^6.16.1",
     "ansi-regex": "^6.0.1",
     "axios": "^0.21.4",
     "cookie": "^0.4.1",
