@@ -9,10 +9,13 @@ import {
   HiOutlineCog,
   HiOutlineSupport,
 } from "react-icons/hi";
+import { MdRefresh, MdVerifiedUser } from "react-icons/md";
+import LayoutContext from "../../../store/layout-context";
 
 function UserLoginDropdown(props) {
   const router = useRouter();
   const authCtx = useContext(AuthContext);
+  const layoutCtx = useContext(LayoutContext);
 
   const toProfilePage = () => {
     router.push(`/users/${authCtx.user.id}`);
@@ -23,6 +26,10 @@ function UserLoginDropdown(props) {
 
   const toManagementPage = () => {
     router.push("/admin");
+  };
+
+  const verifyEmailHandler = () => {
+    layoutCtx.setModalType("verify");
   };
 
   const toLogoutHandler = async () => {
@@ -50,6 +57,14 @@ function UserLoginDropdown(props) {
         >
           Setting
         </UserDropdownItem>
+        {authCtx.user.status === "GUEST" && (
+          <UserDropdownItem
+            leftIcon={<MdVerifiedUser />}
+            onClickHandler={verifyEmailHandler}
+          >
+            Verify Email
+          </UserDropdownItem>
+        )}
         {props.user?.role === "ADMIN" && (
           <UserDropdownItem
             leftIcon={<HiOutlineSupport />}

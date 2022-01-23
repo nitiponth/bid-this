@@ -1,36 +1,23 @@
 import { createContext, useState } from "react";
 
 const LayoutContext = createContext({
-  showBackdrop: false,
-  layoutType: null,
+  modalType: null,
   productId: null,
 
-  setAuth: (isShow) => {},
-  setType: (type) => {},
-  setProduct: (id) => {},
+  setModalType: (type) => {},
+  setProductId: (id) => {},
 });
 
 export function LayoutContextProvider(props) {
-  const [showAuth, setShowAuth] = useState();
-  const [authType, setAuthType] = useState();
-  const [productId, setProductId] = useState();
-
-  function setAuthHandler(isShow) {
-    setShowAuth(isShow);
-  }
-
-  function setTypeHandler(type) {
-    setAuthType(type);
-  }
+  const [modalType, setModalType] = useState(null);
+  const [productId, setProductId] = useState(null);
 
   const context = {
-    showBackdrop: showAuth,
-    layoutType: authType,
+    modalType: modalType,
     productId: productId,
 
-    setAuth: setAuthHandler,
-    setType: setTypeHandler,
-    setProduct: setProductId,
+    setModalType: setModalType,
+    setProductId: setProductId,
   };
 
   return (

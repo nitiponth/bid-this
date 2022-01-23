@@ -625,6 +625,8 @@ body {
 .bVerify__btn--disabled:hover {
   -webkit-transform: translateY(0px);
           transform: translateY(0px);
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .BConfirm {
@@ -5665,7 +5667,8 @@ body {
   font-size: 1.6rem;
   font-weight: 400;
   margin-bottom: 2rem;
-  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .single-item .section__content .item__desc-delivery--com {

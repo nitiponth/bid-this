@@ -3,6 +3,7 @@ import { useRouter } from "next/dist/client/router";
 import { Fragment, useContext, useEffect, useState } from "react";
 import AuthContext from "../../../store/auth-context";
 import { useWatchlistStore } from "../../../store/watchlist-store";
+import BLoading from "../../molecules/BLoading/BLoading";
 import AuctionDropdownItem from "./auction-dropdown-item";
 
 const GET_ACTIVED_PRODUCTS = gql`
@@ -27,6 +28,8 @@ const GET_ACTIVED_PRODUCTS = gql`
 `;
 
 function AuctionDropdown(props) {
+  const [productsList, setProductsList] = useState([]);
+
   const router = useRouter();
   const authCtx = useContext(AuthContext);
 
@@ -36,8 +39,6 @@ function AuctionDropdown(props) {
     fetchPolicy: "network-only",
     pollInterval: 1000,
   });
-
-  const [productsList, setProductsList] = useState([]);
 
   useEffect(() => {
     if (data && !loading) {
@@ -91,6 +92,14 @@ function AuctionDropdown(props) {
 
   return (
     <Fragment>
+      {loading && (
+        <div className="user-dropdown user-dropdown--auction">
+          <BLoading
+            containerStyle={{ marginBottom: "2rem", marginTop: "2rem" }}
+          />
+        </div>
+      )}
+
       {compList.length > 0 && (
         <div className="user-dropdown user-dropdown--auction">{compList}</div>
       )}

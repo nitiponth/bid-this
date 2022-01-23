@@ -8,24 +8,22 @@ function Login() {
   const authCtx = useContext(AuthContext);
 
   const onCloseHandler = () => {
-    layoutCtx.setAuth(false);
-    layoutCtx.setType(null);
+    layoutCtx.setModalType(null);
   };
 
   const onSignupHandler = () => {
-    layoutCtx.setType("register");
+    layoutCtx.setModalType("register");
   };
 
   const onLoginHander = async ({ email, password }) => {
     const result = await authCtx.login(email, password);
     if (result) {
-      layoutCtx.setAuth(false);
-      layoutCtx.setType(null);
+      layoutCtx.setModalType(null);
     }
   };
 
   return (
-    <Fragment>
+    <div className="auth__layout">
       <div className="login">
         <div className="close-btn" onClick={onCloseHandler}>
           <img
@@ -95,7 +93,7 @@ function Login() {
           </a>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 }
 

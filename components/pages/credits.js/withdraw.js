@@ -189,13 +189,10 @@ function Withdraw(props) {
         ฿
       </div>
       {existAccount}
-      <button
-        className="addAccount-btn"
-        onClick={() => setShowForm((prev) => !prev)}
-      >
+      <button className="addAccount-btn" onClick={() => setShowForm(true)}>
         Add new account
       </button>
-      <Backdrop show={showForm}>
+      <Backdrop show={showForm} onClose={() => setShowForm(false)}>
         <AddAccountForm onClose={setShowForm} refetch={props.refetch} />
       </Backdrop>
     </div>

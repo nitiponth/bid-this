@@ -2,6 +2,8 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../../../store/auth-context";
+import LayoutContext from "../../../store/layout-context";
+import BLoading from "../../molecules/BLoading/BLoading";
 
 const PRODUCT_QUERY = gql`
   query ($getProductByIdProductId: ID!) {
@@ -39,17 +41,17 @@ const PLACE_BID = gql`
   }
 `;
 
-function BidItem() {
+function BidItem({ onClose }) {
   const authCtx = useContext(AuthContext);
+  const layoutCtx = useContext(LayoutContext);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const productId = router.asPath.split("/")[2];
 
   const { data, loading, error } = useQuery(PRODUCT_QUERY, {
     ssr: false,
     variables: {
-      getProductByIdProductId: productId,
+      getProductByIdProductId: layoutCtx.productId,
     },
     pollInterval: 500,
   });
@@ -72,7 +74,7 @@ function BidItem() {
         new Date(data.getProductById.end).toISOString() <
           new Date(current).toISOString()
       ) {
-        router.push(`/items/${data.getProductById.id}`);
+        onClose();
         return;
       }
       if (data.getProductById.price.current) {
@@ -88,15 +90,24 @@ function BidItem() {
     }
 
     if (error && !loading) {
-      router.push("/");
+      console.log(error);
+      onClose();
+      return;
     }
   }, [data, loading, error]);
 
-  const item = data && data.getProductById;
+  useEffect(() => {
+    if (
+      bidPrice < (item && item.price.current) ||
+      bidPrice > (wallet && wallet.me.wallet)
+    ) {
+      setHasError(true);
+    } else {
+      setHasError(false);
+    }
+  }, [bidPrice, item]);
 
-  const onClose = () => {
-    router.back();
-  };
+  const item = data?.getProductById;
 
   const onBidChangeHandler = (event) => {
     setBidPrice(+event.target.value);
@@ -122,45 +133,21 @@ function BidItem() {
     );
   };
 
-  useEffect(() => {
-    if (
-      bidPrice < (item && item.price.current) ||
-      bidPrice > (wallet && wallet.me.wallet)
-    ) {
-      setHasError(true);
-    } else {
-      setHasError(false);
-    }
-  }, [bidPrice, item]);
-
   const bidBtn = async () => {
-    const { data, errors } = await placeBid({
+    const { data } = await placeBid({
       variables: {
         placeBidProductId: item.id,
         placeBidBidPrice: bidPrice,
       },
     });
     if (data) {
-      // console.log("bid placed!", data);
-      router.push(`/items/${productId}`);
+      router.push(`/items/${item.id}`);
+      layoutCtx.setModalType(null);
     } else console.log("bid placed!", error);
   };
 
   if (isLoading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          height: "100vh",
-          width: "100vw",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "whitesmoke",
-        }}
-      >
-        Loading...
-      </div>
-    );
+    return <BLoading />;
   }
 
   return (
@@ -214,16 +201,16 @@ function BidItem() {
         <div className="auction__user-credits">
           <span className="auction__user-credits--text">Your balance</span>
           <span className="auction__user-credits--value">
-            {wallet && wallet.me.wallet} ฿
+            {wallet?.me?.wallet.toLocaleString()} ฿
           </span>
         </div>
         <label className="glabel u-margin-bottom-extra-small">
           Once a bid is placed, it cannot be withdrawn
         </label>
         {!hasError && (
-          <a onClick={bidBtn} className={"btn btn--w60"}>
+          <div role={"button"} onClick={bidBtn} className={"btn btn--w60"}>
             Place a bid
-          </a>
+          </div>
         )}
         {hasError && (
           <a className={"btn btn--w60 btn--disabled"}>Place a bid</a>

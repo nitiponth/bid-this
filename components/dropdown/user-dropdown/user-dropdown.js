@@ -10,13 +10,11 @@ function UserDropdown() {
   const layoutCtx = useContext(LayoutContext);
 
   const showLoginLayout = () => {
-    layoutCtx.setAuth(true);
-    layoutCtx.setType("login");
+    layoutCtx.setModalType("login");
   };
 
   const showRegisterLayout = () => {
-    layoutCtx.setAuth(true);
-    layoutCtx.setType("register");
+    layoutCtx.setModalType("register");
   };
 
   return (

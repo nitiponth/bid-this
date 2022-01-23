@@ -22,9 +22,10 @@ class WatchlistStore {
   };
 
   toggleProductWatched = (prodId) => {
-    if (!this.userId) {
+    if (this.userId === null) {
       return;
     }
+
     const idx = this.watchlist.indexOf(prodId);
 
     if (idx === -1) {

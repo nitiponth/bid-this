@@ -4,9 +4,9 @@ import { useContext, useEffect, useState } from "react";
 import { useFollowStore } from "../../../store/follow-store";
 import AuthContext from "../../../store/auth-context";
 import Backdrop from "../../layout/backdrop";
-import BLoading from "../../atoms/BLoading/BLoading";
 import Follower from "./components/Follower";
 import FollowHeader from "./components/FollowHeader";
+import BLoading from "../../molecules/BLoading/BLoading";
 
 const GET_FOLLOWER = gql`
   query ($userId: ID!) {

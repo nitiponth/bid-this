@@ -534,7 +534,7 @@ function SingleItem(props) {
         <div className="section__content">
           <div className="item__desc">
             <label className="glabel">Description</label>
-            <p className="item__desc-text">{props.item.desc}</p>
+            <div className="item__desc-text">{props.item.desc}</div>
             <label className="glabel">Condition</label>
             <div className="item__desc-delivery">
               <span className="item__desc-delivery--com">

@@ -1,4 +1,3 @@
-import AuthLayout from "../components/auth/auth";
 import { LayoutContextProvider } from "../store/layout-context";
 import { AuthContextProvider } from "../store/auth-context";
 import { ApolloProvider } from "@apollo/client";
@@ -12,6 +11,7 @@ import "../styles/main.css";
 import { useWatchlistStore } from "../store/watchlist-store";
 import { useEffect } from "react";
 import { useFollowStore } from "../store/follow-store";
+import ModalComp from "../components/layout/modalComponents";
 
 const QUERY_USER = {
   query: `
@@ -49,6 +49,8 @@ function MyApp({ Component, pageProps, user }) {
       return user.id;
     });
 
+    console.log(user.id);
+
     initialWatchlist(user.id, watchedArr);
     initialFollowing(user.id, followingArr);
   }, [user]);
@@ -58,7 +60,7 @@ function MyApp({ Component, pageProps, user }) {
       <AuthContextProvider userData={user}>
         <LayoutContextProvider>
           <Component {...pageProps} />
-          <AuthLayout />
+          <ModalComp />
         </LayoutContextProvider>
       </AuthContextProvider>
     </ApolloProvider>

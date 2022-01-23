@@ -4,7 +4,7 @@ import { useQuery, gql } from "@apollo/client";
 
 import Layout from "../../../components/layout/layout";
 import SingleItem from "../../../components/pages/single_item/single_item";
-import BLoading from "../../../components/atoms/BLoading/BLoading";
+import BLoading from "../../../components/molecules/BLoading/BLoading";
 
 const PRODUCT_QUERY = gql`
   query ($getProductByIdProductId: ID!) {

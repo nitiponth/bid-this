@@ -5,10 +5,12 @@ import Layout from "../components/layout/layout";
 import BVerify from "../components/organisms/BVerify/bVerify";
 import MainContent from "../components/pages/main-content/main-content";
 import AuthContext from "../store/auth-context";
+import LayoutContext from "../store/layout-context";
 
 export default function Home(props) {
   const [activeVerifyModal, setActiveVerifyModal] = useState(false);
   const authCtx = useContext(AuthContext);
+  const layoutCtx = useContext(LayoutContext);
 
   const { user } = authCtx;
 
@@ -17,7 +19,7 @@ export default function Home(props) {
     if (user?.status === "GUEST" && !isShown) {
       Cookies.set("verifyPopup", true);
       setTimeout(() => {
-        setActiveVerifyModal(true);
+        layoutCtx.setModalType("verify");
       }, 1000);
     }
   }, [user]);
@@ -33,10 +35,6 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <BVerify
-          active={activeVerifyModal}
-          onClose={() => setActiveVerifyModal(false)}
-        />
         <MainContent />
       </Layout>
     </Fragment>

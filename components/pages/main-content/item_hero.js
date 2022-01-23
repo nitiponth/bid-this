@@ -6,6 +6,7 @@ import { gql, useMutation } from "@apollo/client";
 import useTimer from "../../../hooks/useTimer";
 import { useWatchlistStore } from "../../../store/watchlist-store";
 import AuthContext from "../../../store/auth-context";
+import LayoutContext from "../../../store/layout-context";
 
 const ADD_TO_WATHCLIST = gql`
   mutation ($watchedArr: [ID]!) {
@@ -19,6 +20,7 @@ const ADD_TO_WATHCLIST = gql`
 
 function ItemHero(props) {
   const authCtx = useContext(AuthContext);
+  const layoutCtx = useContext(LayoutContext);
   const [addToWatchlists] = useMutation(ADD_TO_WATHCLIST);
 
   const { toggleProductWatched, watchlist } = useWatchlistStore();
@@ -101,7 +103,8 @@ function ItemHero(props) {
     }
 
     if (isStart) {
-      router.push(`/items/${props.item.productId}/bid`);
+      layoutCtx.setProductId(props.item.productId);
+      layoutCtx.setModalType("bid");
     } else {
       router.push(`/items/${props.item.productId}`);
     }

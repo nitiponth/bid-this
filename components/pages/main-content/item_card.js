@@ -6,6 +6,7 @@ import { observer } from "mobx-react-lite";
 import { gql, useMutation } from "@apollo/client";
 import AuthContext from "../../../store/auth-context";
 import { useRouter } from "next/router";
+import LayoutContext from "../../../store/layout-context";
 
 const ADD_TO_WATHCLIST = gql`
   mutation ($watchedArr: [ID]!) {
@@ -20,6 +21,7 @@ const ADD_TO_WATHCLIST = gql`
 function ItemCard(props) {
   const router = useRouter();
   const authCtx = useContext(AuthContext);
+  const layoutCtx = useContext(LayoutContext);
   const [addToWatchlists] = useMutation(ADD_TO_WATHCLIST);
 
   const { watchlist, toggleProductWatched } = useWatchlistStore();
@@ -83,7 +85,7 @@ function ItemCard(props) {
       },
     });
     if (data) {
-      // console.log(data);
+      console.log(data);
     } else {
       console.log(errors);
     }
@@ -94,13 +96,15 @@ function ItemCard(props) {
     watchlistsClass = "watchlists__icon watch__icon--red";
   }
   const onPlaceBid = () => {
-    if (!authCtx.isLogin) {
+    if (!authCtx.isLogin || authCtx.user.status === "GUEST") {
       router.push(`/items/${props.item.productId}`);
       return;
     }
 
     if (isStart) {
-      router.push(`/items/${props.item.productId}/bid`);
+      layoutCtx.setModalType("bid");
+      layoutCtx.setProductId(props.item.productId);
+      // router.push(`/items/${props.item.productId}/bid`);
     } else {
       router.push(`/items/${props.item.productId}`);
     }
