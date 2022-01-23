@@ -31,7 +31,7 @@ function UserData({ data }) {
     <div className="userDataContainer">
       <div className="left">
         <Image
-          alt="profile"
+          alt="profile image"
           className="left__profile"
           width={80}
           height={80}
