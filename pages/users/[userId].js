@@ -43,9 +43,9 @@ function UserInformationPage() {
     },
   });
 
-  useEffect(() => {
-    refetch();
-  }, []);
+  // useEffect(() => {
+  //   refetch();
+  // }, []);
 
   if (loading) {
     return (
@@ -55,7 +55,9 @@ function UserInformationPage() {
     );
   }
   if (error) {
-    return router.push("/");
+    console.log(error);
+    router.push("/404");
+    return null;
   }
 
   const rawData = data.getUserById;

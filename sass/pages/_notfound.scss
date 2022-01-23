@@ -1,0 +1,17 @@
+.notfound {
+  background-color: $COLOR-LIGHTGRAY;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 5rem;
+
+  &__btnGroup {
+    margin-top: 10rem;
+  }
+}

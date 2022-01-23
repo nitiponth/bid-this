@@ -5324,6 +5324,33 @@ body {
           box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
 }
 
+.notfound {
+  background-color: #eaeaea;
+  width: 100vw;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 5rem;
+}
+
+.notfound__btnGroup {
+  margin-top: 10rem;
+}
+
 .register {
   height: 100%;
   display: -webkit-box;

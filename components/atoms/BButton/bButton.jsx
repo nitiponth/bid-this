@@ -7,6 +7,7 @@ function BButton({ title, disabled, containerStyles, onClick }) {
 
   return (
     <div
+      role={"button"}
       className={styles}
       style={containerStyles}
       onClick={() => {
