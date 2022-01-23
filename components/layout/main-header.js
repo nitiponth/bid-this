@@ -83,7 +83,7 @@ function MainHeader() {
         </div>
       </Link>
       <form className="search">
-        <input
+        {/* <input
           className="search__input"
           type="text"
           placeholder="Search items"
@@ -94,7 +94,7 @@ function MainHeader() {
             alt="magnifying icon"
             className="search__icon"
           />
-        </button>
+        </button> */}
       </form>
       <nav className="user-nav">
         {/* <a href="#" className="user-nav__link">

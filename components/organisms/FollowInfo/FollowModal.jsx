@@ -75,13 +75,14 @@ function FollowModal({ active, onClose, userId, initialTopic }) {
   });
   const followingList = data?.getFollowData?.followings?.map((user) => {
     const isMe = user.id === authCtx?.user?.id;
+    const isLogin = authCtx.isLogin;
 
     return (
       <Follower
         desc={user.desc}
         followerId={user.id}
         img={user.profile}
-        isFollow={true}
+        isFollow={isLogin}
         isMe={isMe}
         key={user.id}
         onClose={onClose}

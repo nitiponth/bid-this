@@ -1,6 +1,6 @@
 import MainHeader from "./main-header";
 import Sidebar from "./sidebar";
-
+import { isMobile } from "react-device-detect";
 function Layout(props) {
   return (
     <div className="container">

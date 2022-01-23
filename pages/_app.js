@@ -12,6 +12,8 @@ import { useWatchlistStore } from "../store/watchlist-store";
 import { useEffect } from "react";
 import { useFollowStore } from "../store/follow-store";
 import ModalComp from "../components/layout/modalComponents";
+import mobileSafe from "../components/layout/mobileSafe";
+import MobileSafe from "../components/layout/mobileSafe";
 
 const QUERY_USER = {
   query: `
@@ -31,7 +33,7 @@ const QUERY_USER = {
         role
       }
     }
-  `,
+`,
 };
 
 function MyApp({ Component, pageProps, user }) {
@@ -49,8 +51,6 @@ function MyApp({ Component, pageProps, user }) {
       return user.id;
     });
 
-    console.log(user.id);
-
     initialWatchlist(user.id, watchedArr);
     initialFollowing(user.id, followingArr);
   }, [user]);
@@ -59,6 +59,7 @@ function MyApp({ Component, pageProps, user }) {
     <ApolloProvider client={client}>
       <AuthContextProvider userData={user}>
         <LayoutContextProvider>
+          <MobileSafe />
           <Component {...pageProps} />
           <ModalComp />
         </LayoutContextProvider>

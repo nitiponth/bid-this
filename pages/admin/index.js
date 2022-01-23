@@ -24,10 +24,10 @@ function Admin() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    if (!isLogin || user.role !== "ADMIN") {
+    if (!isLogin || user?.role !== "ADMIN") {
       router.push("/");
     }
-    if (user.role === "ADMIN") {
+    if (user?.role === "ADMIN") {
       setIsAdmin(true);
     } else {
       setIsAdmin(false);

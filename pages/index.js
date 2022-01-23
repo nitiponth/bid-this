@@ -2,13 +2,13 @@ import Cookies from "js-cookie";
 import Head from "next/head";
 import { Fragment, useContext, useEffect, useState } from "react";
 import Layout from "../components/layout/layout";
-import BVerify from "../components/organisms/BVerify/bVerify";
 import MainContent from "../components/pages/main-content/main-content";
 import AuthContext from "../store/auth-context";
 import LayoutContext from "../store/layout-context";
+import { isMobile } from "react-device-detect";
+import MobileAnnouncement from "../components/pages/mobile/MobileAnnouncement";
 
 export default function Home(props) {
-  const [activeVerifyModal, setActiveVerifyModal] = useState(false);
   const authCtx = useContext(AuthContext);
   const layoutCtx = useContext(LayoutContext);
 
