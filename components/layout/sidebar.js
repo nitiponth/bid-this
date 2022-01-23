@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useContext } from "react";
@@ -21,11 +22,14 @@ function Sidebar() {
           <li className={!cate && path === "/" ? linkActiveClass : linkClass}>
             <Link href="/">
               <a className="sidebar-nav__link">
-                <img
-                  src="/images/ios-icon/high-voltage.png"
-                  alt="in coming"
-                  className="sidebar-nav__icon"
-                />
+                <div className="sidebar-nav__icon">
+                  <Image
+                    src="/images/ios-icon/high-voltage.png"
+                    alt="in coming"
+                    width={27.5}
+                    height={27.5}
+                  />
+                </div>
                 <span>In Coming</span>
               </a>
             </Link>
@@ -94,11 +98,14 @@ function Sidebar() {
             <li className={path === "/credits" ? linkActiveClass : linkClass}>
               <Link href="/credits">
                 <a className="sidebar-nav__link">
-                  <img
-                    src="/images/ios-icon/gem-stone.png"
-                    alt="Credits"
-                    className="sidebar-nav__icon"
-                  />
+                  <div className="sidebar-nav__icon">
+                    <Image
+                      src="/images/ios-icon/gem-stone.png"
+                      alt="Credits"
+                      width={27.5}
+                      height={27.5}
+                    />
+                  </div>
                   <span>Credits</span>
                 </a>
               </Link>

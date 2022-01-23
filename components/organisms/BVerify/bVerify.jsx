@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { MdRefresh } from "react-icons/md";
 import { gql, useMutation } from "@apollo/client";
 import BConfirm from "../../atoms/BConfirm/BConfirm";
+import verifyImage from "../../../public/images/verify.png";
+import Image from "next/image";
 
 const GET_NEW_OTP = gql`
   mutation {
@@ -91,11 +93,12 @@ function BVerify({ active, onClose }) {
         confirmText={"OK"}
       />
       <div className="bVerify">
-        <img
-          src={
-            "https://designxplorer.co/wp-content/uploads/2021/01/Sample-11-1024x768.jpg"
-          }
+        <Image
+          src={verifyImage}
+          alt="verifyImage"
           className="bVerify__image"
+          width={350}
+          height={200}
         />
         <div className="bVerify__title">
           Look like we send to text you the{" "}

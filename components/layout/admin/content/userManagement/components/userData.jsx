@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
 import { FaSearch, FaUserAlt } from "react-icons/fa";
 import { useAdminStore } from "../../../../../../store/admin-Content-Store";
+import Image from "next/image";
 
 function UserData({ data }) {
   const { changeState, defineUserId } = useAdminStore();
@@ -29,8 +30,12 @@ function UserData({ data }) {
   return (
     <div className="userDataContainer">
       <div className="left">
-        <img
+        <Image
+          alt="profile"
           className="left__profile"
+          width={80}
+          height={80}
+          objectFit="cover"
           src={
             data.profile ||
             "https://bid-this-storage.s3.ap-southeast-1.amazonaws.com/profile/no-profile-2.png"

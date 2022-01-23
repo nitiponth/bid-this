@@ -146,9 +146,8 @@ function ItemCard(props) {
         </Link>
         <a
           href="#"
-          className="hover__pointer"
           onClick={() => router.push(`/users/${props.item.sellerId}`)}
-          className="item-card__detail-seller"
+          className="item-card__detail-seller hover__pointer"
         >
           <span className="at-sign">@</span>
           {props.item.seller}

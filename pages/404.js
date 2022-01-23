@@ -13,6 +13,7 @@ function Error() {
     <div className="notfound">
       <Image
         src={notfound}
+        alt="image not found"
         width={800}
         height={450}
         objectFit={"cover"}

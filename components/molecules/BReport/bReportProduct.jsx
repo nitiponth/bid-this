@@ -14,7 +14,7 @@ const REPORT_PRODUCT = gql`
   }
 `;
 
-function bReportProduct({ active, onClose, productId, productTitle, seller }) {
+function BReportProduct({ active, onClose, productId, productTitle, seller }) {
   const [reportData, setReportData] = useState("");
 
   const [reportProduct] = useMutation(REPORT_PRODUCT);
@@ -109,4 +109,4 @@ function bReportProduct({ active, onClose, productId, productTitle, seller }) {
   );
 }
 
-export default bReportProduct;
+export default BReportProduct;

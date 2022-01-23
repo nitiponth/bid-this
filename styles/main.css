@@ -3101,6 +3101,7 @@ body {
   border: 5px solid white;
   -o-object-fit: cover;
      object-fit: cover;
+  overflow: hidden;
 }
 
 .adminContainer .adminContent .admin__content .detailContainer .user__body {

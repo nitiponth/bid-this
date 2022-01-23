@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Fragment } from "react/cjs/react.production.min";
@@ -28,7 +29,14 @@ function Follower({
       }}
       className="follower"
     >
-      <img src={img} className="follower__img" />
+      <Image
+        src={img}
+        width={48}
+        height={48}
+        objectFit="cover"
+        alt="profile"
+        className="follower__img"
+      />
       <div className="follower__body">
         <div className="follower__username">@{username}</div>
         {desc && <div className="follower__desc">{desc}</div>}

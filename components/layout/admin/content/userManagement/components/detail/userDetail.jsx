@@ -6,6 +6,7 @@ import BForm from "../../../../../../atoms/BForm/bForm";
 import BImage from "../BImage/bImage";
 import BInput from "../../../../../../atoms/BInput/bInput";
 import { gql, useMutation } from "@apollo/client";
+import Image from "next/image";
 
 const authenticationOptions = ["GUEST", "AUTHEN", "FULLAUTHEN", "BANNED"];
 
@@ -102,13 +103,18 @@ function UserDetail(props) {
   return (
     <div className="detailContainer">
       <div className="user__header">
-        <img
-          className="user__header__profile"
-          src={
-            data?.profile ||
-            "https://bid-this-storage.s3.ap-southeast-1.amazonaws.com/profile/no-profile-2.png"
-          }
-        />
+        <div className="user__header__profile">
+          <Image
+            width={170}
+            height={170}
+            alt="profile"
+            objectFit="cover"
+            src={
+              data?.profile ||
+              "https://bid-this-storage.s3.ap-southeast-1.amazonaws.com/profile/no-profile-2.png"
+            }
+          />
+        </div>
       </div>
       <div className="user__body">
         <BForm formStyles={{ padding: "20px" }}>

@@ -108,7 +108,7 @@ function Login() {
           </Formik>
         </div>
         <div className="login__footer">
-          Don't have an account?
+          Don&apos;t have an account?
           <a
             href="#"
             className="login__link login__link--sign footer login__footer--link"

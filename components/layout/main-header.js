@@ -76,7 +76,7 @@ function MainHeader() {
 
   return (
     <Fragment>
-      <Link href="/">
+      <Link href="/" passHref>
         <div className="header__logo-box">
           <div className="header__logo-img">
             <Image

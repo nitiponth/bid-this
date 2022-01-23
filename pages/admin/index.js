@@ -32,7 +32,7 @@ function Admin() {
     } else {
       setIsAdmin(false);
     }
-  }, [isLogin, user]);
+  }, [isLogin, user, router]);
 
   return (
     <div className="adminPage">

@@ -261,13 +261,19 @@ function UserInfo(props) {
       <div className="auction-info">
         <nav className="auction-info__nav">
           {!lists || lists === "Auctioning" ? (
-            <Link href={`/users/${props.userData.userId}?lists=Auctioning`}>
+            <Link
+              href={`/users/${props.userData.userId}?lists=Auctioning`}
+              passHref
+            >
               <li className="auction-info__nav-list auction-info__nav-list--actived">
                 Auctioning <span className="reddot">{productsData.length}</span>
               </li>
             </Link>
           ) : (
-            <Link href={`/users/${props.userData.userId}?lists=Auctioning`}>
+            <Link
+              href={`/users/${props.userData.userId}?lists=Auctioning`}
+              passHref
+            >
               <li className="auction-info__nav-list">
                 Auctioning{" "}
                 <span className="reddot reddot--dark">
@@ -277,13 +283,19 @@ function UserInfo(props) {
             </Link>
           )}
           {lists === "Auctioned" ? (
-            <Link href={`/users/${props.userData.userId}?lists=Auctioned`}>
+            <Link
+              href={`/users/${props.userData.userId}?lists=Auctioned`}
+              passHref
+            >
               <li className="auction-info__nav-list auction-info__nav-list--actived">
                 Auctioned <span className="reddot">{productsData.length}</span>
               </li>
             </Link>
           ) : (
-            <Link href={`/users/${props.userData.userId}?lists=Auctioned`}>
+            <Link
+              href={`/users/${props.userData.userId}?lists=Auctioned`}
+              passHref
+            >
               <li className="auction-info__nav-list ">
                 Auctioned{" "}
                 <span className="reddot reddot--dark">
@@ -293,13 +305,19 @@ function UserInfo(props) {
             </Link>
           )}
           {lists === "Bidded" ? (
-            <Link href={`/users/${props.userData.userId}?lists=Bidded`}>
+            <Link
+              href={`/users/${props.userData.userId}?lists=Bidded`}
+              passHref
+            >
               <li className="auction-info__nav-list auction-info__nav-list--actived">
                 Bidded <span className="reddot">{productsData.length}</span>
               </li>
             </Link>
           ) : (
-            <Link href={`/users/${props.userData.userId}?lists=Bidded`}>
+            <Link
+              href={`/users/${props.userData.userId}?lists=Bidded`}
+              passHref
+            >
               <li className="auction-info__nav-list ">
                 Bidded
                 <span className="reddot reddot--dark">
@@ -312,7 +330,7 @@ function UserInfo(props) {
         {isOwner &&
           authCtx.user.status === "FULLAUTHEN" &&
           (lists === "Auctioning" || !lists) && (
-            <Link href="/users/add-item">
+            <Link href="/users/add-item" passHref>
               <div className="auction-info__add-items">
                 Click to add your items to the auction
               </div>

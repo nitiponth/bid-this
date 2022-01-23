@@ -20,7 +20,7 @@ export default function Home(props) {
         layoutCtx.setModalType("verify");
       }, 1000);
     }
-  }, [user]);
+  }, [user, layoutCtx]);
 
   return (
     <Fragment>

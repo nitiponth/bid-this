@@ -29,7 +29,7 @@ function PopupItem(props) {
 
   let component = (
     <Fragment>
-      <Image src={props.icon} width={23} height={23} alt="icon" className="" />
+      <img src={props.icon} alt="icon" />
       {props.notification && (
         <span className="user-nav__notification">{props.notification}</span>
       )}

@@ -298,7 +298,7 @@ function Register() {
                 className="register__term-checkbox"
               />
               <label htmlFor="accept" className="register__term-text">
-                I agree to BidThis's
+                I agree to BidThis&apos;s
                 <a href="#" className="register__link register__link--sign">
                   Terms of Use
                 </a>
