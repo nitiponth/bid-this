@@ -36,4 +36,5 @@ yarn-error.log*
 
 # Sentry
 .sentryclirc
-.properties
+sentry.properties
+
