@@ -19,7 +19,7 @@ const wsLink = process.browser
 
 const httpLink = new HttpLink({
   uri: process.env.API_URL,
-  credentials: "same-origin",
+  // credentials: "same-origin",
 });
 
 const splitLink = process.browser
