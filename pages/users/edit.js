@@ -1,6 +1,8 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import NoSideLayout from "../../components/layout/no-sidebar-layout/no-sidebar-layout";
+import BLoading from "../../components/molecules/BLoading/BLoading";
 import EditProfile from "../../components/pages/profile/edit-profile";
 
 import AuthContext from "../../store/auth-context";
@@ -19,13 +21,34 @@ function EditPages() {
   });
 
   if (isLoad) {
-    return <div></div>; //show nothing or a loader
+    return (
+      <Fragment>
+        <Head>
+          <title>Loading your profile...</title>
+          <meta name="description" content="Wait a sec, it's almost done!" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <NoSideLayout height={"minheight"}>
+          <BLoading />
+        </NoSideLayout>
+      </Fragment>
+    );
   }
 
   return (
-    <NoSideLayout height={"minheight"}>
-      <EditProfile />
-    </NoSideLayout>
+    <Fragment>
+      <Head>
+        <title>Edit Personal Information</title>
+        <meta
+          name="description"
+          content="Improve your profile for reliable web application usage."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <NoSideLayout height={"minheight"}>
+        <EditProfile />
+      </NoSideLayout>
+    </Fragment>
   );
 }
 

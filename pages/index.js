@@ -5,8 +5,6 @@ import Layout from "../components/layout/layout";
 import MainContent from "../components/pages/main-content/main-content";
 import AuthContext from "../store/auth-context";
 import LayoutContext from "../store/layout-context";
-import { isMobile } from "react-device-detect";
-import MobileAnnouncement from "../components/pages/mobile/MobileAnnouncement";
 
 export default function Home(props) {
   const authCtx = useContext(AuthContext);

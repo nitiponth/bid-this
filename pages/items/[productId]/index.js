@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery, gql } from "@apollo/client";
 
 import Layout from "../../../components/layout/layout";
 import SingleItem from "../../../components/pages/single_item/single_item";
 import BLoading from "../../../components/molecules/BLoading/BLoading";
+import Head from "next/head";
 
 const PRODUCT_QUERY = gql`
   query ($getProductByIdProductId: ID!) {
@@ -148,9 +149,16 @@ function ProductPage() {
 
   if (loading) {
     return (
-      <Layout>
-        <BLoading />
-      </Layout>
+      <Fragment>
+        <Head>
+          <title>Loading product info...</title>
+          <meta name="description" content="Wait a sec, it's almost done!" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Layout>
+          <BLoading />
+        </Layout>
+      </Fragment>
     );
   }
   if (error) {
@@ -199,13 +207,20 @@ function ProductPage() {
   };
 
   return (
-    <Layout>
-      {isLoading ? (
-        <BLoading />
-      ) : (
-        <SingleItem item={itemData} bidInfo={bidders} refund={refundData} />
-      )}
-    </Layout>
+    <Fragment>
+      <Head>
+        <title>{itemData.title}</title>
+        <meta name="description" content={itemData.desc} />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Layout>
+        {isLoading ? (
+          <BLoading />
+        ) : (
+          <SingleItem item={itemData} bidInfo={bidders} refund={refundData} />
+        )}
+      </Layout>
+    </Fragment>
   );
 }
 

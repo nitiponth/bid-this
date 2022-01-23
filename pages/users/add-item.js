@@ -1,5 +1,6 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import NoSideLayout from "../../components/layout/no-sidebar-layout/no-sidebar-layout";
 import BLoading from "../../components/molecules/BLoading/BLoading";
 import AddProduct from "../../components/pages/profile/add-product";
@@ -24,9 +25,19 @@ function AddItem() {
   }
 
   return (
-    <NoSideLayout height={"minheight"}>
-      <AddProduct />
-    </NoSideLayout>
+    <Fragment>
+      <Head>
+        <title>Add products to be auctioned</title>
+        <meta
+          name="description"
+          content="There is no cost to place an item for auction through our application."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <NoSideLayout height={"minheight"}>
+        <AddProduct />
+      </NoSideLayout>
+    </Fragment>
   );
 }
 

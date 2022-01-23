@@ -3,8 +3,9 @@ import { useQuery, gql } from "@apollo/client";
 
 import NoSideLayout from "../../components/layout/no-sidebar-layout/no-sidebar-layout";
 import UserInfo from "../../components/pages/profile/user-info";
-import { useEffect } from "react";
 import BLoading from "../../components/molecules/BLoading/BLoading";
+import { Fragment } from "react";
+import Head from "next/head";
 
 const USER_QUERY = gql`
   query ($getUserByIdUserId: ID!) {
@@ -49,9 +50,19 @@ function UserInformationPage() {
 
   if (loading) {
     return (
-      <NoSideLayout>
-        <BLoading />
-      </NoSideLayout>
+      <Fragment>
+        <Head>
+          <title>Loading...</title>
+          <meta
+            name="description"
+            content="Buy the product at the price you choose."
+          />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <NoSideLayout>
+          <BLoading />
+        </NoSideLayout>
+      </Fragment>
     );
   }
   if (error) {
@@ -79,9 +90,19 @@ function UserInformationPage() {
   const auction = rawData.auctionCount;
 
   return (
-    <NoSideLayout>
-      <UserInfo userData={user} auctionData={auction} refetch={refetch} />
-    </NoSideLayout>
+    <Fragment>
+      <Head>
+        <title>{rawData.username || "BidThis"}</title>
+        <meta
+          name="description"
+          content="Buy the product at the price you choose."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <NoSideLayout>
+        <UserInfo userData={user} auctionData={auction} refetch={refetch} />
+      </NoSideLayout>
+    </Fragment>
   );
 }
 
