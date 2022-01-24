@@ -12,7 +12,6 @@ import { useWatchlistStore } from "../store/watchlist-store";
 import { useEffect } from "react";
 import { useFollowStore } from "../store/follow-store";
 import ModalComp from "../components/layout/modalComponents";
-import mobileSafe from "../components/layout/mobileSafe";
 import MobileSafe from "../components/layout/mobileSafe";
 
 const QUERY_USER = {
