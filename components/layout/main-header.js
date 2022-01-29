@@ -12,6 +12,8 @@ import AuctionDropdown from "../dropdown/auction-dropdown/auction-dropdown";
 import Image from "next/image";
 
 import logo from "../../public/images/logo-land.png";
+import { observer } from "mobx-react-lite";
+import { useAccountStore } from "../../store/accountStore";
 
 const ME_QUERY = gql`
   query {
@@ -33,6 +35,7 @@ const WALLET_SUBSCRIPTION = gql`
 
 function MainHeader() {
   const authCtx = useContext(AuthContext);
+  const { wallet, initializeWallet } = useAccountStore();
   const [userData, setUserData] = useState(authCtx.user);
   const { data, loading, error, refetch, subscribeToMore } = useQuery(
     ME_QUERY,
@@ -45,6 +48,7 @@ function MainHeader() {
   useEffect(() => {
     if (loading === false && data) {
       if (data.me !== null) {
+        initializeWallet(data.me.wallet);
         setUserData(data.me);
       }
     }
@@ -66,7 +70,8 @@ function MainHeader() {
 
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
-          refetch();
+
+          initializeWallet(subscriptionData.data.walletChanged);
         },
       });
     }
@@ -126,7 +131,7 @@ function MainHeader() {
             <NavItem
               isLogin={true}
               user={userData.username}
-              credits={userData.wallet.toLocaleString()}
+              credits={wallet.toLocaleString()}
               profile={
                 userData.profile
                   ? userData.profile
@@ -148,4 +153,4 @@ function MainHeader() {
   );
 }
 
-export default MainHeader;
+export default observer(MainHeader);

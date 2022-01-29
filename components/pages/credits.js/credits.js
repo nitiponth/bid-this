@@ -1,6 +1,10 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { set } from "js-cookie";
-import { useContext, useEffect, useState } from "react";
+import { observer } from "mobx-react-lite";
+import { useRouter } from "next/router";
+import { Suspense, useContext, useEffect, useState } from "react";
+import { useAccountStore } from "../../../store/accountStore";
+import AuthContext from "../../../store/auth-context";
+import BLoading from "../../molecules/BLoading/BLoading";
 import Topup from "./topup";
 import Transactions from "./transactions";
 import Withdraw from "./withdraw";
@@ -57,12 +61,28 @@ const UPDATE_GET_TRANS = gql`
 `;
 
 function Credits() {
+  const [isLoading, setIsLoading] = useState(true);
   const [showTopup, setShowTopup] = useState(false);
   const [showTrans, setShowTrans] = useState(false);
   const [transactions, setTransactions] = useState([]);
 
   const [showWithdraw, setShowWithdraw] = useState(false);
-  const { data, error, loading, refetch } = useQuery(CARDS_QUERY, {
+
+  const router = useRouter();
+  const authCtx = useContext(AuthContext);
+  const { wallet } = useAccountStore();
+
+  useEffect(() => {
+    if (!authCtx?.isLogin) {
+      router.push("/");
+    }
+
+    if (authCtx.isLogin) {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const { data, refetch } = useQuery(CARDS_QUERY, {
     ssr: false,
     fetchPolicy: "network-only",
   });
@@ -70,12 +90,16 @@ function Credits() {
   const [updateRepActive] = useMutation(UPDATE_REP);
   const [updateAndGetTransactions] = useMutation(UPDATE_GET_TRANS);
 
+  if (isLoading) {
+    return <BLoading />;
+  }
+
   return (
     <div className="credits-container">
       <div className="credits">
         <h2 className="credits__title">Credits balance</h2>
         <h1 className="credits__balance">
-          {data && data.me && data.me.wallet.toLocaleString("en")}
+          {wallet.toLocaleString("en")}
           <span className="credits__currency">฿ - baht</span>
         </h1>
         <div className="credits__btn-group">
@@ -135,4 +159,4 @@ function Credits() {
   );
 }
 
-export default Credits;
+export default observer(Credits);

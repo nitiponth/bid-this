@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { useFollowStore } from "../store/follow-store";
 import ModalComp from "../components/layout/modalComponents";
 import MobileSafe from "../components/layout/mobileSafe";
+import { useAccountStore } from "../store/accountStore";
 
 const QUERY_USER = {
   query: `
@@ -38,11 +39,13 @@ const QUERY_USER = {
 function MyApp({ Component, pageProps, user }) {
   const { initialWatchlist } = useWatchlistStore();
   const { initialFollowing } = useFollowStore();
+  const { initializeWallet } = useAccountStore();
 
   useEffect(() => {
     if (!user) {
       return;
     }
+    initializeWallet(user.wallet);
     const watchedArr = user.watchlists.map((watch) => {
       return watch.id;
     });

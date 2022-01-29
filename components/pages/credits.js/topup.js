@@ -171,7 +171,7 @@ function Topup(props) {
         canClose={true}
         title={waitingText}
         cardImage={waitingImg}
-        onCloseHandler={() => {
+        onClose={() => {
           setActiveWaitingModal(false);
           setWaitingText("Process is ongoing...");
           setWaitingImg(waitingImage);
