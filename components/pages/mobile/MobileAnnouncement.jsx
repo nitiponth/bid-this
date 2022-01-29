@@ -7,10 +7,12 @@ function MobileAnnouncement({ show }) {
   }
 
   return (
-    <ScrollLock>
+    <ScrollLock isActive={true}>
       <div
         className="mobileSafe"
-        style={{ backgroundColor: "rbga(0,0,0,0.9)" }}
+        style={{
+          backgroundColor: "rbga(0,0,0,0.9)",
+        }}
       >
         <div className="mobileSafe__box">
           <Image

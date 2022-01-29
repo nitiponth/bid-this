@@ -4,6 +4,7 @@
   left: 0;
   width: 60rem;
   min-height: 80rem;
+  max-height: 80rem;
   background: rgba($color: #fff, $alpha: 0.93);
   border-radius: 30px;
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.3);
@@ -11,4 +12,9 @@
   padding: 6rem;
 
   z-index: 1000;
+
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

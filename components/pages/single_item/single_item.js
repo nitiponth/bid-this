@@ -572,8 +572,12 @@ function SingleItem(props) {
               </span>
             </div>
 
-            <label className="glabel">Warranty Policy</label>
-            <ul className="item__desc-services">{policy}</ul>
+            {policy.length > 0 && (
+              <Fragment>
+                <label className="glabel">Warranty Policy</label>
+                <ul className="item__desc-services">{policy}</ul>
+              </Fragment>
+            )}
             {reviewSection}
             {trackSection}
           </div>

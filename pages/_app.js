@@ -14,6 +14,7 @@ import { useFollowStore } from "../store/follow-store";
 import ModalComp from "../components/layout/modalComponents";
 import MobileSafe from "../components/layout/mobileSafe";
 import { useAccountStore } from "../store/accountStore";
+import Head from "next/head";
 
 const QUERY_USER = {
   query: `
@@ -58,15 +59,25 @@ function MyApp({ Component, pageProps, user }) {
   }, [user]);
 
   return (
-    <ApolloProvider client={client}>
-      <AuthContextProvider userData={user}>
-        <LayoutContextProvider>
-          <MobileSafe />
-          <Component {...pageProps} />
-          <ModalComp />
-        </LayoutContextProvider>
-      </AuthContextProvider>
-    </ApolloProvider>
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+          // viewport-fit="cover"
+        />
+      </Head>
+
+      <ApolloProvider client={client}>
+        <AuthContextProvider userData={user}>
+          <LayoutContextProvider>
+            <MobileSafe />
+            <Component {...pageProps} />
+            <ModalComp />
+          </LayoutContextProvider>
+        </AuthContextProvider>
+      </ApolloProvider>
+    </>
   );
 }
 
