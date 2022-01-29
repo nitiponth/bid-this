@@ -368,6 +368,12 @@ function SingleItem(props) {
               type="button"
               className="item__desc-track-support"
               style={{ marginBottom: "10px" }}
+              onClick={() => {
+                if (process.env.DISCORD_INVITE) {
+                  console.log("discord");
+                  window.open(process.env.DISCORD_INVITE);
+                }
+              }}
             >
               <BiSupport />
             </button>

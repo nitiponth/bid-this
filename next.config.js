@@ -13,5 +13,6 @@ module.exports = {
     API_URL: process.env.API_URL,
     SUB_URL: process.env.SUB_URL,
     SENTRY_DSN: process.env.SENTRY_DSN,
+    DISCORD_INVITE: process.env.DISCORD_INVITE,
   },
 };
