@@ -18,6 +18,7 @@
 
   &--disabled {
     background-color: $COLOR-GRAY;
+    color: $COLOR-LIGHTGRAY !important;
     cursor: not-allowed;
     &:hover {
       transform: translateY(0px) !important;

@@ -906,6 +906,7 @@ body {
 
 .btn--disabled {
   background-color: #cbcbcb;
+  color: #eaeaea !important;
   cursor: not-allowed;
 }
 
