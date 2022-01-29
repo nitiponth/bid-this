@@ -94,7 +94,7 @@ function AdminReportProduct(props) {
               <BModalCard
                 active={activeModalCard}
                 canClose={true}
-                onCloseHandler={() => {
+                onClose={() => {
                   setActiveModalCard(false);
                 }}
                 title={"Done"}

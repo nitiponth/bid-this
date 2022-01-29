@@ -57,7 +57,7 @@ function RUserActionBox({ reportId, status, userId }) {
     <Fragment>
       <BModalCard
         active={activeModalCard}
-        onCloseHandler={closeModalCardHandler}
+        onClose={closeModalCardHandler}
         title={"Done"}
         subtitle={"Update report status successfully."}
         cardImage={SalyImage}
