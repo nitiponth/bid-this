@@ -644,7 +644,7 @@ function SingleItem(props) {
                 <button
                   role={"button"}
                   onClick={bidModalHandler}
-                  disabled={true}
+                  disabled={!canBid}
                   className={`btn btn--single-item ${
                     !canBid && "btn--disabled"
                   }`}
