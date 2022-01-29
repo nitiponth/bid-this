@@ -3961,6 +3961,7 @@ body {
 
 .bid-item {
   width: 80rem;
+  max-height: 85vh;
   background: rgba(255, 255, 255, 0.93);
   border-radius: 30px;
   -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.3);
@@ -3975,6 +3976,11 @@ body {
       -ms-flex-direction: column;
           flex-direction: column;
   position: relative;
+  overflow-y: scroll;
+}
+
+.bid-item::-webkit-scrollbar {
+  display: none;
 }
 
 .bid-item__title {
