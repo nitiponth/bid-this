@@ -43,10 +43,12 @@
     "react-scrolllock": "^5.0.1",
     "react-spinners": "^0.11.0",
     "sass": "^1.37.0",
+    "styled-components": "^5.3.3",
     "subscriptions-transport-ws": "^0.9.19",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "babel-plugin-styled-components": "^2.0.2",
     "eslint": "7.32.0",
     "eslint-config-next": "11.0.1",
     "nodemon": "^2.0.12"

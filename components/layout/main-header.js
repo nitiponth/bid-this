@@ -15,6 +15,7 @@ import logo from "../../public/images/logo-land.png";
 import { observer } from "mobx-react-lite";
 import { useAccountStore } from "../../store/accountStore";
 import { useNotificationStore } from "../../store/notificationStore";
+import NotificationDropdown from "../dropdown/notificationDropdown/NotificationDropdown";
 
 const ME_QUERY = gql`
   query {
@@ -157,12 +158,8 @@ function MainHeader() {
               </NavItem>
             </div>
             <div className="user-nav__icon-box">
-              <NavItem
-                icon="/images/SVG/bookmark.svg"
-                notification={0}
-                type="Notifications"
-              >
-                <AuctionDropdown />
+              <NavItem type="Notifications">
+                <NotificationDropdown />
               </NavItem>
             </div>
           </Fragment>
