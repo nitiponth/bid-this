@@ -14,6 +14,7 @@ import Image from "next/image";
 import logo from "../../public/images/logo-land.png";
 import { observer } from "mobx-react-lite";
 import { useAccountStore } from "../../store/accountStore";
+import { useNotificationStore } from "../../store/notificationStore";
 
 const ME_QUERY = gql`
   query {
@@ -33,9 +34,25 @@ const WALLET_SUBSCRIPTION = gql`
   }
 `;
 
+const NOTIFITION_QUERY = gql`
+  query {
+    getNotifications {
+      id
+      message
+      product {
+        id
+        images
+      }
+      createdAt
+    }
+  }
+`;
+
 function MainHeader() {
   const authCtx = useContext(AuthContext);
   const { wallet, initializeWallet } = useAccountStore();
+  const { initializeNotifications } = useNotificationStore();
+
   const [userData, setUserData] = useState(authCtx.user);
   const { data, loading, error, refetch, subscribeToMore } = useQuery(
     ME_QUERY,
@@ -44,6 +61,8 @@ function MainHeader() {
       ssr: false,
     }
   );
+
+  const { data: notiData, refetch: notiRefetch } = useQuery(NOTIFITION_QUERY);
 
   useEffect(() => {
     if (loading === false && data) {
@@ -58,7 +77,18 @@ function MainHeader() {
   }, [loading, data, authCtx.isLogin]);
 
   useEffect(() => {
+    if (!authCtx.isLogin) {
+      return;
+    }
+
+    if (notiData) {
+      initializeNotifications(notiData.getNotifications);
+    }
+  }, [notiData]);
+
+  useEffect(() => {
     refetch();
+    notiRefetch();
   }, [authCtx.isLogin]);
 
   useEffect(() => {
@@ -116,15 +146,26 @@ function MainHeader() {
           Shipping
         </a> */}
         {authCtx.isLogin && (
-          <div className="user-nav__icon-box">
-            <NavItem
-              icon="/images/SVG/bookmark.svg"
-              notification={0}
-              type="bookmark"
-            >
-              <AuctionDropdown />
-            </NavItem>
-          </div>
+          <Fragment>
+            <div className="user-nav__icon-box">
+              <NavItem
+                icon="/images/SVG/bookmark.svg"
+                notification={0}
+                type="bookmark"
+              >
+                <AuctionDropdown />
+              </NavItem>
+            </div>
+            <div className="user-nav__icon-box">
+              <NavItem
+                icon="/images/SVG/bookmark.svg"
+                notification={0}
+                type="Notifications"
+              >
+                <AuctionDropdown />
+              </NavItem>
+            </div>
+          </Fragment>
         )}
         {userData ? (
           <div className="user-nav__user-box">
