@@ -1,5 +1,8 @@
+import { gql, useMutation } from "@apollo/client";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import styled from "styled-components";
+import { useNotificationStore } from "../../../store/notificationStore";
 import { COLOR } from "../../../utils/COLOR";
 import { difTime } from "../../../utils/funtion";
 
@@ -61,9 +64,47 @@ const UnseenDot = styled.div`
   margin-right: 10px;
 `;
 
-function NotificationItem({ message, image, createdAt, seen }) {
+const SEEN_NOTI = gql`
+  mutation ($notiId: ID!) {
+    seenNotification(notiId: $notiId)
+  }
+`;
+
+function NotificationItem({
+  notiId,
+  productId,
+  message,
+  image,
+  createdAt,
+  seen,
+}) {
+  const router = useRouter();
+  const { refetchNotifications } = useNotificationStore();
+  const [seenNotification] = useMutation(SEEN_NOTI);
+
+  const natigateToProductPage = async () => {
+    router.push(`/items/${productId}`);
+    if (!notiId || seen) {
+      return;
+    }
+
+    try {
+      const { data } = await seenNotification({
+        variables: {
+          notiId,
+        },
+      });
+
+      if (data) {
+        refetchNotifications();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <Container>
+    <Container onClick={natigateToProductPage}>
       <ImageBox>
         <Image width={60} height={60} objectFit={"cover"} src={image} />
       </ImageBox>

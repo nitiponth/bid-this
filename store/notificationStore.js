@@ -1,9 +1,10 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, toJS } from "mobx";
 import React from "react";
 
 class NotificationStore {
   notificaitonAmount = 0;
   notifications = [];
+  refetchNotifications = () => {};
 
   constructor() {
     makeAutoObservable(this, {});
@@ -11,7 +12,12 @@ class NotificationStore {
 
   initializeNotifications = (notifications) => {
     this.notifications = notifications;
-    this.notificaitonAmount = notifications.length;
+    const unseen = notifications.filter((noti) => !noti.seen);
+    this.notificaitonAmount = unseen.length;
+  };
+
+  setRefetchNotifications = (refetch) => {
+    this.refetchNotifications = refetch;
   };
 }
 

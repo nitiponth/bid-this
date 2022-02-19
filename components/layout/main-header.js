@@ -35,6 +35,14 @@ const WALLET_SUBSCRIPTION = gql`
   }
 `;
 
+const NOTIFLY_SUB = gql`
+  subscription Subscription($userId: ID!) {
+    userNotification(userId: $userId) {
+      id
+    }
+  }
+`;
+
 const NOTIFITION_QUERY = gql`
   query {
     getNotifications {
@@ -53,7 +61,8 @@ const NOTIFITION_QUERY = gql`
 function MainHeader() {
   const authCtx = useContext(AuthContext);
   const { wallet, initializeWallet } = useAccountStore();
-  const { initializeNotifications } = useNotificationStore();
+  const { initializeNotifications, setRefetchNotifications } =
+    useNotificationStore();
 
   const [userData, setUserData] = useState(authCtx.user);
   const { data, loading, error, refetch, subscribeToMore } = useQuery(
@@ -64,7 +73,11 @@ function MainHeader() {
     }
   );
 
-  const { data: notiData, refetch: notiRefetch } = useQuery(NOTIFITION_QUERY);
+  const {
+    data: notiData,
+    subscribeToMore: subToMore,
+    refetch: notiRefetch,
+  } = useQuery(NOTIFITION_QUERY);
 
   useEffect(() => {
     if (loading === false && data) {
@@ -85,8 +98,27 @@ function MainHeader() {
 
     if (notiData) {
       initializeNotifications(notiData.getNotifications);
+      setRefetchNotifications(notiRefetch);
     }
   }, [notiData]);
+
+  useEffect(() => {
+    let unsubscribeNoti;
+    if (authCtx?.user?.id) {
+      const userId = authCtx.user.id;
+      unsubscribeNoti = subToMore({
+        document: NOTIFLY_SUB,
+        variables: {
+          userId,
+        },
+
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          notiRefetch();
+        },
+      });
+    }
+  }, [authCtx, subToMore]);
 
   useEffect(() => {
     refetch();

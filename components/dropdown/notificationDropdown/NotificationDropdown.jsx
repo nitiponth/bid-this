@@ -31,6 +31,8 @@ function NotificationDropdown() {
     return (
       <NotificationItem
         key={id}
+        notiId={id}
+        productId={product.id}
         message={message}
         image={product.images[0]}
         createdAt={createdAt}
