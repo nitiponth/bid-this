@@ -38,22 +38,31 @@ const WALLET_SUBSCRIPTION = gql`
 const NOTIFLY_SUB = gql`
   subscription Subscription($userId: ID!) {
     userNotification(userId: $userId) {
-      id
+      _id
     }
   }
 `;
 
 const NOTIFITION_QUERY = gql`
-  query {
-    getNotifications {
-      id
-      message
-      product {
-        id
-        images
+  query Query($offset: Int) {
+    getNotifications(offset: $offset) {
+      metadata {
+        count
+        current
+        limit
+        offset
       }
-      createdAt
-      seen
+      data {
+        _id
+        message
+        product {
+          id
+          images
+        }
+        createdAt
+        seen
+      }
+      unseen
     }
   }
 `;
@@ -61,7 +70,7 @@ const NOTIFITION_QUERY = gql`
 function MainHeader() {
   const authCtx = useContext(AuthContext);
   const { wallet, initializeWallet } = useAccountStore();
-  const { initializeNotifications, setRefetchNotifications } =
+  const { initializeNotifications, setRefetchNotifications, setFetchMore } =
     useNotificationStore();
 
   const [userData, setUserData] = useState(authCtx.user);
@@ -77,7 +86,11 @@ function MainHeader() {
     data: notiData,
     subscribeToMore: subToMore,
     refetch: notiRefetch,
-  } = useQuery(NOTIFITION_QUERY);
+  } = useQuery(NOTIFITION_QUERY, {
+    variables: {
+      offset: 0,
+    },
+  });
 
   useEffect(() => {
     if (loading === false && data) {
@@ -97,7 +110,11 @@ function MainHeader() {
     }
 
     if (notiData) {
-      initializeNotifications(notiData.getNotifications);
+      initializeNotifications(
+        notiData.getNotifications.data,
+        notiData.getNotifications.metadata,
+        notiData.getNotifications.unseen
+      );
       setRefetchNotifications(notiRefetch);
     }
   }, [notiData]);

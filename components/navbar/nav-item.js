@@ -24,7 +24,7 @@ let useClickOutside = (handler) => {
 };
 
 function NavItem(props) {
-  const { notificaitonAmount } = useNotificationStore();
+  const { unseen } = useNotificationStore();
   const [open, setOpen] = useState(false);
 
   let domNode = useClickOutside(() => {
@@ -51,8 +51,8 @@ function NavItem(props) {
           color={COLOR.DARKGRAY}
           className="user-nav__icon"
         />
-        {notificaitonAmount > 0 ? (
-          <span className="user-nav__notification">{notificaitonAmount}</span>
+        {unseen > 0 ? (
+          <span className="user-nav__notification">{unseen}</span>
         ) : null}
       </Fragment>
     );
