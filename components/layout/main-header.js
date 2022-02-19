@@ -45,6 +45,7 @@ const NOTIFITION_QUERY = gql`
         images
       }
       createdAt
+      seen
     }
   }
 `;

@@ -1,31 +1,77 @@
 import Image from "next/image";
 import styled from "styled-components";
-function NotificationItem() {
-  const Container = styled.div`
-    display: flex;
-    align-items: center;
-    min-height: 50px;
-  `;
+import { COLOR } from "../../../utils/COLOR";
+import { difTime } from "../../../utils/funtion";
 
-  const ImageBox = styled.div`
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
-    overflow: hidden;
-  `;
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  min-height: 50px;
+  padding: 1rem 1.5rem;
 
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: ${COLOR.LIGHTYELLOW2};
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 3px;
+  }
+`;
+
+const ImageBox = styled.div`
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  overflow: hidden;
+`;
+
+const Body = styled.p`
+  align-self: flex-start;
+  width: 260px;
+  margin-left: 10px;
+
+  font-size: 1.2rem;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+`;
+
+const PastTime = styled.div`
+  width: 260px;
+  margin-left: 10px;
+
+  font-size: 1.1rem;
+  color: ${COLOR.GRAY};
+`;
+
+const UnseenDot = styled.div`
+  justify-self: center;
+  align-self: center;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: ${COLOR.PRIMARY_YELLOW};
+  margin-left: 10px;
+  margin-right: 10px;
+`;
+
+function NotificationItem({ message, image, createdAt, seen }) {
   return (
     <Container>
       <ImageBox>
-        <Image
-          width={50}
-          height={50}
-          objectFit={"cover"}
-          src={
-            "https://bid-this-storage.s3.ap-southeast-1.amazonaws.com/images/9437e871-8ea3-47b7-ba0d-f224baa7a090-3ba7502eea16d39f0a388b2eab131d3b.jpg"
-          }
-        />
+        <Image width={60} height={60} objectFit={"cover"} src={image} />
       </ImageBox>
+      <div>
+        <Body>{message}</Body>
+        <PastTime>{difTime(createdAt, true)}</PastTime>
+      </div>
+      {!seen && <UnseenDot />}
     </Container>
   );
 }

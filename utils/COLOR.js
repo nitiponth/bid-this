@@ -24,4 +24,14 @@ export const COLOR = {
   BLUE: "#56CCF2",
 
   ORANGE: "#F2994A",
+
+  BLUE: "#56ccf2",
+
+  PRIMARY_YELLOW: "#f8cb71",
+  LIGHTYELLOW1: "#ffedc8",
+  LIGHTYELLOW3: "#fab325",
+  LIGHTYELLOW3: "#ffc247",
+
+  SHADOW1: "0 1rem 2rem rgba(0,0,0, 0.1)",
+  SHADOW2: "0 1rem 2rem rgba(0,0,0, 0.2)",
 };
