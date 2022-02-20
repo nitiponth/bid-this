@@ -9,7 +9,8 @@ import {
   HiOutlineCog,
   HiOutlineSupport,
 } from "react-icons/hi";
-import { MdRefresh, MdVerifiedUser } from "react-icons/md";
+import { MdVerifiedUser } from "react-icons/md";
+import { IoCreate } from "react-icons/io5";
 import LayoutContext from "../../../store/layout-context";
 
 function UserLoginDropdown(props) {
@@ -26,6 +27,10 @@ function UserLoginDropdown(props) {
 
   const toManagementPage = () => {
     router.push("/admin");
+  };
+
+  const toCreateAuctionItem = () => {
+    router.push("/users/add-item");
   };
 
   const verifyEmailHandler = () => {
@@ -51,6 +56,14 @@ function UserLoginDropdown(props) {
         >
           View Your Profile
         </UserDropdownItem>
+        {authCtx.user.status === "FULLAUTHEN" && (
+          <UserDropdownItem
+            leftIcon={<IoCreate />}
+            onClickHandler={toCreateAuctionItem}
+          >
+            Add Auction Item
+          </UserDropdownItem>
+        )}
         <UserDropdownItem
           leftIcon={<HiOutlineCog />}
           onClickHandler={toEditProfilePage}
@@ -65,6 +78,7 @@ function UserLoginDropdown(props) {
             Verify Email
           </UserDropdownItem>
         )}
+
         {props.user?.role === "ADMIN" && (
           <UserDropdownItem
             leftIcon={<HiOutlineSupport />}

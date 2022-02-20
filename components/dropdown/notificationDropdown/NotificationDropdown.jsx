@@ -84,10 +84,6 @@ function NotificationDropdown() {
   });
 
   const onLoadMore = async (e) => {
-    if (metadata.current === metadata.count) {
-      console.log("ended");
-      return;
-    }
     const { data } = await refetch({
       offset: metadata.current,
     });
