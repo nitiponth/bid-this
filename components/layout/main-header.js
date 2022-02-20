@@ -190,12 +190,6 @@ function MainHeader() {
         </button> */}
       </form>
       <nav className="user-nav">
-        {/* <a href="#" className="user-nav__link">
-          Product
-        </a>
-        <a href="#" className="user-nav__link">
-          Shipping
-        </a> */}
         {authCtx.isLogin && (
           <Fragment>
             <div className="user-nav__icon-box">

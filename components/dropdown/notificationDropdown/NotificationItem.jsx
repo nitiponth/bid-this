@@ -79,7 +79,7 @@ function NotificationItem({
   seen,
 }) {
   const router = useRouter();
-  const { refetchNotifications, metadata } = useNotificationStore();
+  const { refetchNotifications } = useNotificationStore();
   const [seenNotification] = useMutation(SEEN_NOTI);
 
   const natigateToProductPage = async () => {
