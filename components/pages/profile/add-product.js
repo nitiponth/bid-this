@@ -416,7 +416,7 @@ function AddProduct() {
 
                     setImagesArray((prev) => [...prev, ...urls]);
                   }}
-                  accept={".jpg, .png"}
+                  accept={".jpg, .png, jpeg, JPG"}
                 >
                   {({ getRootProps, getInputProps }) => (
                     <div {...getRootProps({ className: "form__box-dropbox" })}>

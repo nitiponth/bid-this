@@ -14,6 +14,8 @@ import Image from "next/image";
 import logo from "../../public/images/logo-land.png";
 import { observer } from "mobx-react-lite";
 import { useAccountStore } from "../../store/accountStore";
+import { useNotificationStore } from "../../store/notificationStore";
+import NotificationDropdown from "../dropdown/notificationDropdown/NotificationDropdown";
 
 const ME_QUERY = gql`
   query {
@@ -33,9 +35,44 @@ const WALLET_SUBSCRIPTION = gql`
   }
 `;
 
+const NOTIFLY_SUB = gql`
+  subscription Subscription($userId: ID!) {
+    userNotification(userId: $userId) {
+      _id
+    }
+  }
+`;
+
+const NOTIFITION_QUERY = gql`
+  query Query($offset: Int) {
+    getNotifications(offset: $offset) {
+      metadata {
+        count
+        current
+        limit
+        offset
+      }
+      data {
+        _id
+        message
+        product {
+          id
+          images
+        }
+        createdAt
+        seen
+      }
+      unseen
+    }
+  }
+`;
+
 function MainHeader() {
   const authCtx = useContext(AuthContext);
   const { wallet, initializeWallet } = useAccountStore();
+  const { initializeNotifications, setRefetchNotifications, setFetchMore } =
+    useNotificationStore();
+
   const [userData, setUserData] = useState(authCtx.user);
   const { data, loading, error, refetch, subscribeToMore } = useQuery(
     ME_QUERY,
@@ -44,6 +81,16 @@ function MainHeader() {
       ssr: false,
     }
   );
+
+  const {
+    data: notiData,
+    subscribeToMore: subToMore,
+    refetch: notiRefetch,
+  } = useQuery(NOTIFITION_QUERY, {
+    variables: {
+      offset: 0,
+    },
+  });
 
   useEffect(() => {
     if (loading === false && data) {
@@ -58,7 +105,41 @@ function MainHeader() {
   }, [loading, data, authCtx.isLogin]);
 
   useEffect(() => {
+    if (!authCtx.isLogin) {
+      return;
+    }
+
+    if (notiData) {
+      initializeNotifications(
+        notiData.getNotifications.data,
+        notiData.getNotifications.metadata,
+        notiData.getNotifications.unseen
+      );
+      setRefetchNotifications(notiRefetch);
+    }
+  }, [notiData]);
+
+  useEffect(() => {
+    let unsubscribeNoti;
+    if (authCtx?.user?.id) {
+      const userId = authCtx.user.id;
+      unsubscribeNoti = subToMore({
+        document: NOTIFLY_SUB,
+        variables: {
+          userId,
+        },
+
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          notiRefetch();
+        },
+      });
+    }
+  }, [authCtx, subToMore]);
+
+  useEffect(() => {
     refetch();
+    notiRefetch();
   }, [authCtx.isLogin]);
 
   useEffect(() => {
@@ -116,15 +197,22 @@ function MainHeader() {
           Shipping
         </a> */}
         {authCtx.isLogin && (
-          <div className="user-nav__icon-box">
-            <NavItem
-              icon="/images/SVG/bookmark.svg"
-              notification={0}
-              type="bookmark"
-            >
-              <AuctionDropdown />
-            </NavItem>
-          </div>
+          <Fragment>
+            <div className="user-nav__icon-box">
+              <NavItem
+                icon="/images/SVG/bookmark.svg"
+                notification={0}
+                type="bookmark"
+              >
+                <AuctionDropdown />
+              </NavItem>
+            </div>
+            <div className="user-nav__icon-box">
+              <NavItem type="Notifications">
+                <NotificationDropdown />
+              </NavItem>
+            </div>
+          </Fragment>
         )}
         {userData ? (
           <div className="user-nav__user-box">

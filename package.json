@@ -37,16 +37,19 @@
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.3.4",
     "react-icons": "^4.2.0",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-load-script": "0.0.6",
     "react-otp-input": "^2.4.0",
     "react-rating-stars-component": "^2.2.0",
     "react-scrolllock": "^5.0.1",
     "react-spinners": "^0.11.0",
     "sass": "^1.37.0",
+    "styled-components": "^5.3.3",
     "subscriptions-transport-ws": "^0.9.19",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "babel-plugin-styled-components": "^2.0.3",
     "eslint": "7.32.0",
     "eslint-config-next": "11.0.1",
     "nodemon": "^2.0.12"
