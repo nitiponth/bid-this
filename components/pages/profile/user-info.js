@@ -99,7 +99,7 @@ function UserInfo(props) {
         console.log(error);
       }
     }
-  });
+  }, []);
 
   const checkFollowStatus = () => {
     if (!userId) {
@@ -184,7 +184,9 @@ function UserInfo(props) {
         </div>
         {isOwner ? (
           <Link href="/users/edit">
-            <a className="banner__btn">Edit</a>
+            <a className="banner__btn" style={{ backfaceVisibility: "hidden" }}>
+              Edit
+            </a>
           </Link>
         ) : authCtx.isLogin ? (
           <div onClick={followingHandler} className="banner__btn">
@@ -254,7 +256,7 @@ function UserInfo(props) {
           </div>
         )}
         <div className="legal" style={{ marginTop: "auto" }}>
-          &copy; 2021 by <a href="1">N. Do San.</a> <br></br>All rights
+          &copy; 2022 by <a href="1">N. Do San.</a> <br></br>All rights
           reserved.
         </div>
       </div>

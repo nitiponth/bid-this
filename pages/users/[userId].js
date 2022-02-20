@@ -4,7 +4,7 @@ import { useQuery, gql } from "@apollo/client";
 import NoSideLayout from "../../components/layout/no-sidebar-layout/no-sidebar-layout";
 import UserInfo from "../../components/pages/profile/user-info";
 import BLoading from "../../components/molecules/BLoading/BLoading";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import Head from "next/head";
 
 const USER_QUERY = gql`
@@ -44,9 +44,9 @@ function UserInformationPage() {
     },
   });
 
-  // useEffect(() => {
-  //   refetch();
-  // }, []);
+  useEffect(() => {
+    refetch();
+  }, []);
 
   if (loading) {
     return (
