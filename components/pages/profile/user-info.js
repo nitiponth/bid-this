@@ -99,7 +99,7 @@ function UserInfo(props) {
         console.log(error);
       }
     }
-  }, []);
+  });
 
   const checkFollowStatus = () => {
     if (!userId) {
