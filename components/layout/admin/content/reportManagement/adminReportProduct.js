@@ -12,6 +12,96 @@ import SelectionBox from "../../../../etc/selection/selection";
 import SalyImage from "../../../../../public/images/SILY/Saly-1.png";
 import BLoading from "../../../../molecules/BLoading/BLoading";
 import Image from "next/image";
+import styled from "styled-components";
+import { COLOR } from "../../../../../utils/COLOR";
+
+const ShortDetailContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  max-height: 425px;
+  min-width: 280px;
+  border-radius: 2rem;
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.09);
+  padding: 1rem 1rem;
+  margin-bottom: 2rem;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 180px;
+  border-radius: 2rem;
+  overflow: hidden;
+`;
+
+const StyledImage = styled(Image)`
+  border-radius: 2rem;
+`;
+
+const ImagePagination = styled.div`
+  margin: 1rem 0;
+  display: flex;
+  column-gap: 5px;
+`;
+
+const DotIndex = styled.div`
+  width: 7px;
+  height: 7px;
+  border-radius: 5px;
+  background-color: ${(props) =>
+    props.active ? COLOR.PRIMARY_YELLOW : COLOR.GRAY};
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const ProductDetail = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ProductTitle = styled.div`
+  text-align: center;
+  font-size: 1.8rem;
+  color: ${COLOR.BLACK};
+  margin-bottom: 0.25rem;
+`;
+
+const Seller = styled.div`
+  text-align: center;
+  font-size: 1.2rem;
+  color: ${COLOR.DARKGRAY};
+  margin-bottom: 1.5rem;
+`;
+
+const Description = styled.textarea`
+  width: 90%;
+  height: 120px;
+  border: 2px solid ${COLOR.DARKGRAY};
+  font-family: inherit;
+  color: inherit;
+  font-size: 1.6rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  background-color: ${COLOR.GRAYLIGHT1};
+  display: block;
+  margin-bottom: 1rem;
+
+  color: ${COLOR.GRAY};
+  outline: none;
+
+  box-sizing: border-box;
+  padding: 1rem;
+  resize: none;
+`;
 
 const GET_PRODUCT_REPORT = gql`
   query ($reportId: ID!) {
@@ -64,6 +154,7 @@ function AdminReportProduct(props) {
   const [reportData, setReportData] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("Loading");
   const [activeModalCard, setActiveModalCard] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
 
   const { data, loading, error } = useQuery(GET_PRODUCT_REPORT, {
     fetchPolicy: "network-only",
@@ -83,6 +174,8 @@ function AdminReportProduct(props) {
     }
   }, [data, loading, error]);
 
+  const totalImages = reportData?.product?.images.length;
+
   return (
     <div className="adminContent">
       <div className="admin__content">
@@ -101,36 +194,37 @@ function AdminReportProduct(props) {
                 subtitle={"Update report status successfully."}
                 cardImage={SalyImage}
               />
-              <div className="RProduct">
-                <div className="RProduct__card">
-                  <Image
-                    className="RProduct__card__image"
-                    src={reportData.product.images[0]}
-                    width={50}
-                    height={50}
-                    alt="product Image"
+
+              <ShortDetailContainer>
+                <ImageContainer>
+                  <StyledImage
+                    src={reportData?.product?.images[imageIndex]}
+                    width={300}
+                    height={175}
+                    objectFit={"cover"}
                   />
-                  <div className="RProduct__card__title">
-                    {reportData.product.title}
-                  </div>
-                  <div className="RProduct__card__seller">
-                    @{reportData.product.seller.username}
-                  </div>
-                  <BForm>
-                    <BTextarea
-                      disabled={true}
-                      inputStyles={{
-                        width: "230px",
-                        height: "120px",
-                        marginBottom: "1rem",
-                        color: "#aaa",
+                </ImageContainer>
+                <ImagePagination>
+                  {new Array(totalImages).fill(0).map((dot, index) => (
+                    <DotIndex
+                      key={index}
+                      active={index === imageIndex}
+                      onClick={() => {
+                        setImageIndex(index);
                       }}
-                      resize={"none"}
-                      value={reportData.product.desc}
                     />
-                  </BForm>
-                </div>
-              </div>
+                  ))}
+                </ImagePagination>
+                <ProductDetail>
+                  <ProductTitle>{reportData.product.title}</ProductTitle>
+                  <Seller>{reportData.product.seller.username}</Seller>
+                  <Description
+                    disable={true}
+                    defaultValue={reportData.product.desc}
+                  />
+                </ProductDetail>
+              </ShortDetailContainer>
+
               <div className="RProduct__info">
                 <div className="RProduct__info__label">
                   Product Information
@@ -217,7 +311,10 @@ function AdminReportProduct(props) {
               <div style={{ flexBasis: "100%", height: 0 }} />
               {/* action box */}
               <div>
-                <div className="RProduct__action">
+                <div
+                  className="RProduct__action"
+                  style={{ transform: "translateY(-50px)" }}
+                >
                   <div
                     style={{
                       fontSize: "2rem",
@@ -256,7 +353,7 @@ function AdminReportProduct(props) {
                 </div>
                 <div
                   className="RProduct__action"
-                  style={{ transform: "translateY(-50px)" }}
+                  style={{ transform: "translateY(-20px)" }}
                 >
                   <div
                     style={{
