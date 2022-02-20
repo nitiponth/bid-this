@@ -24,7 +24,7 @@ let useClickOutside = (handler) => {
 };
 
 function NavItem(props) {
-  const { metadata, unseen } = useNotificationStore();
+  const { unseen } = useNotificationStore();
   const [open, setOpen] = useState(false);
 
   let domNode = useClickOutside(() => {
