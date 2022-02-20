@@ -22,6 +22,7 @@ import BWaiting from "../../atoms/BWaiting/BWaiting";
 import BReportProduct from "../../molecules/BReport/bReportProduct";
 import RefundModal from "../../organisms/RefundModal/RefundModal";
 import LayoutContext from "../../../store/layout-context";
+import BidderList from "../../organisms/BidderList/BidderList";
 
 const UPDATE_TRACK = gql`
   mutation ($productId: ID!, $track: String!) {
@@ -664,9 +665,7 @@ function SingleItem(props) {
               </div>
             </div>
 
-            <label className="glabel glabel--title">Activity</label>
-
-            <div className="item__activity">
+            <BidderList>
               {bidders}
               <Lister
                 username={props.item.seller}
@@ -675,7 +674,7 @@ function SingleItem(props) {
                 listTime={props.item.createdAt}
                 avatar={props.item.avatar}
               />
-            </div>
+            </BidderList>
           </div>
         </div>
       </div>
