@@ -120,29 +120,29 @@ function ProductPage() {
     if (!productId && isEnd) {
       return null;
     }
-    if (!isEnd) {
-      return;
-    }
-    unsubscribe = subscribeToMore({
-      document: BIDPLACED_SUB,
-      variables: { bidPlacedProductId: productId },
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData?.data) return prev;
-        const product = subscriptionData.data.bidPlaced.product;
+    unsubscribe = subscribeToMore(
+      {
+        document: BIDPLACED_SUB,
+        variables: { bidPlacedProductId: productId },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData?.data) return prev;
+          const product = subscriptionData.data.bidPlaced.product;
 
-        return {
-          getProductById: {
-            ...prev.getProductById,
-            price: {
-              ...product.price,
+          return {
+            getProductById: {
+              ...prev.getProductById,
+              price: {
+                ...product.price,
+              },
+              buyer: product.buyer,
+              end: product.end,
+              bids: product.bids,
             },
-            buyer: product.buyer,
-            end: product.end,
-            bids: product.bids,
-          },
-        };
+          };
+        },
       },
-    });
+      []
+    );
 
     if (unsubscribe) return () => unsubscribe();
   }, [subscribeToMore, productId, isEnd]);

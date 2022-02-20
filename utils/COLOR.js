@@ -32,6 +32,8 @@ export const COLOR = {
   LIGHTYELLOW3: "#fab325",
   LIGHTYELLOW3: "#ffc247",
 
+  GRAYLIGHT1: "#faf9f9",
+
   SHADOW1: "0 1rem 2rem rgba(0,0,0, 0.1)",
   SHADOW2: "0 1rem 2rem rgba(0,0,0, 0.2)",
 };
