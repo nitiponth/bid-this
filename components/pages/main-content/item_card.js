@@ -113,7 +113,10 @@ function ItemCard(props) {
   const link = `/items/${props.item.productId}`;
 
   return (
-    <div className="item-card">
+    <div
+      className="item-card"
+      style={{ backfaceVisibility: "hidden", overflow: "hidden" }}
+    >
       {authCtx.isLogin && (
         <div className="watchlists--card">
           <div className="watch__icon-box">
