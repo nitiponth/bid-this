@@ -19,7 +19,6 @@ import styled from "styled-components";
 import { COLOR } from "../../../utils/COLOR";
 import { IoMdRefresh } from "react-icons/io";
 import { PulseLoader } from "react-spinners";
-import { QUERY_ME } from "../../../utils/networking/graphQL/auth";
 
 const TransactionContainer = styled.div`
   border-bottom: 1px solid var(--color-grey-light-3);

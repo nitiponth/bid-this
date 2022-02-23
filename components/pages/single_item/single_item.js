@@ -490,7 +490,7 @@ function SingleItem(props) {
               setReviewImagesArray((prev) => [...prev, ...urls]);
               setActiveWaitingModal(false);
             }}
-            accept={"./jpg, ./png"}
+            accept={".jpg, .png, .jpeg"}
           >
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps({ className: "floating__dropbox" })}>

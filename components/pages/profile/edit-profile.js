@@ -493,7 +493,7 @@ function EditProfile() {
               <div className="form__box-title">
                 Upload a profile image.
                 <div className="form__box-subtitle">
-                  Recommended size: 1000x1000px. JPG or PNG.
+                  Recommended size: 1000x1000px. JPG, JPEG or PNG.
                 </div>
               </div>
               <div className="form__box-input">
@@ -516,7 +516,7 @@ function EditProfile() {
                           setActiveWatingModal(false);
                         });
                     }}
-                    accept={".png, .jpg"}
+                    accept={".jpg, .png, .jpeg"}
                   >
                     {({ getRootProps, getInputProps }) => (
                       <div
@@ -536,7 +536,7 @@ function EditProfile() {
               <div className="form__box-title">
                 Upload a cover image
                 <div className="form__box-subtitle">
-                  Recommended size: 1500x500px. JPG or PNG.
+                  Recommended size: 1500x500px. JPG, JPEG or PNG.
                 </div>
               </div>
               <div className="form__box-input">
@@ -559,7 +559,7 @@ function EditProfile() {
                           setActiveWatingModal(false);
                         });
                     }}
-                    accept={".png, .jpg"}
+                    accept={".jpg, .png, .jpeg"}
                   >
                     {({ getRootProps, getInputProps }) => (
                       <div
@@ -614,7 +614,7 @@ function EditProfile() {
                             setActiveWatingModal(false);
                           });
                       }}
-                      accept={".png, .jpg"}
+                      accept={".jpg, .png, .jpeg"}
                     >
                       {({ getRootProps, getInputProps }) => (
                         <div
@@ -653,7 +653,7 @@ function EditProfile() {
                             setActiveWatingModal(false);
                           });
                       }}
-                      accept={".png, .jpg"}
+                      accept={".jpg, .png, .jpeg"}
                     >
                       {({ getRootProps, getInputProps }) => (
                         <div

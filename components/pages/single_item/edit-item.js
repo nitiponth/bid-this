@@ -524,7 +524,7 @@ function EditItem({ prodId }) {
                   <div className="form__box-title">
                     Upload products images
                     <div className="form__box-subtitle">
-                      Recommended size: 1000x1000px. JPG or PNG.
+                      Recommended size: 1000x1000px. JPG, JPEG or PNG.
                     </div>
                   </div>
                   <div className="form__box-input">
@@ -550,7 +550,7 @@ function EditItem({ prodId }) {
                         setImagesArray((prev) => [...prev, ...urls]);
                         setActiveWatingModal(false);
                       }}
-                      accept={".jpg, .png"}
+                      accept={".jpg, .png, .jpeg"}
                     >
                       {({ getRootProps, getInputProps }) => (
                         <div
