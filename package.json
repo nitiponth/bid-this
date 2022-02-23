@@ -41,6 +41,7 @@
     "react-load-script": "0.0.6",
     "react-otp-input": "^2.4.0",
     "react-rating-stars-component": "^2.2.0",
+    "react-responsive-modal": "^6.2.0",
     "react-scrolllock": "^5.0.1",
     "react-spinners": "^0.11.0",
     "sass": "^1.37.0",

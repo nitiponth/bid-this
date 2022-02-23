@@ -1,4 +1,31 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
+
+const styles = {
+  modal: {
+    backgroundColor: "transparent",
+    boxShadow: "none",
+    display: "flex",
+
+    overflow: "none",
+    width: "100%",
+    minWidth: "100%",
+    height: "100%",
+    padding: 0,
+    margin: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  overlay: {
+    backgroundColor: "#1cccc",
+    padding: 0,
+  },
+  closeIcon: {
+    fill: "#fff",
+  },
+};
 
 function Backdrop({ show, onClose, children }) {
   const modalRef = useRef();
@@ -17,12 +44,21 @@ function Backdrop({ show, onClose, children }) {
     };
   }, [show, modalRef, onClose]);
 
-  return show ? (
-    <div className="backdrop" onClose={onClose} ref={modalRef}>
+  return (
+    <Modal
+      open={show}
+      onClose={() => {
+        onClose();
+      }}
+      closeOnEsc
+      closeOnOverlayClick
+      styles={styles}
+      blockScroll={true}
+      showCloseIcon={false}
+      ref={modalRef}
+    >
       {children}
-    </div>
-  ) : (
-    ""
+    </Modal>
   );
 }
 

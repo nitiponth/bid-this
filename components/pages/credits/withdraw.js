@@ -10,11 +10,12 @@ import successImage from "../../../public/images/SILY/Saly-22.png";
 import failedImage from "../../../public/images/SILY/Saly-12.png";
 import BConfirm from "../../atoms/BConfirm/BConfirm";
 import BModalCard from "../../atoms/BModalCard/BModalCard";
+import { useTransactionStore } from "../../../store/transactionStore";
 
 const WITHDRAW = gql`
   mutation ($bankId: String!, $amount: Int!) {
     withdrawCredit(bankId: $bankId, amount: $amount) {
-      id
+      _id
       amount
       type
       status
@@ -29,6 +30,7 @@ const REMOVE_REPT = gql`
 `;
 
 function Withdraw(props) {
+  const { refetchTransactions } = useTransactionStore();
   const [showForm, setShowForm] = useState(false);
   const [withdrawCredit] = useMutation(WITHDRAW);
   const [removeRecipient] = useMutation(REMOVE_REPT);
@@ -60,26 +62,32 @@ function Withdraw(props) {
     setActiveConfirmModal(false);
     setActiveWaitingModal(true);
 
-    const { data, errors } = await withdrawCredit({
-      variables: {
-        amount,
-        bankId: selectedAccount.id,
-      },
-    });
+    try {
+      const { data, errors } = await withdrawCredit({
+        variables: {
+          amount,
+          bankId: selectedAccount.id,
+        },
+      });
 
-    if (data) {
-      setWaitingText(
-        `Withdraw ${amount} successfully. Waiting for banking process...`
-      );
-      setWaitingImg(successImage);
-      amountRef.current.value = "";
-    } else if (errors) {
-      setWaitingText(`Withdraw failed. Please contact admin`);
-      setWaitingImg(failedImage);
-      console.log(errors);
+      if (data) {
+        setWaitingText(
+          `Withdraw ${amount} successfully. Waiting for banking process...`
+        );
+        setWaitingImg(successImage);
+        amountRef.current.value = "";
+      } else if (errors) {
+        setWaitingText(`Withdraw failed. Please contact admin`);
+        setWaitingImg(failedImage);
+        console.log(errors);
+      }
+
+      setSelectedAccount(null);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      await refetchTransactions({ offset: 0 });
     }
-
-    setSelectedAccount(null);
   };
 
   let existAccount = "";

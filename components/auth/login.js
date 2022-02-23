@@ -4,12 +4,36 @@ import AuthContext from "../../store/auth-context";
 import LayoutContext from "../../store/layout-context";
 import BConfirm from "../atoms/BConfirm/BConfirm";
 import Image from "next/image";
+import styled from "styled-components";
+import useWindowSize from "../../hooks/useWindowSize";
+
+const Container = styled.div`
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 60rem;
+  max-height: 80vh;
+  background: rgba(255, 255, 255, 0.93);
+  border-radius: 30px;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.3);
+
+  padding: 6rem;
+
+  z-index: 1000;
+
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 function Login() {
   const [errorModal, setErrorModal] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const layoutCtx = useContext(LayoutContext);
   const authCtx = useContext(AuthContext);
+
+  const { height } = useWindowSize();
 
   const onCloseHandler = () => {
     layoutCtx.setModalType(null);
@@ -35,7 +59,7 @@ function Login() {
   };
 
   return (
-    <div className="auth__layout">
+    <Container>
       <BConfirm
         body={errorMsg}
         active={errorModal}
@@ -56,15 +80,17 @@ function Login() {
           />
         </div>
         <div className="login__logo">
-          <div className="login__logo-box">
-            <Image
-              src="/images/logo-square.png"
-              alt="logo"
-              width={105}
-              height={105}
-              className="login__logo-img"
-            />
-          </div>
+          {height > 800 && (
+            <div className="login__logo-box">
+              <Image
+                src="/images/logo-square.png"
+                alt="logo"
+                width={105}
+                height={105}
+                className="login__logo-img"
+              />
+            </div>
+          )}
           <h1 className="login__logo-text">Welcome</h1>
         </div>
 
@@ -101,7 +127,11 @@ function Login() {
                 Forgot password?
               </a> */}
 
-              <button type="submit" className="login__btn">
+              <button
+                type="submit"
+                className="login__btn"
+                style={height < 800 ? { marginTop: "2rem" } : {}}
+              >
                 Login
               </button>
             </Form>
@@ -118,7 +148,7 @@ function Login() {
           </a>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 

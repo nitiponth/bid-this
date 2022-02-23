@@ -71,7 +71,7 @@ function MyApp({ Component, pageProps, user }) {
       <ApolloProvider client={client}>
         <AuthContextProvider userData={user}>
           <LayoutContextProvider>
-            <MobileSafe />
+            {/* <MobileSafe /> */}
             <Component {...pageProps} />
             <ModalComp />
           </LayoutContextProvider>
