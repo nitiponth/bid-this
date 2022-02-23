@@ -193,21 +193,24 @@ function Credits() {
           refetch={refetch}
         />
       </div>
-      <TransactionContainer>
-        <TransactionTitle>
-          <h2 className="history__title">Transaction history</h2>
-          <RefreshButtom onClick={updateTransactionHandler}>
-            {!transactionLoading ? (
-              <Fragment>
-                <IoMdRefresh style={{ marginRight: "5px" }} size={20} /> Refresh
-              </Fragment>
-            ) : (
-              <PulseLoader color={COLOR.PRIMARY_YELLOW} size={10} />
-            )}
-          </RefreshButtom>
-        </TransactionTitle>
-        <Transaction trans={transactions.slice()} />
-      </TransactionContainer>
+      {transactions.length > 0 && (
+        <TransactionContainer>
+          <TransactionTitle>
+            <h2 className="history__title">Transaction history</h2>
+            <RefreshButtom onClick={updateTransactionHandler}>
+              {!transactionLoading ? (
+                <Fragment>
+                  <IoMdRefresh style={{ marginRight: "5px" }} size={20} />{" "}
+                  Refresh
+                </Fragment>
+              ) : (
+                <PulseLoader color={COLOR.PRIMARY_YELLOW} size={10} />
+              )}
+            </RefreshButtom>
+          </TransactionTitle>
+          <Transaction trans={transactions.slice()} />
+        </TransactionContainer>
+      )}
     </div>
   );
 }
