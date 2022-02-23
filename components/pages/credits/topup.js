@@ -8,11 +8,12 @@ import waitingImage from "../../../public/images/SILY/Saly-1.png";
 import successImage from "../../../public/images/SILY/Saly-22.png";
 import failedImage from "../../../public/images/SILY/Saly-12.png";
 import TopupWithCrediteCard from "../../checkout/topupWithCrediteCard";
+import { useTransactionStore } from "../../../store/transactionStore";
 
 const DEPOSIT_MUTATION = gql`
   mutation ($amount: Int!, $cardId: String) {
     depositCredit(amount: $amount, cardId: $cardId) {
-      id
+      _id
       createdAt
       amount
       type
@@ -27,6 +28,7 @@ const REMOVE_CARD = gql`
 `;
 
 function Topup(props) {
+  const { refetchTransactions } = useTransactionStore();
   const [activeConfirmModal, setActiveConfirmModal] = useState(false);
   const [confirmBody, setConfirmBody] = useState("");
   const [selectedCard, setSelectedCard] = useState(null);
@@ -72,21 +74,29 @@ function Topup(props) {
     setActiveConfirmModal(false);
     setActiveWaitingModal(true);
 
-    const result = await depositCredit({
-      variables: {
-        amount: selected,
-        cardId: selectedCard.id,
-      },
-    });
+    try {
+      const result = await depositCredit({
+        variables: {
+          amount: selected,
+          cardId: selectedCard.id,
+        },
+      });
 
-    if (result.data) {
-      setWaitingText(`Deposit ${selected.toLocaleString("En")}฿ successfully.`);
-      setWaitingImg(successImage);
-    } else if (result.errors) {
-      setWaitingText(`Payment failed. Please contact admin`);
-      setWaitingImg(failedImage);
+      if (result.data) {
+        setWaitingText(
+          `Deposit ${selected.toLocaleString("En")}฿ successfully.`
+        );
+        setWaitingImg(successImage);
+      } else if (result.errors) {
+        setWaitingText(`Payment failed. Please contact admin`);
+        setWaitingImg(failedImage);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSelectedCard(null);
+      refetchTransactions();
     }
-    setSelectedCard(null);
   };
 
   let existCards = "";

@@ -59,19 +59,8 @@ export const UPDATE_REP = gql`
   }
 `;
 
-export const UPDATE_GET_TRANS = gql`
+export const UPDATE_TRANSACTIONS = gql`
   mutation {
-    updateAndGetTransactions {
-      id
-      tranId
-      status
-      type
-      createdAt
-      amount
-      product {
-        id
-        title
-      }
-    }
+    updateTransactions
   }
 `;

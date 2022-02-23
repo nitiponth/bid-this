@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { Fragment } from "react";
 import Layout from "../../components/layout/layout";
-import Credits from "../../components/pages/credits.js/credits";
+import Credits from "../../components/pages/credits/Credits";
 
 function CreditsPage() {
   return (
