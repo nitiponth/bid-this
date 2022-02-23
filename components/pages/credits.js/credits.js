@@ -1,76 +1,43 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
-import { Suspense, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAccountStore } from "../../../store/accountStore";
 import AuthContext from "../../../store/auth-context";
+import { useTransactionStore } from "../../../store/transactionStore";
 import BLoading from "../../molecules/BLoading/BLoading";
 import Topup from "./topup";
-import Transactions from "./transactions";
 import Withdraw from "./withdraw";
-
-const CARDS_QUERY = gql`
-  query {
-    me {
-      wallet
-      cards {
-        id
-        cardInfo {
-          id
-          expiration_month
-          expiration_year
-          last_digits
-          brand
-        }
-      }
-      bankAccounts {
-        id
-        bankInfo {
-          id
-          name
-          last_digits
-          brand
-          active
-        }
-      }
-    }
-  }
-`;
-
-const UPDATE_REP = gql`
-  mutation {
-    updateRepActive
-  }
-`;
-
-const UPDATE_GET_TRANS = gql`
-  mutation {
-    updateAndGetTransactions {
-      id
-      tranId
-      status
-      type
-      createdAt
-      amount
-      product {
-        id
-        title
-      }
-    }
-  }
-`;
+import Transaction from "./Transactions";
+import {
+  CARDS_QUERY,
+  GET_TRANSACTIONS,
+  UPDATE_REP,
+} from "../../../utils/networking/graphQL/credits";
 
 function Credits() {
   const [isLoading, setIsLoading] = useState(true);
   const [showTopup, setShowTopup] = useState(false);
-  const [showTrans, setShowTrans] = useState(false);
-  const [transactions, setTransactions] = useState([]);
 
   const [showWithdraw, setShowWithdraw] = useState(false);
 
   const router = useRouter();
   const authCtx = useContext(AuthContext);
   const { wallet } = useAccountStore();
+  const { initializeTransactions, transactions, setRefetchTransactions } =
+    useTransactionStore();
+
+  const {
+    data: transactionsData,
+    loading: transactionsLoading,
+    refetch: refetchTransactions,
+  } = useQuery(GET_TRANSACTIONS, {
+    fetchPolicy: "network-only",
+    variables: {
+      offset: 0,
+      limit: 10,
+    },
+  });
 
   useEffect(() => {
     if (!authCtx?.isLogin) {
@@ -82,13 +49,20 @@ function Credits() {
     }
   }, []);
 
+  useEffect(() => {
+    if (transactionsData && !transactionsLoading) {
+      const { data, metadata } = transactionsData.getTransactionsByUserId;
+      initializeTransactions(data, metadata);
+      setRefetchTransactions(refetchTransactions);
+    }
+  }, [transactionsData, transactionsLoading]);
+
   const { data, refetch } = useQuery(CARDS_QUERY, {
     ssr: false,
     fetchPolicy: "network-only",
   });
 
   const [updateRepActive] = useMutation(UPDATE_REP);
-  const [updateAndGetTransactions] = useMutation(UPDATE_GET_TRANS);
 
   if (isLoading) {
     return <BLoading />;
@@ -143,17 +117,17 @@ function Credits() {
         <h2 className="history__title">Transaction history</h2>
         <button
           className="trans-btn"
-          onClick={async () => {
-            setShowTrans((prev) => !prev);
-            if (!showTrans) {
-              const { data } = await updateAndGetTransactions();
-              setTransactions(data.updateAndGetTransactions.reverse());
-            }
-          }}
+          // onClick={async () => {
+          //   setShowTrans((prev) => !prev);
+          //   if (!showTrans) {
+          //     const { data } = await updateAndGetTransactions();
+          //     setTransactions(data.updateAndGetTransactions.reverse());
+          //   }
+          // }}
         >
-          {showTrans ? "Hide Transactions" : "Show Transactions"}
+          Refresh
         </button>
-        <Transactions visible={showTrans} trans={transactions} />
+        <Transaction trans={transactions.slice()} />
       </div>
     </div>
   );

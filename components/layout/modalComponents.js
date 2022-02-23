@@ -17,6 +17,7 @@ export default function ModalComp(props) {
     setProductId(null);
     setModalType(null);
   };
+
   return (
     <Portal>
       <Backdrop show={modalType == "login"} onClose={closeModalHandler}>
