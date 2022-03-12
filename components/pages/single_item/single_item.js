@@ -106,7 +106,10 @@ function SingleItem(props) {
 
     setCanRefund(now > sevenDaysAfterEnd);
 
-    if (props.refund.status === "REFUNDED") {
+    if (
+      props.refund.status === "REFUNDED" ||
+      props.refund.status === "RECEIVED"
+    ) {
       setCanRefund(false);
     }
   }, [status]);
@@ -234,6 +237,16 @@ function SingleItem(props) {
     setProductScore(newRating);
   };
 
+  const trackingMessage = () => {
+    if (props.item.status === "REFUNDED") {
+      return "You have already refunded.";
+    }
+    if (!!props.item.track) {
+      return props.item.track;
+    }
+    return "The seller is preparing the parcel.";
+  };
+
   const onComment = async () => {
     // console.log("images: ", reviewImagesArray);
     // console.log("score: ", productScore);
@@ -340,11 +353,7 @@ function SingleItem(props) {
             className="item__desc-track-input"
             style={{ fontSize: "1.5rem", width: "80%" }}
             disabled={true}
-            value={
-              props.item.track
-                ? props.item.track
-                : "The seller is preparing the parcel. "
-            }
+            value={trackingMessage()}
           />
           <div className="item__desc-btn-group" style={{ flexWrap: "wrap" }}>
             {props.item.track && props.item.status === "ACTIVED" && (

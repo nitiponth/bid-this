@@ -36,6 +36,7 @@ function RefundModal({ active, onClose, refund, isDone }) {
   const [extendDeliveryTime] = useMutation(EXTEND_TIME);
 
   useEffect(() => {
+    console.log(productStatus);
     const limitDays = checkLimitDays(end);
     const now = new Date();
 
@@ -45,7 +46,7 @@ function RefundModal({ active, onClose, refund, isDone }) {
       setCanRefund(false);
     }
 
-    if (productStatus === "REFUNDED") {
+    if (productStatus === "REFUNDED" || productStatus === "RECEIVED") {
       setCanRefund(false);
     }
   }, [isExtended, end, productStatus]);

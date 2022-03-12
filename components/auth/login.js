@@ -6,6 +6,8 @@ import BConfirm from "../atoms/BConfirm/BConfirm";
 import Image from "next/image";
 import styled from "styled-components";
 import useWindowSize from "../../hooks/useWindowSize";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Container = styled.div`
   position: relative;
@@ -33,6 +35,7 @@ function Login() {
   const layoutCtx = useContext(LayoutContext);
   const authCtx = useContext(AuthContext);
 
+  const router = useRouter();
   const { height } = useWindowSize();
 
   const onCloseHandler = () => {
@@ -56,6 +59,11 @@ function Login() {
   const closeModalHandler = () => {
     setErrorModal(false);
     setErrorMsg("");
+  };
+
+  const navigateToRecoverHandler = () => {
+    layoutCtx.setModalType(null);
+    router.push("/recover/code/123456");
   };
 
   return (
@@ -123,9 +131,9 @@ function Login() {
                 placeholder="Password"
                 className="login__form-input"
               />
-              {/* <a href="#" className="login__link login__link--forgot">
-                Forgot password?
-              </a> */}
+              <a className="login__link login__link--forgot">
+                <div onClick={navigateToRecoverHandler}>Forgot password?</div>
+              </a>
 
               <button
                 type="submit"
