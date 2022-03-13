@@ -4,6 +4,10 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { COLOR } from "../../../utils/COLOR";
 import * as Yup from "yup";
+import { useMutation } from "@apollo/client";
+import { RECOVERY_PASSWORD } from "../../../utils/networking/graphQL/auth";
+import { useState } from "react";
+import BConfirm from "../../../components/atoms/BConfirm/BConfirm";
 
 const ScreenContainer = styled.div`
   display: flex;
@@ -67,8 +71,9 @@ const Input = styled.input`
 `;
 
 const SubmitButton = styled.button`
-  width: 10rem;
+  min-width: 10rem;
   height: 4.5rem;
+  padding: 0 2rem;
   background-color: ${COLOR.PRIMARY_YELLOW};
   border: none;
   border-radius: 1rem;
@@ -77,17 +82,21 @@ const SubmitButton = styled.button`
 
   transition: all 0.25s;
   &:hover {
+    cursor: pointer;
     transform: translateY(-2px);
   }
   &:active {
+    cursor: pointer;
     transform: translateY(1px);
   }
 `;
 
 const RecoverPasswordPage = () => {
   const router = useRouter();
-
   const { token } = router.query;
+
+  const [errors, setErrors] = useState();
+  const [recoverPassword] = useMutation(RECOVERY_PASSWORD);
 
   const schema = Yup.object({
     newPassword: Yup.string()
@@ -100,8 +109,28 @@ const RecoverPasswordPage = () => {
       .oneOf([Yup.ref("newPassword")], "Your passwords do not match."),
   });
 
-  const handleSubmit = (values) => {
-    console.log("clicked");
+  const handleSubmit = async (values) => {
+    try {
+      const { newPassword, reNewPassword } = values;
+      const { data } = await recoverPassword({
+        variables: {
+          newPassword,
+          reNewPassword,
+          token,
+        },
+      });
+
+      if (data) {
+        router.replace("/");
+      }
+    } catch (error) {
+      setErrors(error.message);
+    }
+  };
+
+  const onCloseHandler = async () => {
+    setErrors();
+    router.replace("/");
   };
 
   const formik = useFormik({
@@ -119,6 +148,15 @@ const RecoverPasswordPage = () => {
 
   return (
     <ScreenContainer>
+      <BConfirm
+        active={!!errors}
+        title={"An error occurred!"}
+        body={errors}
+        confirmOnly
+        confirmText={"Ok"}
+        onConfirm={onCloseHandler}
+        onClose={onCloseHandler}
+      />
       <form onSubmit={formik.handleSubmit}>
         <FormContainer>
           <Logo
@@ -127,7 +165,7 @@ const RecoverPasswordPage = () => {
             height={150}
             objectFit="contain"
           />
-          <Title>Reset Password</Title>
+          <Title>Change Password</Title>
 
           <InputForm>
             <Label>New password</Label>
@@ -156,7 +194,7 @@ const RecoverPasswordPage = () => {
             />
             {!!reNewPassword && <ErrorText>{reNewPassword}</ErrorText>}
           </InputForm>
-          <SubmitButton type="submit">sdsds</SubmitButton>
+          <SubmitButton type="submit">Change Password</SubmitButton>
         </FormContainer>
       </form>
     </ScreenContainer>

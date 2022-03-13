@@ -3,6 +3,9 @@ import Image from "next/image";
 import styled from "styled-components";
 import { COLOR } from "../../utils/COLOR";
 import * as Yup from "yup";
+import { useMutation } from "@apollo/client";
+import { REQUEST_RECOVERY } from "../../utils/networking/graphQL/auth";
+import { useRouter } from "next/router";
 
 const ScreenContainer = styled.div`
   display: flex;
@@ -84,14 +87,27 @@ export const SubmitButton = styled.button`
 `;
 
 const RequestRecover = () => {
+  const router = useRouter();
+  const [requestRecovery] = useMutation(REQUEST_RECOVERY);
+
   const schema = Yup.object({
     email: Yup.string()
       .email("Please check the email format is correct.")
       .required("This field is required."),
   });
 
-  const handleSubmit = (values) => {
-    console.log("clicked");
+  const handleSubmit = async (values) => {
+    const { email } = values;
+    const callbackUrl = window.location.origin;
+
+    await requestRecovery({
+      variables: {
+        email,
+        callbackUrl,
+      },
+    });
+
+    router.push("/");
   };
 
   const formik = useFormik({

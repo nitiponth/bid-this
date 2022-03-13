@@ -63,7 +63,7 @@ function Login() {
 
   const navigateToRecoverHandler = () => {
     layoutCtx.setModalType(null);
-    router.push("/recover/code/123456");
+    router.push("/recover/request");
   };
 
   return (
