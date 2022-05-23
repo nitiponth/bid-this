@@ -256,8 +256,7 @@ function UserInfo(props) {
           </div>
         )}
         <div className="legal" style={{ marginTop: "auto" }}>
-          &copy; 2022 by <a href="1">N. Do San.</a> <br></br>All rights
-          reserved.
+          &copy; 2022 by <a href="1">Nitiponth</a> <br></br>All rights reserved.
         </div>
       </div>
       <div className="auction-info">

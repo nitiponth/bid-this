@@ -115,7 +115,7 @@ function Sidebar() {
       </div>
 
       <div className="legal">
-        &copy; 2021 by <a href="#">N. Do San.</a> <br></br>All rights reserved.
+        &copy; 2021 by <a href="#">Nitiponth.</a> <br></br>All rights reserved.
       </div>
     </Fragment>
   );
