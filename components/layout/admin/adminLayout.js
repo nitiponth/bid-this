@@ -3,7 +3,7 @@ import AdminSidebar from "./adminSidebar";
 
 function AdminLayout(props) {
   return (
-    <div className="adminContainer">
+    <div className="adminContainer" style={{ backgroundColor: "whitesmoke" }}>
       <AdminHeader />
       <div className="admin__body">
         <AdminSidebar />
