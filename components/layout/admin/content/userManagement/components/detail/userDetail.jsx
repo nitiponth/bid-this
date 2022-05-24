@@ -37,12 +37,6 @@ function UserDetail(props) {
 
       const onGoingProductsList = data.products.filter((product) => {
         if (product.status === "ACTIVED") {
-          // console.log(product.title);
-          // console.log(new Date().toISOString());
-          // console.log("end", new Date(product.end).toISOString());
-          // console.log(
-          //   new Date().toISOString() < new Date(product.end).toISOString()
-          // );
           return new Date().toISOString() < new Date(product.end).toISOString();
         }
       });
