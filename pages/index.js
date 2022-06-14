@@ -1,7 +1,9 @@
 import Cookies from "js-cookie";
 import Head from "next/head";
 import { Fragment, useContext, useEffect, useState } from "react";
+import Modal from "react-responsive-modal";
 import Layout from "../components/layout/layout";
+import PdpaModal from "../components/molecules/Pdpa/PdpaModal";
 import MainContent from "../components/pages/main-content/main-content";
 import AuthContext from "../store/auth-context";
 import LayoutContext from "../store/layout-context";
@@ -35,6 +37,8 @@ export default function Home(props) {
       <Layout>
         <MainContent />
       </Layout>
+
+      <PdpaModal />
     </Fragment>
   );
 }

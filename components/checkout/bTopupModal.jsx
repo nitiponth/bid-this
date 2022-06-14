@@ -144,7 +144,7 @@ function BTopupModal({
               <div style={{ width: "50%" }}>
                 <BInput
                   label="Security code"
-                  type={"text"}
+                  type={"password"}
                   value={cvcInput}
                   onChange={(e) => setCvcInput(e.target.value)}
                   inputStyles={{ width: "95%" }}

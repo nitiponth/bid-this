@@ -189,7 +189,7 @@ function Withdraw(props) {
         <input
           id="amount"
           type="number"
-          placeholder="Withdraw fee is 50฿"
+          placeholder="Withdraw fee is 40฿"
           className="withdraw__form__input"
           defaultValue={null}
           ref={amountRef}

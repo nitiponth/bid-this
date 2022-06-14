@@ -178,7 +178,9 @@ function BidItem({ onClose }) {
         <label className="glabel glabel--medium">Current Bid</label>
         <div className="auction__at-least">
           {item &&
-            (item.price.current ? item.price.current : item.price.initial)}
+            (item.price.current
+              ? item.price.current.toLocaleString()
+              : item.price.initial.toLocaleString())}
           ฿
         </div>
         <input

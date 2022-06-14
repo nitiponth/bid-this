@@ -131,9 +131,7 @@ function EditItem({ prodId }) {
         }
         const currentTime = new Date();
         currentTime.setHours(currentTime.getHours() + 1);
-        if (
-          currentTime.toLocaleDateString("en-Us") >= data.getProductById.start
-        ) {
+        if (currentTime >= data.getProductById.start) {
           console.log("can not edit on this product");
           setOverTime(true);
           setHasError(
