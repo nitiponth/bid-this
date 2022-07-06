@@ -42,7 +42,7 @@ function MainContent() {
     PRODUCTS_QUERY,
     {
       ssr: false,
-      pollInterval: 10000,
+      pollInterval: 1000,
     }
   );
 

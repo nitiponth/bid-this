@@ -7,6 +7,7 @@ import useTimer from "../../../hooks/useTimer";
 import { useWatchlistStore } from "../../../store/watchlist-store";
 import AuthContext from "../../../store/auth-context";
 import LayoutContext from "../../../store/layout-context";
+import BModalCard from "../../atoms/BModalCard/BModalCard";
 
 const ADD_TO_WATHCLIST = gql`
   mutation ($watchedArr: [ID]!) {

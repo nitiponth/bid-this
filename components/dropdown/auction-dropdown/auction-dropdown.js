@@ -37,7 +37,7 @@ function AuctionDropdown(props) {
   const { data, loading, error } = useQuery(GET_ACTIVED_PRODUCTS, {
     ssr: false,
     fetchPolicy: "network-only",
-    pollInterval: 1000,
+    // pollInterval: 1000,
   });
 
   useEffect(() => {

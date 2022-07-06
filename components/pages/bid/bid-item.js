@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../../../store/auth-context";
 import LayoutContext from "../../../store/layout-context";
+import BModalCard from "../../atoms/BModalCard/BModalCard";
 import BLoading from "../../molecules/BLoading/BLoading";
 
 const PRODUCT_QUERY = gql`
@@ -42,10 +43,11 @@ const PLACE_BID = gql`
 `;
 
 function BidItem({ onClose }) {
-  const authCtx = useContext(AuthContext);
   const layoutCtx = useContext(LayoutContext);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeErrorModal, setActiveErrorModal] = useState(false);
+
   const router = useRouter();
 
   const { data, loading, error } = useQuery(PRODUCT_QUERY, {
@@ -53,12 +55,12 @@ function BidItem({ onClose }) {
     variables: {
       getProductByIdProductId: layoutCtx.productId,
     },
-    pollInterval: 500,
+    // pollInterval: 500,
   });
 
   const { data: wallet } = useQuery(WALLET_QUERY, {
     ssr: false,
-    pollInterval: 500,
+    // pollInterval: 500,
   });
 
   const [placeBid] = useMutation(PLACE_BID);
@@ -134,16 +136,23 @@ function BidItem({ onClose }) {
   };
 
   const bidBtn = async () => {
-    const { data } = await placeBid({
-      variables: {
-        placeBidProductId: item.id,
-        placeBidBidPrice: bidPrice,
-      },
-    });
-    if (data) {
-      router.push(`/items/${item.id}`);
-      layoutCtx.setModalType(null);
-    } else console.log("bid placed!", error);
+    try {
+      const { data } = await placeBid({
+        variables: {
+          placeBidProductId: item.id,
+          placeBidBidPrice: bidPrice,
+        },
+      });
+      if (data) {
+        router.push(`/items/${item.id}`);
+        layoutCtx.setModalType(null);
+      } else {
+        console.log("bid placed!", error);
+      }
+    } catch (error) {
+      console.log(error);
+      setActiveErrorModal(true);
+    }
   };
 
   if (isLoading) {
@@ -218,6 +227,15 @@ function BidItem({ onClose }) {
           <a className={"btn btn--w60 btn--disabled"}>Place a bid</a>
         )}
       </div>
+
+      <BModalCard
+        active={activeErrorModal}
+        canClose={true}
+        onClose={() => {
+          setActiveErrorModal(false);
+        }}
+        title={"Bid failed, please try agian."}
+      />
     </div>
   );
 }

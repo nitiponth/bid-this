@@ -387,7 +387,7 @@ function SingleItem(props) {
             >
               <BiSupport />
             </button>
-            {/* {canRefund && (
+            {canRefund && (
               <button
                 type="button"
                 onClick={() => {
@@ -403,7 +403,7 @@ function SingleItem(props) {
               >
                 Refund this Auction
               </button>
-            )} */}
+            )}
           </div>
         </div>
       </Fragment>
